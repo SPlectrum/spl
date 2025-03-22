@@ -1,0 +1,1 @@
+This folder is used to keep backup data from both the data repository and the runtime.

@@ -1,0 +1,5 @@
+;!@Install@!UTF-8!
+Title="SPlectrum v1.0.0.0"
+BeginPrompt="Do you want to install SPlectrum v1.0.0.0?"
+RunProgram="node ./hello.js"
+;!@InstallEnd@!
