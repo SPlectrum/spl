@@ -1,0 +1,1 @@
+{"headers":{"action":"execute/next","status":"pending","pipeline":[{"headers":{"action":"console/log"}}]},"value":{"headers":{"action":"action/hello-splectrum"},"value":{"person":"everybody"}}}
