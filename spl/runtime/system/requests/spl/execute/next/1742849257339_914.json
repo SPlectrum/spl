@@ -1,0 +1,1 @@
+{"headers":{"action":"execute/set-command","status":"executing"},"value":{"headers":{"action":"command/parse","status":"new-command"},"value":{"headers":{"action":"command/hello-splectrum","status":"pending"},"value":{"person":"everybody"}}}}
