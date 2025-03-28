@@ -1,13 +1,24 @@
 # spl
 
-This is the wrapper module within which SPlectrum runs.  
-It contains functionality for install management.
+This module implements the platform within which a SPlectrum install runs.  
+Functionality is installed as packages on the platform and this module contributes the *spl* module
+which contains the core functionality needed for the platform to be able to run.
 
-This module will go through serveral phases.
-The first phase will have minimal functionality so it can function as a boot process for the platform going forward.
+It is primed with the end result of *hello-splectrum*.
 
-The subsequent iterations will be detailed at a later date.
+## Main Areas of Work
 
-This module is responsible for the self-extracting install file and the overall framework.
-It will be primed with the end result of *hello-splectrum*.
+ The initial implementation of the platform is on top of a file system.  
+
+ - Platform overall structure
+ - Runtime structure
+ - Process specification: boot, system, user sessions
+ - Platform data layer ( AVRO integration, dynamic indexes )
+ - Implement *boot* process
+ - Implement *system* process
+ - Implement *session* process
+ - Implement install/uninstall and backup functionality
+ - Create releases as self-extracting zips
+
+
 
