@@ -1,1 +1,0 @@
-console.log("Welcome to SPlectrum 0.0.0.0");

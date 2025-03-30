@@ -12,6 +12,7 @@ It is primed with the end result of *hello-splectrum*.
 
  - Platform overall structure
  - Runtime structure
+ - client specification and implementation (e.g terminals)
  - Process specification: boot, system, user sessions
  - Platform data layer ( AVRO integration, dynamic indexes )
  - Implement *boot* process
