@@ -1,5 +1,5 @@
-
-var session = process.argv[2];
+// it expects the type of session - boot, system or client
+var session = ( process.argv[2] == undefined ) ? "boot" : process.argv[2];
 const cwd = process.cwd();
 
 var testExecute = {
