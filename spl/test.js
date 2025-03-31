@@ -6,7 +6,7 @@ var testExecute = {
     "headers": { 
         "spl": { 
             "execute": {
-                "action": "execute/initialise", "status": "new", "session": session, "cwd": cwd 
+                "action": "spl/execute/initialise", "status": "new", "session": session, "cwd": cwd 
             }
         }
     },
