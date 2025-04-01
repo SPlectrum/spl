@@ -2,8 +2,8 @@
 // finalises execution of a request
 
 function spl_execute_complete ( input ) {
-        input.headers.action = "";
-        input.headers.status = "completed";
+        input.headers.spl.execute.action = "";
+        input.headers.spl.execute.status = "completed";
         input.value = null;
         return input;
     }

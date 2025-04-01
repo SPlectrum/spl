@@ -12,13 +12,16 @@ var testExecute = {
     },
     "value": {
         "headers": { 
-            "action": "spl/noop", "status": "pending"
+            "spl": { 
+                "action": {
+                    "action": "spl/misc/noop", "status": "pending" 
+                }
+            }
         },
         "value": null
     }
 }
 
-var spl_execute_queue = require(`${cwd}/packages/spl/execute/queue`).default;
-testExecute = spl_execute_queue(testExecute);
+var spl_execute_queue = require(`${cwd}/packages/spl/execute/queue`).default(testExecute);
 
 console.log(JSON.stringify(testExecute));

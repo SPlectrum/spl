@@ -3,14 +3,14 @@
 
 function spl_execute_next ( input ) {
 
-    var action = input.value.headers.action;
-    const executor = require(`../../../${action}`).default;
-    input.value = executor(input.value);
-    switch(input.value.headers.status){
-        case "new-command": input.headers.action = "spl/execute/set-command"; break;
-        case "new-pipeline": input.headers.action = "spl/execute/set-pipeline"; break;
-        case "completed": input.headers.action = "execute/set-next"; break;
-        default: input.headers.action = "spl/execute/action-error";
+    const cwd = input.headers.spl.execute.cwd;
+    const action = input.value.headers.spl.action.action;
+    input.value = require(`${cwd}/packages/${action}`).default(input.value);
+    switch(input.value.headers.spl.action.status){
+        case "new-command": input.headers.spl.execute.action = "spl/execute/set-command"; break;
+        case "new-pipeline": input.headers.spl.execute.action = "spl/execute/set-pipeline"; break;
+        case "completed": input.headers.spl.execute.action = "spl/execute/set-next"; break;
+        default: input.headers.spl.execute.action = "spl/execute/action-error";
     }
     return input;
 }

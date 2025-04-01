@@ -1,7 +1,7 @@
 // spl/misc/noop
 
 function spl_misc_noop (input) { 
-    input.headers.status = "completed";
+    input.headers.spl.action.status = "completed";
     return input 
 } 
 

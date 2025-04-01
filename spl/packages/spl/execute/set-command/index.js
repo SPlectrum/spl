@@ -3,7 +3,7 @@
 
 function spl_execute_set_command ( input ) {
     input.value = input.value.value;
-    input.headers.action = "spl/execute/next";
+    input.headers.spl.execute.action = "spl/execute/next";
     return input;
 }
 

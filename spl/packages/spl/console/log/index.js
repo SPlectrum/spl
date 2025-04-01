@@ -2,7 +2,7 @@
 
 function spl_console_log (input) { 
     console.log(input.value);
-    input.headers.status = "completed";
+    input.headers.spl.execute.status = "completed";
     return input 
 } 
 

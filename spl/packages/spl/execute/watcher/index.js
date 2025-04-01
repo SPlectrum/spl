@@ -11,46 +11,70 @@ function spl_execute_watcher ( input ) {
 
     // pick up changes to the directory
     fs.watch(`${requests}/queue`, (eventType, filename) => { 
- 
-        console.log("Watcher has triggered: ", eventType, " ", filename, " !!!"); 
-        if(filename.substr(filename.lastIndexOf(".")+1) == "json") {
 
-            console.log("\nThe file", filename, "was added to the queue!"); 
-            fs.readFile(`${requests}/queue/${filename}`, 'utf8', function (err, input) {
+        // it must be a json file
+        if(filename.substring(filename.lastIndexOf(".")+1) == "json") {
 
-                    if(err) console.log(err);
-                    var request = JSON.parse(input);
-                    console.log(request);
+            // check that file exists
+            fs.access(`${requests}/queue/${filename}`, fs.constants.F_OK | fs.constants.W_OK, (err) => {
+                if (err);
+                else {
 
-                    var action = request.headers.spl.execute.action;
-                    var output = require(`${cwd}/packages/${action}`).default(request);
-                    console.log(output);
-                    output = JSON.stringify(output);
+                    console.log("\nThe file", filename, "was added to the queue!"); 
+                    const input = fs.readFile(`${requests}/queue/${filename}`, 'utf8', function (err, input) {
+
+                        if(err) console.log(err);
+                        console.log(input);
+                        var request = JSON.parse(input);
+
+                        var action = request.headers.spl.execute.action;
+                        var output = require(`${cwd}/packages/${action}`).default(request);
+                        var outputString = JSON.stringify(output);
+                        console.log(outputString);
+
+                        // move request input to processed folder
+                        fs.writeFile(`${requests}/processed/${filename}`, input, (err) => { 
+                            if (err) throw err; 
+                            else {
+                                console.log(`writing to processed ${requests}/processed/${filename}`);
+                                fs.unlink(`${requests}/queue/${filename}`,(err) => { 
+                                    if (err) throw err; 
+                                    else console.log(`deleting ${requests}/queue/${filename}`); })
+                            }
+                        });
+
+                        // save copy of output in spl/execution folder
+                        fs.writeFile(`${requests}/${action}/${filename}`, outputString, (err) => {
+                            if (err) throw err; 
+                            else console.log(`writing to execute ${requests}/${action}/${filename}`);
+                        });
+                        console.log("Action just executed: " + action);
+                        if(action!="spl/execute/complete") {
+                            require(`${cwd}/packages/spl/execute/queue`).default(output);
+                        }
+                    });
                 }
-            );
-            fs.writeFile(`${requests}/${action}/${filename}`, output, (err) => { if (err) throw err; console.log(`writing to execute ${requests}/${action}/${filename}`); });
-            fs.writeFile(`${requests}/processed/${filename}`, input, (err) => { if (err) throw err; console.log(`writing to processed ${requests}/processed/${filename}`); });
-
-/*
-
-            console.log("Action being executed: " + action);
-            if(action!="execute/complete") {
-            let x = Math.floor((Math.random() * 1000)).toString();
-            var newName = `${Date.now().toString()}_${x}.json`;
-            console.log("Writing next request to the queue: " + newName);
-
-            fs.writeFileSync(`./runtime/queue/${newName}`, output);
-
-            }
-
-            fs.unlink(`./runtime/queue/${filename}`,(err) => { if (err) throw err; console.log(`deleting ./runtime/queue/${filename}`); })
-*/
+            });
 
         }
     }); 
-
-
     return input;
 }
 
 exports.default = spl_execute_watcher;
+
+/*
+'use strict';
+
+var spawn = require('child_process').spawn;
+
+console.log("Node says hello. Let's see what ping has to say...");
+
+var child = spawn(
+  'ping'
+, [ '-c', '3', 'google.com' ]
+, { detached: true, stdio: 'inherit' }
+);
+
+child.unref();
+*/
