@@ -11,13 +11,8 @@ function spl_request_queue ( input ) {
     // the input is written to the request queue as is
     var session = execute.session;
     if( session !== "boot" && session !== "system" ) session = `sessions/${session}`;
-
-    var suffix = 0;
-    const filename = `${execute.cwd}/runtime/${session}/requests/queue/${Date.now().toString()}`;
-    fs.writeFileSync(`${filename}.tmp`, JSON.stringify(input));
-
-    while(fs.existsSync(`${filename}${suffix.toString()}.json`)) suffix += 1;
-    fs.renameSync(`${filename}.tmp`,`${filename}${suffix.toString()}.json`)
+    require(`${execute.cwd}/packages/spl/lib`).setProperty(input.headers,"spl.data.fs.folder", `runtime/${session}/requests/queue`);
+    input = require(`${execute.cwd}/packages/spl/data/write`).default(input);
 
     return input;
 }
