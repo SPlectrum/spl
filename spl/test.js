@@ -7,21 +7,15 @@ var testExecute = {
         "spl": { 
             "execute": {
                 "action": "spl/execute/initialise", "status": "new", "session": session, "cwd": cwd 
+            },
+            "request": {
+                "action": "spl/misc/noop", "status": "pending" 
             }
         }
     },
-    "value": {
-        "headers": { 
-            "spl": { 
-                "action": {
-                    "action": "spl/misc/noop", "status": "pending" 
-                }
-            }
-        },
-        "value": null
-    }
+    "value": null
 }
 
-var spl_execute_queue = require(`${cwd}/packages/spl/execute/queue`).default(testExecute);
+var spl_execute_queue = require(`${cwd}/packages/spl/request/queue`).default(testExecute);
 
 console.log(JSON.stringify(testExecute));

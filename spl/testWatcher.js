@@ -2,22 +2,16 @@
 var session = process.argv[2];
 const cwd = process.cwd();
 
+// this request is not execution-wrapped as it is submitted directly onto the action
 var testExecute = {
     "headers": { 
         "spl": { 
-            "execute": {
-                "action": "execute/initialise", "status": "new", "session": session, "cwd": cwd 
+            "request": {
+                "action": "spl/request/execution-watcher", "status": "new", "session": session, "cwd": cwd 
             }
         }
     },
-    "value": {
-        "headers": { 
-            "action": "spl/noop", "status": "pending"
-        },
-        "value": null
-    }
+    "value": { "session": session, "cwd": cwd }
 }
-
-var spl_execute_queue = require(`${cwd}/packages/spl/execute/watcher`).default(testExecute);
-
+var spl_execute_queue = require(`${cwd}/packages/spl/request/execution-watcher`).default(testExecute);
 console.log(JSON.stringify(testExecute));

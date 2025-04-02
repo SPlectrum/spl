@@ -1,11 +1,11 @@
 // spl/execute/watcher
 // directory watcher for requests / records
 
-function spl_execute_watcher ( input ) {
+function spl_action_execution_watcher ( input ) {
 
     const fs = require('fs'); 
-    const cwd = input.headers.spl.execute.cwd;
-    const sess = input.headers.spl.execute.session;
+    const cwd = input.value.cwd;
+    const sess = input.value.session;
     const session = (sess !== "boot" && sess !== "system") ? `sessions/${sess}` : sess;
     const requests = `${cwd}/runtime/${session}/requests`;
 
@@ -34,25 +34,25 @@ function spl_execute_watcher ( input ) {
 
                         // move request input to processed folder
                         fs.writeFile(`${requests}/processed/${filename}`, input, (err) => { 
-                            if (err) throw err; 
+                            if (err) console.log(err); 
                             else {
                                 console.log(`writing to processed ${requests}/processed/${filename}`);
                                 fs.unlink(`${requests}/queue/${filename}`,(err) => { 
-                                    if (err) throw err; 
+                                    if (err) console.log(err); 
                                     else console.log(`deleting ${requests}/queue/${filename}`); })
                             }
                         });
 
                         // save copy of output in spl/execution folder
                         fs.writeFile(`${requests}/${action}/${filename}`, outputString, (err) => {
-                            if (err) throw err; 
+                            if (err) console.log(err); 
                             else console.log(`writing to execute ${requests}/${action}/${filename}`);
                         });
                         console.log("Action just executed: " + action);
                         if(action!="spl/execute/complete") {
-                            require(`${cwd}/packages/spl/execute/queue`).default(output);
+                            require(`${cwd}/packages/spl/request/queue`).default(output);
                         }
-                    });
+                   });
                 }
             });
 
@@ -61,7 +61,7 @@ function spl_execute_watcher ( input ) {
     return input;
 }
 
-exports.default = spl_execute_watcher;
+exports.default = spl_action_execution_watcher;
 
 /*
 'use strict';

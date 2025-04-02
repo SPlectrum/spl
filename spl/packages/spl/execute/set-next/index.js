@@ -2,13 +2,11 @@
 // sets next action from pipeline
 
 function spl_execute_set_next ( input ) {
-    if (!(input.headers.spl.execute.pipeline === undefined)  && input.headers.spl.execute.pipeline.length > 0) {
-        var action = input.headers.spl.execute.pipeline.shift();
-        action.value = input.value.value;
-        input.value = action;
+    const execute = input.headers.spl.execute;
+    if (!(execute.pipeline === undefined)  && execute.pipeline.length > 0) {
+        input.headers.spl.request = execute.pipeline.shift();
         input.headers.spl.execute.action = "spl/execute/next";
     } else input.headers.spl.execute.action = "spl/execute/complete";
     return input;
 }
-
 exports.default = spl_execute_set_next;
