@@ -2,6 +2,11 @@
 
 ## Header spl Data Structure
 
+The *spl* data structures are associated with the platform runtime.  
+They refer to the context state of runtime items.  
+Running in compressed mode means that they are copied onto records brought in the system.  
+
+
 spl.execute contains the headers properties used by the execution context.
 This data structure when added to a data record, turns the data record into an execution context record.
 ```
@@ -36,8 +41,14 @@ The folder is referenced relative to the root of the SPlectrum instance.
 ```
 "spl": {
     "data": {
+        "action": "spl/data/read",
+        "repo": "data", // also "runtime/data", "runtime/boot/data", "runtime/boot/requests ...
+        "folder": "clients/client_123",
+        "file": "1234.json"
         "fs": {
-            "folder": "data/clients/client_1234"
+            "repo": "data",
+            "folder": "clients/client_1234",
+            "file": "1234.json"
         }
     }
 }

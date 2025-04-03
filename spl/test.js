@@ -5,17 +5,18 @@ const cwd = process.cwd();
 var testExecute = {
     "headers": { 
         "spl": { 
+            "data": { "repo": "runtime/boot/data", "folder": "test" },
             "execute": {
                 "action": "spl/execute/initialise", "status": "new", "session": session, "cwd": cwd 
             },
             "request": {
-                "action": "spl/misc/noop", "status": "pending" 
+                "action": "spl/request/write", "status": "pending" 
             }
         }
     },
-    "value": null
+    "value": { "data": "This is a test" }
 }
 
-var spl_execute_queue = require(`${cwd}/packages/spl/request/queue`).default(testExecute);
+var spl_execute_queue = require(`${cwd}/packages/spl/data/queue`).default(testExecute);
 
 console.log(JSON.stringify(testExecute));
