@@ -1,11 +1,11 @@
-// spl/data/write
-// puts a request on to a folder
+// spl/data/queue
+// puts a request on the request queue
 const fs = require('fs'); 
 
 // This implementation is filesystem only
 // when going multi repo, the logic of this command must move to data.fs
 
-function spl_data_write ( input ) {
+function spl_data_queue ( input ) {
 
     const spl = input.headers.spl;
     const execute = spl.execute;
@@ -22,4 +22,4 @@ function spl_data_write ( input ) {
 
     return input;
 }
-exports.default = spl_data_write;
+exports.default = spl_data_queue;

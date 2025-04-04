@@ -5,15 +5,17 @@ const fs = require('fs');
 function spl_data_read ( input ) {
     const spl = input.headers.spl;
     const cwd = spl.execute.cwd;
-    const folder = spl.data.fs.folder;
-    var file = spl.data.fs.file;
+    const repo = spl.data.repo;
+    const folder = spl.data.folder;
+    var file = spl.data.file;
     if (file === undefined) {
-        file = fs.readdirSync(`${cwd}/${folder}`).filter(el => require('path').extname(el) === '.json').sort().reverse()[0];
+        file = fs.readdirSync(`${cwd}/${repo}/${folder}`).filter(el => require('path').extname(el) === '.json').sort().reverse()[0];
     }
-    input = fs.readFileSync(`${cwd}/${folder}/${file}`, 'utf8');
+    input = fs.readFileSync(`${cwd}/${repo}/${folder}/${file}`, 'utf8');
     input = JSON.parse(input);
     input.headers.spl = spl;
-    
+console.log(`spl/data/read : ${cwd}/${repo}/${folder}/${file}`);    
+    spl.execute.action = "spl/execute/set-next";
     spl.request.status = "completed";
     return input;
 }
