@@ -7,11 +7,11 @@ var testExecute = {
     "headers": { 
         "spl": { 
             "request": {
-                "action": "spl/request/execution-watcher", "status": "new", "session": session, "cwd": cwd 
+                "action": "spl/data/execution-watcher", "status": "new", "session": session, "cwd": cwd 
             }
         }
     },
     "value": { "session": session, "cwd": cwd }
 }
-var spl_execute_queue = require(`${cwd}/packages/spl/request/execution-watcher`).default(testExecute);
+var spl_execute_queue = require(`${cwd}/packages/spl/data/execution-watcher`).default(testExecute);
 console.log(JSON.stringify(testExecute));
