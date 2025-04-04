@@ -14,7 +14,15 @@ function spl_data_read ( input ) {
     input = fs.readFileSync(`${cwd}/${repo}/${folder}/${file}`, 'utf8');
     input = JSON.parse(input);
     input.headers.spl = spl;
-console.log(`spl/data/read : ${cwd}/${repo}/${folder}/${file}`);    
+
+    // add data location details
+    if(input.headers.data == undefined) input.headers.data = {};
+    if(input.headers.data.location == undefined) input.headers.data.location = {};
+    const location = input.headers.data.location;
+    location.repo = repo;
+    location.folder = folder;
+    location.file = file;
+
     spl.execute.action = "spl/execute/set-next";
     spl.request.status = "completed";
     return input;
