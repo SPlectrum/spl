@@ -8,8 +8,8 @@ else procId = procIds[0];
 args.shift();
 
 switch(args[0]){
-    case "boot": case "system": case "session": session = args[0]; args.shift(); break;
-    default:  session = "session";
+    case "boot": case "system": case "client": session = args[0]; args.shift(); break;
+    default:  session = "client";
 }
 
 var rawRequest = {
