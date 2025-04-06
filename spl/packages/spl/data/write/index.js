@@ -15,6 +15,7 @@ function spl_data_write ( input ) {
     // the spl data structure in the header is runtime stuff
     // it should be removed for 'static' storage
     delete input.headers.spl;
+    delete input.headers.data;
 
     var suffix = 0;
     const filename = `${cwd}/${repo}/${folder}/${Date.now().toString()}`;
@@ -23,7 +24,9 @@ function spl_data_write ( input ) {
     while(fs.existsSync(`${filename}${suffix.toString()}.json`)) suffix += 1;
     fs.renameSync(`${filename}.tmp`,`${filename}${suffix.toString()}.json`)
 
+    spl.data.file = `${filename}${suffix.toString()}.json`;
     input.headers.spl = spl;
+    input.headers.data = spl.data;
     spl.execute.action = "spl/execute/set-next";
     spl.request.status = "completed";
     return input;

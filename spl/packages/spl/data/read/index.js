@@ -14,6 +14,8 @@ function spl_data_read ( input ) {
     input = fs.readFileSync(`${cwd}/${repo}/${folder}/${file}`, 'utf8');
     input = JSON.parse(input);
     input.headers.spl = spl;
+    input.headers.data = input.headers.spl.data;
+    input.headers.data.file = file;
 
     // add data location details
     if(input.headers.data == undefined) input.headers.data = {};

@@ -1,3 +1,4 @@
+const { randomUUID } = require('crypto');
 const cwd = process.cwd();
 
 var args = process.argv[2].split(" ");
@@ -12,25 +13,26 @@ switch(args[0]){
     default:  session = "client";
 }
 
-var rawRequest = {
-    "headers": { 
-        "spl": { 
-            "execute": {
-                "action": "spl/execute/initialise", "status": "new", "session": session, "cwd": cwd 
-            },
-            "request": {
-                "action": "spl/command/execute", "status": "pending" 
-            }
+var command = 
+{
+    headers:
+    {
+        data:
+        {
+            repo: "data",
+            folder: `clients/${session}/requests`
         }
     },
-    "value": {
-        "cwd": cwd,
-        "procId": procId,
-        "session": session,
-        "commandString": args
-     }
+    value: 
+    {
+        UUID: randomUUID(), 
+        cwd: cwd, 
+        procId: procId, 
+        session: session, 
+        commandString: args
+    }
 }
-require(`${cwd}/packages/spl/data/queue`).default(rawRequest);
-console.log(JSON.stringify(rawRequest,null,2));
-
+console.log(JSON.stringify(command,null,2));
+command = require(`${cwd}/packages/spl/command/queue`).default(command);
+//console.log(JSON.stringify(command,null,2));
 
