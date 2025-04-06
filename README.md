@@ -6,6 +6,8 @@ which contains the core functionality needed for the platform to be able to run.
 
 It is primed with the end result of *hello-splectrum*.
 
+User notes are available in the readMe.md file of the spl folder (the root of the self-extracting package).
+
 ## Main Areas of Work
 
  The initial implementation of the platform is on top of a file system.  
