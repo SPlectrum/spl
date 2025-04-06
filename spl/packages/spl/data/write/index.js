@@ -18,7 +18,7 @@ function spl_data_write ( input ) {
 
     var suffix = 0;
     const filename = `${cwd}/${repo}/${folder}/${Date.now().toString()}`;
-    fs.writeFileSync(`${filename}.tmp`, JSON.stringify(input));
+    fs.writeFileSync(`${filename}.tmp`, JSON.stringify(input,null,2));
 
     while(fs.existsSync(`${filename}${suffix.toString()}.json`)) suffix += 1;
     fs.renameSync(`${filename}.tmp`,`${filename}${suffix.toString()}.json`)

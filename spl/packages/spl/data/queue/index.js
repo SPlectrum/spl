@@ -15,7 +15,7 @@ function spl_data_queue ( input ) {
 
     var suffix = 0;
     const filename = `${cwd}/runtime/${session}/requests/queue/${Date.now().toString()}`;
-    fs.writeFileSync(`${filename}.tmp`, JSON.stringify(input));
+    fs.writeFileSync(`${filename}.tmp`, JSON.stringify(input,null,2));
 
     while(fs.existsSync(`${filename}${suffix.toString()}.json`)) suffix += 1;
     fs.renameSync(`${filename}.tmp`,`${filename}${suffix.toString()}.json`)

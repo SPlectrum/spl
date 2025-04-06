@@ -31,6 +31,6 @@ var rawRequest = {
      }
 }
 require(`${cwd}/packages/spl/data/queue`).default(rawRequest);
-console.log(rawRequest);
+console.log(JSON.stringify(rawRequest,null,2));
 
 

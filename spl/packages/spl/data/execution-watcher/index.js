@@ -34,7 +34,7 @@ function spl_data_execution_watcher ( input ) {
 //                                request.headers.spl.error = e;
 //                                output = request;
 //                            }
-                            var outputString = JSON.stringify(output);
+                            var outputString = JSON.stringify(output,null,2);
                             console.log(outputString);
 
                             // move request input to processed folder
