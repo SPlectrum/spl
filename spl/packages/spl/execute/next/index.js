@@ -11,7 +11,7 @@ function spl_execute_next ( input ) {
     switch(request.status){
         case "data/read": execute.action = "spl/data/read"; break;
         case "data/write": execute.action = "spl/data/write"; break;
-        case "new-command": execute.action = "spl/execute/set-command"; break;
+        case "new-request": execute.action = "spl/execute/set-request"; break;
         case "new-pipeline": execute.action = "spl/execute/set-pipeline"; break;
         case "completed": execute.action = "spl/execute/set-next"; break;
         default: execute.action = "spl/execute/action-error";
