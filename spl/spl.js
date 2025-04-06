@@ -30,7 +30,7 @@ var rawRequest = {
         "commandString": args
      }
 }
-//console.log(JSON.stringify(rawRequest));
 require(`${cwd}/packages/spl/data/queue`).default(rawRequest);
+console.log(rawRequest);
 
 
