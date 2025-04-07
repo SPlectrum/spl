@@ -9,10 +9,9 @@ function spl_execute_next ( input ) {
     const action = request.action;
     input = require(`${cwd}/packages/${action}`).default(input);
     switch(request.status){
-        case "data/read": execute.action = "spl/data/read"; break;
-        case "data/write": execute.action = "spl/data/write"; break;
-        case "new-request": execute.action = "spl/execute/set-request"; break;
-        case "new-pipeline": execute.action = "spl/execute/set-pipeline"; break;
+        case "data": execute.action = request.data.next; break;
+        case "error": execute.action = request.error.next; break;
+        case "execute": execute.action = request.execute.next; break;
         case "completed": execute.action = "spl/execute/set-next"; break;
         default: execute.action = "spl/execute/action-error";
     }

@@ -5,7 +5,8 @@ const fs = require('fs');
 function spl_request_write ( input ) {
     const spl = input.headers.spl;
     spl.data = spl.request.data;
-    spl.request.status = "data/write";
+    spl.data.next = "spl/data/write";
+    spl.request.status = "data";
     return input;
 }
 exports.default = spl_request_write;

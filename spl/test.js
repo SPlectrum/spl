@@ -9,13 +9,29 @@ var testExecute =
         spl: 
         { 
             execute: { action: "spl/execute/initialise", status: "new", session: session, cwd: cwd },
-            request: { action: "spl/request/add-folders", status: "pending", data: { repo: "", folder: "" } }
+            request: { action: "spl/request/add-folders", status: "pending", data: { repo: "data", folder: "test" } }
         }
     },
     value: 
     { 
         backup: {},
-        data: { clients: {  } },
+        data:
+        {
+            clients:
+            {
+                boot:
+                {
+                    requests:
+                    {
+                        _files: [ { file: "readMe.txt", _contents: "Client requests folder" } ]
+                    },
+                    responses:
+                    {
+                        _files: [ { file: "readMe.txt", _contents: "Client responses folder" } ]
+                    }
+                }
+            }
+        },
         metadata: {},
         modules: {},
         runtime: {},
