@@ -21,14 +21,7 @@ switch(args[0]){
 
 var command = 
 {
-    headers:
-    {
-        data:
-        {
-            repo: "data",
-            folder: `clients/${session}/requests`
-        }
-    },
+    headers: {},
     value: 
     {
         UUID: randomUUID(), 
@@ -40,5 +33,4 @@ var command =
 }
 console.log(JSON.stringify(command,null,2));
 command = require(`${cwd}/modules/spl/command/queue`).default(command);
-//console.log(JSON.stringify(command,null,2));
 

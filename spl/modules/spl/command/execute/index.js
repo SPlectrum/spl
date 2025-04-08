@@ -3,7 +3,7 @@
 function spl_command_execute (input) { 
 
     input.headers.spl.request.pipeline = [ 
-        { action: "spl/request/write", data: input.headers.data }, 
+        { action: "spl/request/write", data: { repo: "data", folder: `clients/${input.value.session}/requests` }}, 
         { action: "spl/command/parse" },
         { action: "spl/request/write", data: { repo: "data", folder: `clients/${input.value.session}/responses`} }, 
     ];
