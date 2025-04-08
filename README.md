@@ -1,7 +1,7 @@
 # spl
 
 This module implements the platform within which a SPlectrum install runs.  
-Functionality is installed as packages on the platform and this module contributes the *spl* module
+Functionality is installed as modules on the platform and this module contributes the *spl* module
 which contains the core functionality needed for the platform to be able to run.
 
 It is primed with the end result of *hello-splectrum*.

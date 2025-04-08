@@ -40,6 +40,6 @@ var testExecute =
     }
 }
 
-var spl_execute_queue = require(`${cwd}/packages/spl/data/queue`).default(testExecute);
+var spl_execute_queue = require(`${cwd}/modules/spl/data/queue`).default(testExecute);
 
 console.log(JSON.stringify(testExecute,null,2));

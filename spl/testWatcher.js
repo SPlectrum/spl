@@ -14,5 +14,5 @@ var testExecute =
     },
     value: { session: session, cwd: cwd }
 }
-var spl_execute_queue = require(`${cwd}/packages/spl/data/execution-watcher`).default(testExecute);
+var spl_execute_queue = require(`${cwd}/modules/spl/data/execution-watcher`).default(testExecute);
 console.log(JSON.stringify(testExecute,null,2));

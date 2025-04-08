@@ -39,6 +39,6 @@ var command =
     }
 }
 console.log(JSON.stringify(command,null,2));
-command = require(`${cwd}/packages/spl/command/queue`).default(command);
+command = require(`${cwd}/modules/spl/command/queue`).default(command);
 //console.log(JSON.stringify(command,null,2));
 

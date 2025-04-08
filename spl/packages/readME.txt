@@ -1,1 +1,0 @@
-This folder contains the functional packages of the platform.

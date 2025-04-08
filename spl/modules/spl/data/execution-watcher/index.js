@@ -29,7 +29,7 @@ function spl_data_execution_watcher ( input ) {
                             var request = JSON.parse(input);
                             var action = request.headers.spl.execute.action;
 //                            try {
-                                var output = require(`${cwd}/packages/${action}`).default(request);
+                                var output = require(`${cwd}/modules/${action}`).default(request);
 //                            } catch(e) {
 //                                request.headers.spl.error = e;
 //                                output = request;
@@ -55,7 +55,7 @@ function spl_data_execution_watcher ( input ) {
                             });
                             console.log("Action just executed: " + action);
                             if(action!="spl/execute/complete" && output.headers.spl.error === undefined) {
-                                require(`${cwd}/packages/spl/data/queue`).default(output);
+                                require(`${cwd}/modules/spl/data/queue`).default(output);
                             }
                         }
                    });

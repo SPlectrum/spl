@@ -7,7 +7,7 @@ function spl_execute_next ( input ) {
     const request = input.headers.spl.request;
     const cwd = execute.cwd;
     const action = request.action;
-    input = require(`${cwd}/packages/${action}`).default(input);
+    input = require(`${cwd}/modules/${action}`).default(input);
     switch(request.status){
         case "data": execute.action = request.data.next; break;
         case "error": execute.action = request.error.next; break;

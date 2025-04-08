@@ -9,7 +9,7 @@ function spl_command_queue ( input ) {
         execute: { action: "spl/execute/initialise", status: "new", session: command.session, cwd: command.cwd },
         request: { action: "spl/command/execute", status: "pending" }
     };
-    input = require(`${command.cwd}/packages/spl/data/queue`).default(input);
+    input = require(`${command.cwd}/modules/spl/data/queue`).default(input);
     return input;
 }
 exports.default = spl_command_queue;
