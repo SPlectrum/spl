@@ -1,4 +1,5 @@
 const { randomUUID } = require('crypto');
+const lib = require("./modules/spl/lib");
 const cwd = process.cwd();
 
 console.log(process.argv)
@@ -21,7 +22,7 @@ switch(args[0]){
 
 var command = 
 {
-    headers: {},
+    headers: { spl: { execute: { cwd: cwd }, command: { action: "spl/command/queue" } } },
     value: 
     {
         UUID: randomUUID(), 
@@ -32,5 +33,5 @@ var command =
     }
 }
 console.log(JSON.stringify(command,null,2));
-command = require(`${cwd}/modules/spl/command/queue`).default(command);
+command = lib.commandAction(command);
 

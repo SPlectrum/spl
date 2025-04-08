@@ -1,9 +1,10 @@
 // spl/data/execution-watcher
 // directory watcher for requests / records
+const lib = require("../../lib")
+const fs = require('fs'); 
 
 function spl_data_execution_watcher ( input ) {
 
-    const fs = require('fs'); 
     const cwd = input.value.cwd;
     const sess = input.value.session;
     const session = (sess !== "boot" && sess !== "system") ? `sessions/${sess}` : sess;
@@ -29,7 +30,7 @@ function spl_data_execution_watcher ( input ) {
                             var request = JSON.parse(input);
                             var action = request.headers.spl.execute.action;
 //                            try {
-                                var output = require(`${cwd}/modules/${action}`).default(request);
+                                var output = lib.executeAction(request);;
 //                            } catch(e) {
 //                                request.headers.spl.error = e;
 //                                output = request;
@@ -55,7 +56,7 @@ function spl_data_execution_watcher ( input ) {
                             });
                             console.log("Action just executed: " + action);
                             if(action!="spl/execute/complete" && output.headers.spl.error === undefined) {
-                                require(`${cwd}/modules/spl/data/queue`).default(output);
+                                lib.moduleAction(output, "spl/data/queue");
                             }
                         }
                    });

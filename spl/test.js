@@ -1,3 +1,4 @@
+const lib = require("./modules/spl/lib");
 // it expects the type of session - boot, system or client
 var session = ( process.argv[2] == undefined ) ? "boot" : process.argv[2];
 const cwd = process.cwd();
@@ -40,6 +41,6 @@ var testExecute =
     }
 }
 
-var spl_execute_queue = require(`${cwd}/modules/spl/data/queue`).default(testExecute);
+var spl_execute_queue = lib.moduleAction(testExecute, "spl/data/queue");
 
 console.log(JSON.stringify(testExecute,null,2));

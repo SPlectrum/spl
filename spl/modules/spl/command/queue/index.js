@@ -1,7 +1,9 @@
 // spl/command/queue
 // prepares a command for submission on the request queue
+const lib = require("../../lib")
 
 function spl_command_queue ( input ) {
+
     const command = input.value;
     input.headers.spl = 
     { 
@@ -9,7 +11,7 @@ function spl_command_queue ( input ) {
         execute: { action: "spl/execute/initialise", status: "new", session: command.session, cwd: command.cwd },
         request: { action: "spl/command/execute", status: "pending" }
     };
-    input = require(`${command.cwd}/modules/spl/data/queue`).default(input);
-    return input;
+
+    return lib.moduleAction(input,"spl/data/queue");
 }
 exports.default = spl_command_queue;
