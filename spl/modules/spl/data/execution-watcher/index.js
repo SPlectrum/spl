@@ -29,12 +29,7 @@ function spl_data_execution_watcher ( input ) {
                             console.log(input);
                             var request = JSON.parse(input);
                             var action = request.headers.spl.execute.action;
-//                            try {
-                                var output = lib.executeAction(request);;
-//                            } catch(e) {
-//                                request.headers.spl.error = e;
-//                                output = request;
-//                            }
+                            var output = lib.executeAction(request);;
                             var outputString = JSON.stringify(output,null,2);
                             console.log(outputString);
 

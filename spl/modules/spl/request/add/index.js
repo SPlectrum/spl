@@ -6,7 +6,7 @@ function spl_request_add ( input ) {
 
     const spl = input.headers.spl;
     spl.data = spl.request.data;
-    spl.data.next = "spl/data/add";
+    spl.data_next = "spl/data/add";
     spl.request.status = "data";
     return input;
 }
