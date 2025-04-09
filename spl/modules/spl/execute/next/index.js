@@ -1,6 +1,6 @@
 // spl/execute/next
 // executes next action and sets next execute command
-const lib = require("../../lib")
+const lib = require("../../lib.js")
 
 function spl_execute_next ( input ) {
 

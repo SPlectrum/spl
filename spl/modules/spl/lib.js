@@ -1,6 +1,14 @@
 // spl/lib.js
 // A library of useful functions
 
+// gather error information
+exports.addErrorInfo = function (input, info)
+{
+    if(input.headers.spl.error==undefined) input.headers.spl.error = info;
+    else input.headers.spl.error = "\n" + info;
+}
+
+// easy functions to invoke actions
 function moduleAction (input, module)
 {
     cwd = input.headers.spl.execute.cwd;
@@ -11,6 +19,7 @@ exports.commandAction = function (input) { return moduleAction(input, input.head
 exports.executeAction = function (input) { return moduleAction(input, input.headers.spl.execute.action); }
 exports.requestAction = function (input) { return moduleAction(input, input.headers.spl.request.action); }
 
+// set property where parent chain may not exist yet
 exports.setProperty = function (reference, key, value)
 { 
     const keys = key.split(".");

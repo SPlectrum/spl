@@ -1,5 +1,5 @@
+const lib = require("./modules/spl/lib.js");
 const { randomUUID } = require('crypto');
-const lib = require("./modules/spl/lib");
 const cwd = process.cwd();
 
 console.log(process.argv)

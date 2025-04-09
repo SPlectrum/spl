@@ -1,4 +1,4 @@
-const lib = require("./modules/spl/lib");
+const lib = require("./modules/spl/lib.js");
 // it expects the type of session - boot, system or client
 var session = ( process.argv[2] == undefined ) ? "boot" : process.argv[2];
 const cwd = process.cwd();
