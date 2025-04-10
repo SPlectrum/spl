@@ -1,6 +1,6 @@
 // spl/command/queue
 // prepares a command for submission on the request queue
-const lib = require("../../lib")
+const spl = require("../../spl.js")
 
 function spl_command_queue ( input ) {
 
@@ -12,6 +12,6 @@ function spl_command_queue ( input ) {
         request: { action: "spl/command/execute", status: "pending" }
     };
 
-    return lib.moduleAction(input,"spl/data/queue");
+    return spl.moduleAction(input,"spl/data/queue");
 }
 exports.default = spl_command_queue;

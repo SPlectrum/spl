@@ -1,5 +1,6 @@
-// spl/lib.js
+// spl/spl.js
 // A library of useful functions
+const { randomUUID } = require('crypto');
 
 // gather error information
 exports.addErrorInfo = function (input, info)
@@ -7,6 +8,10 @@ exports.addErrorInfo = function (input, info)
     if(input.headers.spl.error==undefined) input.headers.spl.error = info;
     else input.headers.spl.error = "\n" + info;
 }
+
+// random UUID generation
+function generateUUID() { return randomUUID(); }
+exports.generateUUID = generateUUID;
 
 // easy functions to invoke actions
 function moduleAction (input, module)

@@ -1,6 +1,6 @@
 // spl/execute/next
 // executes next action and sets next execute command
-const lib = require("../../lib.js")
+const spl = require("../../spl.js")
 
 function spl_execute_next ( input ) {
 
@@ -8,7 +8,7 @@ function spl_execute_next ( input ) {
     const request = input.headers.spl.request;
     const cwd = execute.cwd;
     const action = request.action;
-    input = lib.requestAction(input);
+    input = spl.requestAction(input);
     switch(request.status){
         case "data": execute.action = request.data_next; break;
         case "error": execute.action = request.error_next; break;

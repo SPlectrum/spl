@@ -1,34 +1,27 @@
 // spl/data/write
 // puts a request on to a folder
-const fs = require('fs'); 
+const data = require("../data.js")
 
 // This implementation is filesystem only
 // when going multi repo, the logic of this command must move to data.fs
 
 function spl_data_write ( input ) {
-    const spl = input.headers.spl;
-    const cwd = spl.execute.cwd;
-    const data = spl.data;
-    const repo = data.repo;
-    const folder = data.folder;
+    const inputSpl = input.headers.spl;
+    const cwd = inputSpl.execute.cwd;
+    const repo = inputSpl.data.repo;
+    const folder = inputSpl.data.folder;
 
     // the spl data structure in the header is runtime stuff
     // it should be removed for 'static' storage
     delete input.headers.spl;
     delete input.headers.data;
 
-    var suffix = 0;
-    const filename = `${cwd}/${repo}/${folder}/${Date.now().toString()}`;
-    fs.writeFileSync(`${filename}.tmp`, JSON.stringify(input,null,2));
-
-    while(fs.existsSync(`${filename}${suffix.toString()}.json`)) suffix += 1;
-    fs.renameSync(`${filename}.tmp`,`${filename}${suffix.toString()}.json`)
-
-    spl.data.file = `${filename}${suffix.toString()}.json`;
-    input.headers.spl = spl;
-    input.headers.data = spl.data;
-    spl.execute.action = "spl/execute/set-next";
-    spl.request.status = "completed";
+    inputSpl.data.file = data.writeFileRecord(`${cwd}/${repo}/${folder}`, input);
+    
+    input.headers.spl = inputSpl;
+    input.headers.data = inputSpl.data;
+    inputSpl.execute.action = "spl/execute/set-next";
+    inputSpl.request.status = "completed";
     return input;
 }
 exports.default = spl_data_write;

@@ -1,6 +1,6 @@
 // spl/data/queue
 // puts a request on the request queue
-const fs = require('fs'); 
+const data = require("../data.js")
 
 // This implementation is filesystem only
 // when going multi repo, the logic of this command must move to data.fs
@@ -13,12 +13,7 @@ function spl_data_queue ( input ) {
     var session = execute.session;
     if( session !== "boot" && session !== "system" ) session = `sessions/${session}`;
 
-    var suffix = 0;
-    const filename = `${cwd}/runtime/${session}/requests/queue/${Date.now().toString()}`;
-    fs.writeFileSync(`${filename}.tmp`, JSON.stringify(input,null,2));
-
-    while(fs.existsSync(`${filename}${suffix.toString()}.json`)) suffix += 1;
-    fs.renameSync(`${filename}.tmp`,`${filename}${suffix.toString()}.json`)
+    data.writeFileRecord(`${cwd}/runtime/${session}/requests/queue`, input);
 
     return input;
 }

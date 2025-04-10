@@ -1,5 +1,4 @@
-const lib = require("./modules/spl/lib.js");
-const { randomUUID } = require('crypto');
+const spl = require("./modules/spl/spl.js");
 const cwd = process.cwd();
 
 console.log(process.argv)
@@ -25,7 +24,7 @@ var command =
     headers: { spl: { execute: { cwd: cwd }, command: { action: "spl/command/queue" } } },
     value: 
     {
-        UUID: randomUUID(), 
+        UUID: spl.generateUUID(), 
         cwd: cwd, 
         procId: procId, 
         session: session, 
@@ -33,5 +32,5 @@ var command =
     }
 }
 console.log(JSON.stringify(command,null,2));
-command = lib.commandAction(command);
+command = spl.commandAction(command);
 

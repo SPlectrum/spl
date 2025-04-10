@@ -1,7 +1,9 @@
 // spl/data/execution-watcher
 // directory watcher for requests / records
-const lib = require("../../lib.js")
-const fs = require('fs'); 
+const spl = require("../../spl.js")
+const data = require("../data.js")
+
+const fs = require("fs")
 
 function spl_data_execution_watcher ( input ) {
 
@@ -29,7 +31,7 @@ function spl_data_execution_watcher ( input ) {
                             console.log(input);
                             var request = JSON.parse(input);
                             var action = request.headers.spl.execute.action;
-                            var output = lib.executeAction(request);;
+                            var output = spl.executeAction(request);;
                             var outputString = JSON.stringify(output,null,2);
                             console.log(outputString);
 
@@ -51,11 +53,11 @@ function spl_data_execution_watcher ( input ) {
                             });
 
                             // Update TTL
-                            if(--output.headers.spl.execute.TTL < 1) lib.addErrorInfo(output, "TTL has expired, execution aborted.");
+                            if(--output.headers.spl.execute.TTL < 1) spl.addErrorInfo(output, "TTL has expired, execution aborted.");
 
                             console.log("Action just executed: " + action);
                             if(action!="spl/execute/complete" && output.headers.spl.error === undefined) {
-                                lib.moduleAction(output, "spl/data/queue");
+                                spl.moduleAction(output, "spl/data/queue");
                             }
 
                             if(output.headers.spl.error) console.error(output.headers.spl.error);

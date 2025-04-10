@@ -1,6 +1,6 @@
 // spl/data/add
 // create a set of folders and files from the struccture supplied in input.value
-const fs = require('fs'); 
+const data = require("../data.js")
 
 // This implementation is filesystem only
 // when going multi repo, the logic of this command must move to data.fs
