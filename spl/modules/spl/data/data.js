@@ -3,6 +3,37 @@
 const path = require('path');
 const fs = require('fs');
 
+// delete file asynchronously, in the background
+exports.deleteFile = function (filePath) {
+    fs.unlink(filePath,(err) => { 
+        if (err) console.log(`error while attempting to delete ${filePath}: ${err}`); 
+        else console.log(`deleted file ${filePath}`); });
+}
+
+// move file asynchronously, in the backgroud
+exports.moveFile = function (fromFilePath, toFilePath) {
+    fs.rename(fromFilePath, toFilePath, function (err) {
+        if (err) console.log(`error while attempting to move ${fromFilePath}: ${err}`); 
+        else console.log(`moved file from ${fromFilePath}\n           to ${toFilePath}`); });
+}
+
+// put file asynchronously, in the background
+exports.putFile = function (filePath, contents) {
+    fs.writeFile(filePath, contents, (err) => {
+        if (err) console.log(`error while attempting to put ${filePath}: ${err}`); 
+        else console.log(`put file ${filePath}`); });
+}
+
+// reads a file record from the filesystem, if no name is supplied then the most recent record is read
+exports.readFileRecord = function (filePath, file) {
+    if (file === undefined) {
+        file = fs.readdirSync(filePath).filter(el => require('path').extname(el) === '.json').sort().reverse()[0];
+    }
+    var contents = fs.readFileSync(`${filePath}/${file}`, 'utf8');
+    return { file: file, contents: JSON.parse(contents) };
+}
+
+// writes a file record to the filesystem, the name is a suffixed timestamp
 exports.writeFileRecord = function (filePath, contents) {
     var suffix = 0;
     var fileRecordPath;

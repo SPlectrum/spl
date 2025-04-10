@@ -1,32 +1,30 @@
 // spl/data/read
 // puts a request on to a folder
-const fs = require('fs'); 
+const spl = require("../../spl.js")
+const data = require("../data.js")
 
 function spl_data_read ( input ) {
-    const spl = input.headers.spl;
-    const cwd = spl.execute.cwd;
-    const repo = spl.data.repo;
-    const folder = spl.data.folder;
-    var file = spl.data.file;
-    if (file === undefined) {
-        file = fs.readdirSync(`${cwd}/${repo}/${folder}`).filter(el => require('path').extname(el) === '.json').sort().reverse()[0];
-    }
-    input = fs.readFileSync(`${cwd}/${repo}/${folder}/${file}`, 'utf8');
-    input = JSON.parse(input);
-    input.headers.spl = spl;
+    const inputSpl = input.headers.spl;
+    const cwd = inputSpl.execute.cwd;
+    const repo = inputSpl.data.repo;
+    const folder = inputSpl.data.folder;
+    var file = inputSpl.data.file;
+
+    const output = data.readFileRecord(`${cwd}/${repo}/${folder}`, inputSpl.data.file);
+    input = output.contents;
+    input.headers.spl = inputSpl;
     input.headers.data = input.headers.spl.data;
-    input.headers.data.file = file;
+    input.headers.data.file = output.file;
 
     // add data location details
-    if(input.headers.data == undefined) input.headers.data = {};
-    if(input.headers.data.location == undefined) input.headers.data.location = {};
-    const location = input.headers.data.location;
+    const location = {};
     location.repo = repo;
     location.folder = folder;
     location.file = file;
+    spl.setProperty ( input.headers, "data.location", location );
 
-    spl.execute.action = "spl/execute/set-next";
-    spl.request.status = "completed";
+    inputSpl.execute.action = "spl/execute/set-next";
+    inputSpl.request.status = "completed";
     return input;
 }
 exports.default = spl_data_read;

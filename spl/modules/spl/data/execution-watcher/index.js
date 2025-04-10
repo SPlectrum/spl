@@ -12,6 +12,7 @@ function spl_data_execution_watcher ( input ) {
     const session = (sess !== "boot" && sess !== "system") ? `sessions/${sess}` : sess;
     const requests = `${cwd}/runtime/${session}/requests`;
 
+    // PROMISES: the remaining direct fs access needs to be reworked as promises
     // pick up changes to the directory
     fs.watch(`${requests}/queue`, (eventType, filename) => { 
 
@@ -36,21 +37,10 @@ function spl_data_execution_watcher ( input ) {
                             console.log(outputString);
 
                             // move request input to processed folder
-                            fs.writeFile(`${requests}/processed/${filename}`, input, (err) => { 
-                                if (err) console.log(err); 
-                                else {
-                                    console.log(`writing to processed ${requests}/processed/${filename}`);
-                                    fs.unlink(`${requests}/queue/${filename}`,(err) => { 
-                                        if (err) console.log(err); 
-                                        else console.log(`deleting ${requests}/queue/${filename}`); })
-                                }
-                            });
+                            data.moveFile(`${requests}/queue/${filename}`, `${requests}/processed/${filename}`);
 
                             // save copy of output in spl/execution folder
-                            fs.writeFile(`${requests}/${action}/${filename}`, outputString, (err) => {
-                                if (err) console.log(err); 
-                                else console.log(`writing to execute ${requests}/${action}/${filename}`);
-                            });
+                            data.putFile(`${requests}/${action}/${filename}`, outputString);
 
                             // Update TTL
                             if(--output.headers.spl.execute.TTL < 1) spl.addErrorInfo(output, "TTL has expired, execution aborted.");
