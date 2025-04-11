@@ -3,6 +3,9 @@
 const path = require('path');
 const fs = require('fs');
 
+//--------------------------------------------------------------
+// FILE AND FOLDER API - STANDARD FILE OPERATIONS - asynchronous
+
 // delete file asynchronously, in the background
 exports.deleteFile = function (filePath) {
     fs.unlink(filePath,(err) => { 
@@ -23,6 +26,11 @@ exports.putFile = function (filePath, contents) {
         if (err) console.log(`error while attempting to put ${filePath}: ${err}`); 
         else console.log(`put file ${filePath}`); });
 }
+// FILE AND FOLDER API - STANDARD FILE OPERATIONS - asynchronous
+//--------------------------------------------------------------
+
+//---------------------------------------------------
+// FILE RECORD API - KAFKA RECORD LOGIC - synchronous
 
 // reads a file record from the filesystem, if no name is supplied then the most recent record is read
 exports.readFileRecord = function (filePath, file) {
@@ -46,3 +54,23 @@ exports.writeFileRecord = function (filePath, contents) {
 
     return path.basename(fileRecordPath);
 }
+// FILE RECORD API - KAFKA RECORD LOGIC - synchronous
+//---------------------------------------------------
+
+//--------------------------------
+// RECORD FOLDER API - synchronous
+
+// adds a full folder path 
+exports.addFolder = function (folderPath) {
+    console.log(`Adding folder: ${folderPath}`);
+    fs.mkdirSync(folderPath, { recursive: true });
+}
+
+// removes a full folder path with file contents
+exports.removeFolder = function (folderPath) {
+    console.log(`Removing folder: ${folderPath}`);
+    fs.rmSync(dir, { recursive: true, force: true }, folderPath);
+}
+// RECORD FOLDER API - synchronous
+//--------------------------------
+

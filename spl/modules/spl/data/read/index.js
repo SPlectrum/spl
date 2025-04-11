@@ -17,11 +17,7 @@ function spl_data_read ( input ) {
     input.headers.data.file = output.file;
 
     // add data location details
-    const location = {};
-    location.repo = repo;
-    location.folder = folder;
-    location.file = file;
-    spl.setProperty ( input.headers, "data.location", location );
+    spl.setProperty ( input.headers, "data.location", { repo: repo, folder: folder, file: file } );
 
     inputSpl.execute.action = "spl/execute/set-next";
     inputSpl.request.status = "completed";
