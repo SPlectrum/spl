@@ -3,31 +3,31 @@
 const path = require('path');
 const fs = require('fs');
 
-//--------------------------------------------------------------
-// FILE AND FOLDER API - STANDARD FILE OPERATIONS - asynchronous
+//-------------------------------------------------------
+// FILE AND FOLDER API - STANDARD FILE OPERATIONS - mixed
 
-// delete file asynchronously, in the background
+// delete file asynchronously, in the background - asynchronous
 exports.deleteFile = function (filePath) {
     fs.unlink(filePath,(err) => { 
         if (err) console.log(`error while attempting to delete ${filePath}: ${err}`); 
         else console.log(`deleted file ${filePath}`); });
 }
 
-// move file asynchronously, in the backgroud
+// move file asynchronously, in the backgroud - asynchronous
 exports.moveFile = function (fromFilePath, toFilePath) {
     fs.rename(fromFilePath, toFilePath, function (err) {
         if (err) console.log(`error while attempting to move ${fromFilePath}: ${err}`); 
         else console.log(`moved file from ${fromFilePath}\n           to ${toFilePath}`); });
 }
 
-// put file asynchronously, in the background
+// put file asynchronously, in the background - asynchronous
 exports.putFile = function (filePath, contents) {
     fs.writeFile(filePath, contents, (err) => {
         if (err) console.log(`error while attempting to put ${filePath}: ${err}`); 
         else console.log(`put file ${filePath}`); });
 }
-// FILE AND FOLDER API - STANDARD FILE OPERATIONS - asynchronous
-//--------------------------------------------------------------
+// FILE AND FOLDER API - STANDARD FILE OPERATIONS - mixed
+//-------------------------------------------------------
 
 //---------------------------------------------------
 // FILE RECORD API - KAFKA RECORD LOGIC - synchronous

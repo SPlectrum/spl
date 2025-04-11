@@ -11,11 +11,12 @@ var testExecute =
         spl: 
         { 
             execute: { action: "spl/execute/initialise", status: "new", session: session, cwd: cwd },
-            request: { action: "spl/request/add-folders", status: "pending" },
-            data: { repo: "data", folder: "test" }
+            request: { action: "spl/package/create", status: "pending" },
+            package: { root: "modules", folder: "spl/package" }
         }
-    },
-    value: 
+    }
+}
+/*    value: 
     {
         "backup": [],
         "data/clients/boot/requests": [ { file: "readMe.txt", contents: "Client requests folder" } ],
@@ -25,7 +26,12 @@ var testExecute =
         "runtime": [],
         "tools": []
     }
-}
-var spl_execute_queue = spl.moduleAction(testExecute, "spl/data/add");
+}*/
+var output = spl.moduleAction(testExecute, "spl/package/create");
 
-console.log(JSON.stringify(testExecute,null,2));
+output.headers.spl.package.root = "install";
+output.headers.spl.package.folder = "modules";
+
+var output = spl.moduleAction(testExecute, "spl/package/deploy");
+
+console.log(JSON.stringify(output,null,2));
