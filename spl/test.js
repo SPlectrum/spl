@@ -10,8 +10,8 @@ var testExecute =
     { 
         spl: 
         { 
-            execute: { action: "spl/execute/initialise", status: "new", session: session, cwd: cwd },
-            request: { action: "spl/package/create", status: "pending" },
+            execute: { session: session, cwd: cwd, modules: "../modules" },
+            request: { action: "spl/package/create" },
             package: { root: "modules", folder: "spl/package" }
         }
     }
