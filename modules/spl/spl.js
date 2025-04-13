@@ -16,8 +16,9 @@ exports.generateUUID = generateUUID;
 // easy functions to invoke actions
 function moduleAction (input, module)
 {
-    cwd = input.headers.spl.execute.cwd;
-    return require(`${cwd}/modules/${module}`).default(input);
+    const cwd = input.headers.spl.execute.cwd;
+    const moduleRoot = (input.headers.spl.execute.modules===undefined) ? "modules" : input.headers.spl.execute.modules;
+    return require(`${cwd}/${moduleRoot}/${module}`).default(input);
 }
 exports.moduleAction = moduleAction;
 exports.commandAction = function (input) { return moduleAction(input, input.headers.spl.command.action); }
