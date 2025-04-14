@@ -1,37 +1,21 @@
-const spl = require("./modules/spl/spl.js");
+const spl = require("../modules/spl/spl.js");
 
 // it expects the type of session - boot, system or client
 var session = ( process.argv[2] == undefined ) ? "boot" : process.argv[2];
 const cwd = process.cwd();
 
-var testExecute =
-{
-    headers: 
-    { 
-        spl: 
-        { 
+var input = {
+    headers: { 
+        spl: { 
             execute: { session: session, cwd: cwd, modules: "../modules" },
-            request: { action: "spl/package/create" },
-            package: { root: "modules", folder: "spl/package" }
+            package: { root: "../modules", folder: "spl/package" },
+            request: {}
         }
     }
 }
-/*    value: 
-    {
-        "backup": [],
-        "data/clients/boot/requests": [ { file: "readMe.txt", contents: "Client requests folder" } ],
-        "data/clients/boot/responses": [ { file: "readMe.txt", contents: "Client responses folder" } ],
-        "metadata": [],
-        "modules": [],
-        "runtime": [],
-        "tools": []
-    }
-}*/
-var output = spl.moduleAction(testExecute, "spl/package/create");
+input = spl.moduleAction(input, "spl/package/create");
 
-output.headers.spl.package.root = "install";
-output.headers.spl.package.folder = "modules";
+input.headers.spl.package = { root: "install", folder: "packages", file: "modules_spl_package.json" }
+input = spl.moduleAction(input, "spl/package/save");
 
-var output = spl.moduleAction(testExecute, "spl/package/deploy");
-
-console.log(JSON.stringify(output,null,2));
+console.log(JSON.stringify(input,null,2));
