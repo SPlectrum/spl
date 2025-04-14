@@ -13,8 +13,10 @@ exports.default = function spl_data_add ( input ) {
 
     for ( key in input.value ) {
         data.addFolder(`${cwd}/${repo}/${folder}/${key}`);
-        for( var i=0; i<input.value[key].length; i++ ) 
-            data.putFile(`${cwd}/${repo}/${folder}/${key}/${input.value[key][i].file}`, input.value[key][i].contents);
+        var files = input.value[key];
+        for( var i=0; i<files.length; i++ ) {
+            data.putFile(`${cwd}/${repo}/${folder}/${key}/${files[i].file}`, files[i].contents);
+        }
     }
 
     inputSpl.execute.action = "spl/execute/set-next";

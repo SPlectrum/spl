@@ -1,1 +1,0 @@
-{"headers":{"action":"execute/set-next","status":"pending","pipeline":[{"headers":{"action":"action/hello-splectrum"}},{"headers":{"action":"console/log"}}]},"value":{"headers":{"action":"command/hello-splectrum","status":"completed","pipeline":[{"headers":{"action":"action/hello-splectrum"}},{"headers":{"action":"console/log"}}]},"value":{"person":"everybody"}}}

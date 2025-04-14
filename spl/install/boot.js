@@ -1,17 +1,79 @@
-const spl = require("../modules/spl/spl.js");
+const spl = require("./modules/spl/spl.js");
 const cwd = process.cwd();
 console.log(cwd);
 var session = process.argv[2];
 
-// Minimal boot creates the minimal folder structure and starts the request watcher and fixed console app watcher
-// The modules folder 
-
-
-// this request is not execution-wrapped as it is submitted directly onto the action
-var testExecute =
+// create the top level folder structure
+var input =
 {
-    headers: { spl: { execute: { cwd: cwd } } },
-    value: { session: session, cwd: cwd }
+    headers: { 
+        spl: { 
+            execute: { cwd: cwd, modules: "install/modules" }, 
+            data: { repo: "install", folder: "packages", file: "folders_toplevel.json" }, 
+            request: {} 
+        }
+    },
+    value: {}
 }
-//var spl_execute_queue = spl.moduleAction(testExecute, "spl/data/execution-watcher");
-console.log(JSON.stringify(testExecute,null,2));
+input = spl.moduleAction(input, "spl/data/read");
+input.headers.spl.data = { repo: "", folder: "" };
+input = spl.moduleAction(input, "spl/data/add");
+console.log(JSON.stringify(input,null,2));
+
+// create the session folder structure
+input =
+{
+    headers: { 
+        spl: { 
+            execute: { cwd: cwd, modules: "install/modules" }, 
+            data: { repo: "install", folder: "packages", file: "folders_session.json" }, 
+            request: {} 
+        }
+    },
+    value: {}
+}
+input = spl.moduleAction(input, "spl/data/read");
+input.headers.spl.data = { repo: "", folder: "runtime/sessions/client" };
+input = spl.moduleAction(input, "spl/data/add");
+console.log(JSON.stringify(input,null,2));
+
+// create the client folder structure
+input =
+{
+    headers: { 
+        spl: { 
+            execute: { cwd: cwd, modules: "install/modules" }, 
+            data: { repo: "install", folder: "packages", file: "folders_client.json" }, 
+            request: {} 
+        }
+    },
+    value: {}
+}
+input = spl.moduleAction(input, "spl/data/read");
+input.headers.spl.data = { repo: "data", folder: "clients" };
+input = spl.moduleAction(input, "spl/data/add");
+console.log(JSON.stringify(input,null,2));
+
+input = {
+    headers:  { 
+        spl: { 
+            execute: { cwd: cwd, modules: "install/modules"  },
+            package: { root: "install/modules", folder: "spl" },
+            request: { }
+        }
+    }
+}
+input = spl.moduleAction(input, "spl/package/create");
+input.headers.spl.package = { root: "", folder: "modules"};
+input = spl.moduleAction(input, "spl/package/deploy");
+console.log(JSON.stringify(input,null,2));
+console.log("Package ${spl} created.");
+/*
+// start queue watcher
+input = {
+    headers: { spl: { execute: { cwd: cwd, modules: "./modules" } } },
+    value: { session: "client", cwd: cwd }
+}
+input = spl.moduleAction(input, "spl/data/execution-watcher");
+console.log(JSON.stringify(input,null,2));
+*/

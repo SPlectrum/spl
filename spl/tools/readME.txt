@@ -1,1 +1,0 @@
-This folder contains auxiliary tools for viewing, creating and managing platform components.

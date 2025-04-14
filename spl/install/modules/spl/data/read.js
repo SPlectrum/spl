@@ -11,7 +11,7 @@ exports.default = function spl_data_read ( input ) {
     var file = inputSpl.data.file;
 
     const output = data.readFileRecord(`${cwd}/${repo}/${folder}`, inputSpl.data.file);
-    input = JSON.parse(output.contents);
+    input = output.contents;
     input.headers.spl = inputSpl;
     input.headers.data = input.headers.spl.data;
     input.headers.data.file = output.file;

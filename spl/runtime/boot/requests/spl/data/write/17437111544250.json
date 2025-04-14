@@ -1,1 +1,0 @@
-{"headers":{"spl":{"data":{"repo":"runtime/boot/data","folder":"test"},"execute":{"action":"spl/execute/set-next","status":"executing","session":"boot","cwd":"D:\\SPlectrum\\spl\\spl"},"request":{"action":"spl/request/write","status":"completed"}}},"value":{"data":"This is a test"}}

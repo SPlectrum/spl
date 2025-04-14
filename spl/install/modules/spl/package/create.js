@@ -8,18 +8,19 @@ exports.default = function spl_package_create ( input ) {
     const root = inputSpl.package.root;
     const folder = inputSpl.package.folder;
     var rootPath = `${cwd}/${root}`;
-    input.value = {};
+    var packageContents = {};
 
     function iterateFolder (folderPath) {
         var contents = package.folderContents(`${rootPath}/${folderPath}`);
         for ( var i=0; i<contents.length; i++ ) {
             var currentPath = `${folderPath}/${contents[i]}`;
-            if(contents[i].substring(contents[i].length-3) === ".js" ) input.value[currentPath] = package.getFile(`${rootPath}/${currentPath}`);
+            if(contents[i].substring(contents[i].length-3) === ".js" ) packageContents[currentPath] = package.getFile(`${rootPath}/${currentPath}`);
             else iterateFolder(currentPath);
         }   
     }
 
-    iterateFolder(folder);
+    iterateFolder(folder, packageContents);
+    input.value = packageContents;
 
     inputSpl.request.status = "completed";
     return input;

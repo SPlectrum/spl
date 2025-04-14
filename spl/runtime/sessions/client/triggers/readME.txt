@@ -1,1 +1,0 @@
-This folder contains processes that trigger based on a data footprint.

@@ -1,1 +1,0 @@
-This folder contains operational runtime data associated with the proccess.

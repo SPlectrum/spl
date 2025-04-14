@@ -1,1 +1,0 @@
-This folder contains operational runtime data for the runtime as a whole.

@@ -1,1 +1,0 @@
-The session folder contains the user processes of splectrum. 

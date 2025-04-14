@@ -7,8 +7,8 @@ const cwd = process.cwd();
 var input = {
     headers: { 
         spl: { 
-            execute: { session: session, cwd: cwd, modules: "../modules" },
-            package: { root: "../modules", folder: "spl/package" },
+            execute: { session: session, cwd: cwd, modules: "./modules" },
+            data: { root: "../modules", folder: "spl/package" },
             request: {}
         }
     }
