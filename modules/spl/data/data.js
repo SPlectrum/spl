@@ -6,11 +6,23 @@ const fs = require('fs');
 //-------------------------------------------------------
 // FILE AND FOLDER API - STANDARD FILE OPERATIONS - mixed
 
+// copy file asynchronously, in the backgroud - asynchronous
+exports.copyFile = function (fromFilePath, toFilePath) {
+    fs.copyFile(fromFilePath, toFilePath, function (err) {
+        if (err) console.log(`error while attempting to move ${fromFilePath}: ${err}`); 
+        else console.log(`moved file from ${fromFilePath}\n           to ${toFilePath}`); });
+}
+
 // delete file asynchronously, in the background - asynchronous
 exports.deleteFile = function (filePath) {
     fs.unlink(filePath,(err) => { 
         if (err) console.log(`error while attempting to delete ${filePath}: ${err}`); 
         else console.log(`deleted file ${filePath}`); });
+}
+
+// get file, synchronous
+exports.getFile = function (filePath) {
+    return fs.readFileSync(filePath, 'utf8');
 }
 
 // move file asynchronously, in the backgroud - asynchronous

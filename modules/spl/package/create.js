@@ -14,7 +14,8 @@ exports.default = function spl_package_create ( input ) {
         var contents = package.folderContents(`${rootPath}/${folderPath}`);
         for ( var i=0; i<contents.length; i++ ) {
             var currentPath = `${folderPath}/${contents[i]}`;
-            if(contents[i].substring(contents[i].length-3) === ".js" ) input.value[currentPath] = package.getFile(`${rootPath}/${currentPath}`);
+            if(package.isFile(`${rootPath}/${currentPath}`)) input.value[currentPath] = package.getFile(`${rootPath}/${currentPath}`);
+//            if(contents[i].substring(contents[i].length-3) === ".js" ) input.value[currentPath] = package.getFile(`${rootPath}/${currentPath}`);
             else iterateFolder(currentPath);
         }   
     }

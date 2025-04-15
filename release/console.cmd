@@ -1,0 +1,1 @@
+tasklist /v /fo csv | findstr /i SPlectrum

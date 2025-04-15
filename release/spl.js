@@ -1,4 +1,4 @@
-const spl = require("../modules/spl/spl.js");
+const spl = require("./modules/spl/spl.js");
 const cwd = process.cwd();
 
 console.log(process.argv)
@@ -20,7 +20,7 @@ switch(args[0]){
 }
 
 var command = {
-    headers: { spl: { execute: { cwd: cwd, modules: "../modules" }, command: { action: "spl/command/queue" } } },
+    headers: { spl: { execute: { cwd: cwd, modules: "./modules" }, command: { action: "spl/command/queue" } } },
     value: {
         UUID: spl.generateUUID(), 
         cwd: cwd, 

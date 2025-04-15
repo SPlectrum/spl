@@ -29,6 +29,9 @@ exports.getFile = function (filePath) {
     return fs.readFileSync(filePath, 'utf8');
 }
 
+// Checks if the folder item is a file or folder - synchronous
+exports.isFile = function (filePath) { return fs.lstatSync(filePath).isFile(); }
+
 // move file asynchronously, in the backgroud - asynchronous
 exports.moveFile = function (fromFilePath, toFilePath) {
     fs.rename(fromFilePath, toFilePath, function (err) {
