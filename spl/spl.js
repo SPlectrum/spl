@@ -19,8 +19,7 @@ switch(args[0]){
     default:  session = "client";
 }
 
-var command = 
-{
+var command = {
     headers: { spl: { execute: { cwd: cwd, modules: "../modules" }, command: { action: "spl/command/queue" } } },
     value: 
     {

@@ -3,6 +3,8 @@
     "value": {
         "data": [],
         "metadata": [],
+        "modules": [],
+        "runtime": [],
         "runtime/sessions/client" :[]
     }
 }
