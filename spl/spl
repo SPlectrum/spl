@@ -1,3 +1,0 @@
-tpid="$(echo $$)"
-
-node spl.js $tpid $@
