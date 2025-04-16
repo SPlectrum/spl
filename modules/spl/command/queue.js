@@ -3,15 +3,12 @@
 const spl = require("../spl.js")
 
 exports.default = function spl_command_queue ( input ) {
-    inputSpl = input.headers.spl;
-
-    inputSpl.command = input.value;
-
-    inputSpl.execute.action = "spl/execute/initialise";
-    inputSpl.execute.status = "new";
-    inputSpl.execute.session = inputSpl.command.session;
-
-    inputSpl.request = { action: "spl/command/execute", status: "pending" }
+    var exec = input.headers.spl.execute;
+    input.headers.spl = {
+        command: input.value,
+        execute: { action: "spl/execute/initialise", status: "new", session: input.value.session, cwd: exec.cwd, modules: exec.modules },
+        request: { action: "spl/command/execute", status: "pending" }
+    }
 
     return spl.moduleAction(input,"spl/data/queue");
 }

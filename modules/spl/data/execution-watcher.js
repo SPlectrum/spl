@@ -29,7 +29,7 @@ exports.default = function spl_data_execution_watcher ( input ) {
 
                         if(err) console.log(err);
                         else {
-                            console.log(input);
+//                            console.log(input);
                             var request = JSON.parse(input);
                             var action = request.headers.spl.execute.action;
                             var output = spl.executeAction(request);;
