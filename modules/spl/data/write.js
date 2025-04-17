@@ -6,20 +6,19 @@ const data = require("./data.js")
 // when going multi repo, the logic of this command must move to data.fs
 
 exports.default = function spl_data_write ( input ) {
+
     const inputSpl = input.headers.spl;
     const cwd = inputSpl.execute.cwd;
-    const repo = inputSpl.data.repo;
-    const folder = inputSpl.data.folder;
+    const sources = inputSpl.data.write;
 
-    // the spl data structure in the header is runtime stuff
-    // it should be removed for 'static' storage
-    delete input.headers.spl;
-    delete input.headers.data;
+    for ( var i=0; i<sources.length; i++ ) {
+        const folderPath = `${sources[i].repo}/${sources[i].folder}`;
+        const fileName = data.writeFileRecord(`${cwd}/${folderPath}`, input.value["spl/data"][folderPath]);
+        input.value["spl/data"][folderPath].headers.data.location.file = fileName;
+        input.headers.spl.data.history.push(`write ${folderPath}/${fileName}}`);
+    }
 
-    inputSpl.data.file = data.writeFileRecord(`${cwd}/${repo}/${folder}`, input);
-    
-    input.headers.spl = inputSpl;
-    input.headers.data = inputSpl.data;
+    delete input.headers.spl.data.write;
     inputSpl.execute.action = "spl/execute/set-next";
     inputSpl.request.status = "completed";
     return input;

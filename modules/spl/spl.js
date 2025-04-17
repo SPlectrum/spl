@@ -5,8 +5,12 @@ const { randomUUID } = require('crypto');
 // gather error information
 exports.addErrorInfo = function (input, info)
 {
-    if(input.headers.spl.error==undefined) input.headers.spl.error = info;
-    else input.headers.spl.error = "\n" + info;
+    if( input.value["spl/error"] === undefined ) input.value["spl/error"] = [info];
+    else input.value["spl/error"].push(info);
+}
+exports.hasError = function (input)
+{
+    return ( !( input.value["spl/error"] === undefined ) );
 }
 
 // random UUID generation
@@ -21,7 +25,6 @@ function moduleAction (input, module)
     return require(`${cwd}/${moduleRoot}/${module}`).default(input);
 }
 exports.moduleAction = moduleAction;
-exports.commandAction = function (input) { return moduleAction(input, input.headers.spl.command.action); }
 exports.executeAction = function (input) { return moduleAction(input, input.headers.spl.execute.action); }
 exports.requestAction = function (input) { return moduleAction(input, input.headers.spl.request.action); }
 

@@ -4,20 +4,20 @@ const spl = require("../spl.js")
 const data = require("./data.js")
 
 exports.default = function spl_data_read ( input ) {
+
     const inputSpl = input.headers.spl;
     const cwd = inputSpl.execute.cwd;
-    const repo = inputSpl.data.repo;
-    const folder = inputSpl.data.folder;
-    var file = inputSpl.data.file;
-    const output = data.readFileRecord(`${cwd}/${repo}/${folder}`, inputSpl.data.file);
-    input = output.contents;
-    input.headers.spl = inputSpl;
-    input.headers.data = input.headers.spl.data;
-    input.headers.data.file = output.file;
+    const sources = inputSpl.data.read;
 
-    // add data location details
-    spl.setProperty ( input.headers, "data.location", { repo: repo, folder: folder, file: file } );
+    for ( var i=0; i<sources.length; i++ ) {
+        const folderPath = `${sources[i].repo}/${sources[i].folder}`;
+        const output = data.readFileRecord(`${cwd}/${folderPath}`);
+        input.value["spl/data"][folderPath] = output.contents;
+        spl.setProperty ( input.value["spl/data"][folderPath].headers, "data.location", { repo: sources[i].repo, folder: sources[i].folder, file: output.file } );
+        input.headers.spl.data.history.push(`read ${folderPath}/${output.file}}`);
+    }
 
+    delete input.headers.spl.data.read;
     inputSpl.execute.action = "spl/execute/set-next";
     inputSpl.request.status = "completed";
     return input;

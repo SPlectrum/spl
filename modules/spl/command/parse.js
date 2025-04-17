@@ -3,7 +3,8 @@ const command = require("./command");
 
 exports.default = function spl_command_parse (input) { 
 
-  splCmd = input.headers.spl.command;
+  splCmd = input.value["spl/command"];
+  parseOptions = input.value["spl/data"][input.headers.spl.request.parseOptions].value;
   splCmd.parsed = {};
   var registeredCommand;
   var commandAction = "";
@@ -14,11 +15,11 @@ exports.default = function spl_command_parse (input) {
     if(result._unknown) {
       result = command.parse(result._unknown)
       commandAction += (commandAction === "") ? result.command : "/" + result.command;
-      if(input.value[commandAction]) {
+      if(parseOptions[commandAction]) {
         registeredCommand = commandAction;
         splCmd.parsed[commandAction] = [];
         if(result._unknown) {
-          result = command.parse(result._unknown, input.value[commandAction]);
+          result = command.parse(result._unknown, parseOptions[commandAction]);
           splCmd.parsed[commandAction] = result;
         }
       }
@@ -28,7 +29,7 @@ exports.default = function spl_command_parse (input) {
   parseCommand();
 
   if(registeredCommand) {
-    input.value = {
+    input.value["spl/execute/set-request"] = {
       headers: { spl: { request: { action: registeredCommand, status: "pending" } } },
       value: splCmd.parsed
     }
