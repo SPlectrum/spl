@@ -28,8 +28,21 @@ exports.moduleAction = moduleAction;
 exports.executeAction = function (input) { return moduleAction(input, input.headers.spl.execute.action); }
 exports.requestAction = function (input) { return moduleAction(input, input.headers.spl.request.action); }
 
-// get property where parent chain may not exist yet
- function getProperty (reference, key)
+// gets a deep clone of a keyvalue in input
+function rcGet (reference, key)
+{ 
+    const keys = key.split(".");
+    for(i=0; i<keys.length; i++)
+    {
+        if(reference[keys[i]]==undefined) return undefined;
+        reference = reference[keys[i]];
+    }
+    return structuredClone(reference);
+}
+exports.rcGet = rcGet;
+
+// gets a reference to a keyvalue in input
+function rcRef (reference, key)
 { 
     const keys = key.split(".");
     for(i=0; i<keys.length; i++)
@@ -39,10 +52,10 @@ exports.requestAction = function (input) { return moduleAction(input, input.head
     }
     return reference;
 }
-exports.getProperty = getProperty;
+exports.rcRef = rcRef;
 
-// set property where parent chain may not exist yet
-function setProperty (reference, key, value)
+// Sets a value of a keyvalue in input
+function rcSet (reference, key, value)
 { 
     const keys = key.split(".");
     for(i=0; i<keys.length; i++)
@@ -52,25 +65,31 @@ function setProperty (reference, key, value)
         reference = reference[keys[i]];
     } 
 }
-exports.setProperty = setProperty;
+exports.rcSet = rcSet;
 
-// wbGet property gets a key in input.value.
+// wbGet returns a deep clone of a keyvalue in input.value.
 exports.wsGet = function (record, key)
 { 
-    return getProperty(record.value, key);
+    return rcRef(record.value, key);
+}
+
+// wbGet returns a reference to a keyvalue in input.value.
+exports.wsRef = function (record, key)
+{ 
+    return rcRef(record.value, key);
 }
 
 // wbSet property sets a key in input.value but archives the existing keyvalue in an array.
 exports.wsSet = function (record, key, value)
 { 
-    const current = getProperty(record.value, key);
+    const current = rcRef(record.value, key);
     if( !( current === undefined ) ) {
-        var archive = getProperty(record.value, `${key}/archive`);
+        var archive = rcRef(record.value, `${key}/archive`);
         if ( archive === undefined ) { 
-            setProperty( record.value, `${key}/archive`, [] ); 
-            archive = getProperty(record.value, `${key}/archive`); 
+            rcSet( record.value, `${key}/archive`, [] ); 
+            archive = rcRef(record.value, `${key}/archive`); 
         }
         archive.push(current);
     }
-    setProperty(record.value, key, value);
+    rcSet(record.value, key, value);
 }

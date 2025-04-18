@@ -7,7 +7,7 @@ var input = {
     headers: { 
         spl: { 
             execute: { cwd: cwd, modules: "install/modules" }, 
-            data: { repo: "install", folder: "packages", file: "folders_toplevel.json" }, 
+            data: { read: [ { repo: "install", folder: "packages", file: "folders_toplevel.json" } ] }, 
             request: {} 
         }
     },
@@ -31,7 +31,7 @@ input =
     headers: { 
         spl: { 
             execute: { cwd: cwd, modules: "install/modules" }, 
-            data: { repo: "install", folder: "packages", file: "folders_session.json" }, 
+            data: { read: [ { repo: "install", folder: "packages", file: "folders_session.json" } ] }, 
             request: {} 
         }
     },
@@ -47,8 +47,8 @@ input =
 {
     headers: { 
         spl: { 
-            execute: { cwd: cwd, modules: "install/modules" }, 
-            data: { repo: "install", folder: "packages", file: "folders_client.json" }, 
+            execute: { cwd: cwd, modules: "install/modules" }, // COPY AND REFERENCE IN MULTIPLES NEEDED FOR spl/data/read
+            data: { read: [ { repo: "install", folder: "packages", file: "folders_client.json" } ] }, 
             request: {} 
         }
     },

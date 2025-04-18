@@ -7,7 +7,7 @@ var input = {
     headers: { 
         spl: { 
             execute: { cwd: cwd, modules: "install/modules" }, 
-            data: { repo: "install", folder: "packages", file: "folders_toplevel.json" }, 
+            data: { read: [ { repo: "install", folder: "packages", file: "folders_toplevel.json" } ] }, 
             request: {} 
         }
     },

@@ -3,9 +3,8 @@
 
 exports.default = function spl_request_remove ( input ) {
 
-    const spl = input.headers.spl;
-    spl.data = spl.request.data;
-    spl.data_next = "spl/data/remove";
-    spl.request.status = "data";
+    input.headers.spl.data = input.headers.spl.request.data;
+    input.headers.spl.data_next = "spl/data/remove";
+    input.headers.spl.request.status = "data";
     return input;
 }

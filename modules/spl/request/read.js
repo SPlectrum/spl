@@ -3,10 +3,9 @@
 
 exports.default = function spl_request_read ( input ) {
 
-    const spl = input.headers.spl;
-    spl.data.read = spl.request.data.read;
+    input.headers.spl.data.read = input.headers.spl.request.data.read;
 
-    spl.request.data_next = "spl/data/read";
-    spl.request.status = "data";
+    input.headers.spl.request.data_next = "spl/data/read";
+    input.headers.spl.request.status = "data";
     return input;
 }

@@ -3,10 +3,9 @@
 
 function spl_request_add ( input ) {
 
-    const spl = input.headers.spl;
-    spl.data = spl.request.data;
-    spl.data_next = "spl/data/add";
-    spl.request.status = "data";
+    input.headers.spl.data = input.headers.spl.request.data;
+    input.headers.spl.data_next = "spl/data/add";
+    input.headers.spl.request.status = "data";
     return input;
 }
 exports.default = spl_request_add;

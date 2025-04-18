@@ -7,10 +7,8 @@ const data = require("./data.js")
 
 exports.default = function spl_data_queue ( input ) {
 
-    const spl = input.headers.spl;
-    const execute = spl.execute;
-    const cwd = execute.cwd;
-    var session = execute.session;
+    const cwd = input.headers.spl.execute.cwd;
+    var session = input.headers.spl.execute.session;
     if( session !== "boot" && session !== "system" ) session = `sessions/${session}`;
 
     data.writeFileRecord(`${cwd}/runtime/${session}/requests/queue`, input);
