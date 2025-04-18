@@ -3,14 +3,13 @@
 
 exports.default = function spl_execute_initialise ( input ) {
 
-    const splExecute = input.headers.spl.execute;
-    splExecute.startTime = Date.now();
-    if( splExecute.TTL === undefined ) splExecute.TTL = 100;
+    input.headers.spl.execute.startTime = Date.now();
+    if( input.headers.spl.execute.TTL === undefined ) input.headers.spl.execute.TTL = 100;
     input.headers.spl.execute.history = [];
     input.headers.spl.data = { history: [] };
 
-    splExecute.action = "spl/execute/next";
-    splExecute.status = "executing";
+    input.headers.spl.execute.action = "spl/execute/next";
+    input.headers.spl.execute.status = "executing";
 
     return input;
 }

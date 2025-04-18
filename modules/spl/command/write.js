@@ -4,12 +4,11 @@ const spl = require("../spl.js");
 
 exports.default = function spl_command_write ( input ) {
     
-    const inputSpl = input.headers.spl;
     const repo = "data";
-    const folder = `clients/${inputSpl.execute.session}/${inputSpl.request.destination}`
+    const folder = `clients/${input.headers.spl.execute.session}/${input.headers.spl.request.destination}`
     const folderPath = `${repo}/${folder}`;
 
-    inputSpl.data.write = [ { repo: repo, folder: folder } ];
+    input.headers.spl.data.write = [ { repo: repo, folder: folder } ];
 
     const responseValue = {
         headers: { data: { location: { repo: repo, folder:folder } } },
@@ -20,7 +19,7 @@ exports.default = function spl_command_write ( input ) {
     for(key in input.value["spl/command"].parsed) responseValue.value[key] = input.value[key];
     spl.wsSet(input, `spl/data.${folderPath}`, responseValue)
 
-    inputSpl.request.data_next = "spl/data/write";
-    inputSpl.request.status = "data";
+    input.headers.spl.request.data_next = "spl/data/write";
+    input.headers.spl.request.status = "data";
     return input;
 }

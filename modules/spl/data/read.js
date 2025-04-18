@@ -15,8 +15,12 @@ exports.default = function spl_data_read ( input ) {
         spl.rcSet ( output.contents, "headers.data.location", { repo: sources[i].repo, folder: sources[i].folder, file: output.file } );
         spl.wsSet ( input, `spl/data.${folderPath}`, output.contents );
         input.headers.spl.data.history.push(`read ${folderPath}/${output.file}}`);
-        if( sources[i].copy ) spl.wsSet( input, sources[i].copy, structuredClone(output.contents) );
-        if( sources[i].reference ) spl.wsSet( input, sources[i].reference, output.contents );
+        if( sources[i].copy ) 
+            for(var i=0; i<sources[i].copy.length; i++) 
+                spl.wsSet( input, sources[i].copy[i], structuredClone(output.contents) );
+        if( sources[i].reference ) 
+            for(var i=0; i<sources[i].reference.length; i++) 
+                pl.wsSet( input, sources[i].reference[i], output.contents );
     }
 
     delete input.headers.spl.data.read;

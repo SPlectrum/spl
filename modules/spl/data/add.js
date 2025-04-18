@@ -7,18 +7,18 @@ const data = require("./data.js")
 
 exports.default = function spl_data_add ( input ) {
     
-    const inputSpl = input.headers.spl;
-    const cwd = inputSpl.execute.cwd;
-    const repo = inputSpl.data.repo;
-    const folder = inputSpl.data.folder;
+    const cwd = input.headers.spl.execute.cwd;
+    const repo = input.headers.spl.data.repo;
+    const folder = input.headers.spl.data.folder;
 
-    for ( key in input.value ) {
+    const foldersFiles = spl.wsRef(input,"spl/data/add").value;
+    for ( key in foldersFiles ) {
         data.addFolder(`${cwd}/${repo}/${folder}/${key}`);
-        for( var i=0; i<input.value[key].length; i++ ) 
-            data.putFile(`${cwd}/${repo}/${folder}/${key}/${input.value[key][i].file}`, input.value[key][i].contents);
+        for( var i=0; i<foldersFiles[key].length; i++ ) 
+            data.putFile(`${cwd}/${repo}/${folder}/${key}/${foldersFiles[key][i].file}`, foldersFiles[key][i].contents);
     }
 
-    inputSpl.execute.action = "spl/execute/set-next";
-    inputSpl.request.status = "completed";
+    input.headers.spl.execute.action = "spl/execute/set-next";
+    input.headers.spl.request.status = "completed";
     return input;
 }

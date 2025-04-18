@@ -3,10 +3,9 @@
 
 exports.default = function spl_execute_complete ( input ) {
     
-    const splExecute = input.headers.spl.execute;
-    splExecute.status = "completed";
-    splExecute.finishTime = Date.now();
-    splExecute.duration = splExecute.finishTime - splExecute.startTime;
+    input.headers.spl.execute.status = "completed";
+    input.headers.spl.execute.finishTime = Date.now();
+    input.headers.spl.execute.duration = input.headers.spl.execute.finishTime - input.headers.spl.execute.startTime;
 
     return input;
 }

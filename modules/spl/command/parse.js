@@ -35,7 +35,8 @@ exports.default = function spl_command_parse (input) {
       headers: { spl: { request: { action: registeredCommand, status: "pending" } } }, value: splCmd.parsed });
     input.headers.spl.request.execute_next = "spl/execute/set-request"
     input.headers.spl.request.status = "execute";
-  } else input.headers.spl.request.status = "completed";
+  } 
+  else input.headers.spl.request.status = "completed";
   
   return input 
 }

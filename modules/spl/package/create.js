@@ -3,10 +3,10 @@
 const package = require("./package.js")
 
 exports.default = function spl_package_create ( input ) {
-    const inputSpl = input.headers.spl;
-    const cwd = inputSpl.execute.cwd;
-    const root = inputSpl.package.root;
-    const folder = inputSpl.package.folder;
+
+    const cwd = input.headers.spl.execute.cwd;
+    const root = input.headers.spl.package.root;
+    const folder = input.headers.spl.package.folder;
     var rootPath = `${cwd}/${root}`;
     input.value = {};
 
@@ -18,9 +18,8 @@ exports.default = function spl_package_create ( input ) {
             else iterateFolder(currentPath);
         }   
     }
-
     iterateFolder(folder);
 
-    inputSpl.request.status = "completed";
+    input.headers.spl.request.status = "completed";
     return input;
 }

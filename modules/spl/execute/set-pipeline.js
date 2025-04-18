@@ -4,14 +4,12 @@ const spl = require("../spl")
 
 exports.default = function spl_execute_set_pipeline ( input ) {
 
-    const execute = input.headers.spl.execute;
-    const request = input.headers.spl.request;
     const newPipeline = structuredClone(spl.wsGet(input, "spl/execute/set-pipeline.input"));
+    input.headers.spl.execute.pipeline = 
+        (input.headers.spl.execute.pipeline == undefined) ? newPipeline : newPipeline.concat(input.headers.spl.execute.pipeline);
 
-    execute.pipeline = (execute.pipeline == undefined) ? newPipeline : newPipeline.concat(execute.pipeline);
-
-    execute.action = "spl/execute/set-next";
-    execute.status = "pending";
-    request.status = "completed";
+    input.headers.spl.execute.action = "spl/execute/set-next";
+    input.headers.spl.execute.status = "pending";
+    input.headers.spl.request.status = "completed";
     return input;
 }
