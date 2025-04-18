@@ -28,13 +28,49 @@ exports.moduleAction = moduleAction;
 exports.executeAction = function (input) { return moduleAction(input, input.headers.spl.execute.action); }
 exports.requestAction = function (input) { return moduleAction(input, input.headers.spl.request.action); }
 
-// set property where parent chain may not exist yet
-exports.setProperty = function (reference, key, value)
+// get property where parent chain may not exist yet
+ function getProperty (reference, key)
 { 
     const keys = key.split(".");
     for(i=0; i<keys.length; i++)
     {
-        if(reference[keys[i]]==undefined) { reference[keys[i]] = (i==keys.length-1) ? value : {}; }
+        if(reference[keys[i]]==undefined) return undefined;
+        reference = reference[keys[i]];
+    }
+    return reference;
+}
+exports.getProperty = getProperty;
+
+// set property where parent chain may not exist yet
+function setProperty (reference, key, value)
+{ 
+    const keys = key.split(".");
+    for(i=0; i<keys.length; i++)
+    {
+        if ( i == keys.length - 1 ) reference[keys[i]] = value;
+        else if( reference[keys[i]] === undefined ) reference[keys[i]] = {};
         reference = reference[keys[i]];
     } 
+}
+exports.setProperty = setProperty;
+
+// wbGet property gets a key in input.value.
+exports.wsGet = function (record, key)
+{ 
+    return getProperty(record.value, key);
+}
+
+// wbSet property sets a key in input.value but archives the existing keyvalue in an array.
+exports.wsSet = function (record, key, value)
+{ 
+    const current = getProperty(record.value, key);
+    if( !( current === undefined ) ) {
+        var archive = getProperty(record.value, `${key}/archive`);
+        if ( archive === undefined ) { 
+            setProperty( record.value, `${key}/archive`, [] ); 
+            archive = getProperty(record.value, `${key}/archive`); 
+        }
+        archive.push(current);
+    }
+    setProperty(record.value, key, value);
 }

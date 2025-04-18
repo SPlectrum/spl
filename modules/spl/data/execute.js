@@ -3,7 +3,7 @@
 const spl = require("../spl.js")
 const data = require("./data.js")
 
-const fs = require("fs")
+const fs = require("fs");
 
 exports.default = function spl_data_execute ( input ) {
 

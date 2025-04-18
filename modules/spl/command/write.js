@@ -18,7 +18,7 @@ exports.default = function spl_command_write ( input ) {
         }
     }
     for(key in input.value["spl/command"].parsed) responseValue.value[key] = input.value[key];
-    spl.setProperty(input.value, `spl/data.${folderPath}`, responseValue)
+    spl.wsSet(input, `spl/data.${folderPath}`, responseValue)
 
     inputSpl.request.data_next = "spl/data/write";
     inputSpl.request.status = "data";

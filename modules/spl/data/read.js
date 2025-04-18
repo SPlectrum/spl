@@ -10,14 +10,15 @@ exports.default = function spl_data_read ( input ) {
     const sources = inputSpl.data.read;
 
     for ( var i=0; i<sources.length; i++ ) {
+        
         const folderPath = `${sources[i].repo}/${sources[i].folder}`;
         const output = data.readFileRecord(`${cwd}/${folderPath}`);
-        input.value["spl/data"][folderPath] = output.contents;
-        spl.setProperty ( input.value["spl/data"][folderPath].headers, "data.location", { repo: sources[i].repo, folder: sources[i].folder, file: output.file } );
-        input.headers.spl.data.history.push(`read ${folderPath}/${output.file}}`);
+        spl.wsSet ( input, `spl/data.${folderPath}`, output.contents );
+        spl.setProperty ( input.value["spl/data"][folderPath], "headers.data.location", { repo: sources[i].repo, folder: sources[i].folder, file: output.file } );
+        inputSpl.data.history.push(`read ${folderPath}/${output.file}}`);
     }
 
-    delete input.headers.spl.data.read;
+    delete inputSpl.data.read;
     inputSpl.execute.action = "spl/execute/set-next";
     inputSpl.request.status = "completed";
     return input;

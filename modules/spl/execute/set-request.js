@@ -8,6 +8,8 @@ exports.default = function spl_execute_set_request ( input ) {
     input.headers.spl.request = input.value["spl/execute/set-request"].headers.spl.request;
     for(key in input.value["spl/execute/set-request"].value)
         input.value[key] = input.value["spl/execute/set-request"].value[key];
+
+//    delete input.value["spl/execute/set-request"];
     
     return input;
 }

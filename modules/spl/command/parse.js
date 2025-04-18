@@ -1,4 +1,5 @@
 // spl/command/parse
+const spl = require("../spl");
 const command = require("./command");
 
 exports.default = function spl_command_parse (input) { 
@@ -29,15 +30,10 @@ exports.default = function spl_command_parse (input) {
   parseCommand();
 
   if(registeredCommand) {
-    input.value["spl/execute/set-request"] = {
-      headers: { spl: { request: { action: registeredCommand, status: "pending" } } },
-      value: splCmd.parsed
-    }
 
+    spl.wsSet(input, "spl/execute/set-request", { headers: { spl: { request: { action: registeredCommand, status: "pending" } } }, value: splCmd.parsed });
     input.headers.spl.request.execute_next = "spl/execute/set-request"
     input.headers.spl.request.status = "execute";
-//    input.headers.spl.request.status = "completed";
-
   } else input.headers.spl.request.status = "completed";
   
   return input 

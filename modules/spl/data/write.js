@@ -1,5 +1,6 @@
 // spl/data/write
 // puts a request on to a folder
+const spl = require("../spl.js")
 const data = require("./data.js")
 
 // This implementation is filesystem only
@@ -12,9 +13,10 @@ exports.default = function spl_data_write ( input ) {
     const sources = inputSpl.data.write;
 
     for ( var i=0; i<sources.length; i++ ) {
+
         const folderPath = `${sources[i].repo}/${sources[i].folder}`;
-        const fileName = data.writeFileRecord(`${cwd}/${folderPath}`, input.value["spl/data"][folderPath]);
-        input.value["spl/data"][folderPath].headers.data.location.file = fileName;
+        const fileName = data.writeFileRecord(`${cwd}/${folderPath}`, spl.wsGet(input, `spl/data.${folderPath}`));
+        spl.setProperty(input.value["spl/data"][folderPath], "headers.data.location.file", fileName);
         input.headers.spl.data.history.push(`write ${folderPath}/${fileName}}`);
     }
 
