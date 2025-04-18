@@ -15,7 +15,6 @@ exports.default = function spl_command_execute (input) {
         ]
     });
 
-
     input.headers.spl.request.execute_next = "spl/execute/set-pipeline";
     input.headers.spl.request.status = "execute";
     return input 

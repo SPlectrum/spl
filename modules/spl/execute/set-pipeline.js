@@ -6,7 +6,7 @@ exports.default = function spl_execute_set_pipeline ( input ) {
 
     const execute = input.headers.spl.execute;
     const request = input.headers.spl.request;
-    const newPipeline = spl.wsGet(input, "spl/execute/set-pipeline.input");
+    const newPipeline = structuredClone(spl.wsGet(input, "spl/execute/set-pipeline.input"));
 
     execute.pipeline = (execute.pipeline == undefined) ? newPipeline : newPipeline.concat(execute.pipeline);
 

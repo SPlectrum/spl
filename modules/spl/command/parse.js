@@ -4,8 +4,8 @@ const command = require("./command");
 
 exports.default = function spl_command_parse (input) { 
 
-  splCmd = input.value["spl/command"];
-  parseOptions = input.value["spl/data"][input.headers.spl.request.parseOptions].value;
+  splCmd = spl.wsGet(input, "spl/command.value");
+  parseOptions = spl.wsGet(input, `spl/data.${input.headers.spl.request.parseOptions}.value`);
   splCmd.parsed = {};
   var registeredCommand;
   var commandAction = "";
@@ -21,7 +21,7 @@ exports.default = function spl_command_parse (input) {
         splCmd.parsed[commandAction] = [];
         if(result._unknown) {
           result = command.parse(result._unknown, parseOptions[commandAction]);
-          splCmd.parsed[commandAction] = result;
+          splCmd.parsed[commandAction] = { headers: {}, value: result };
         }
       }
     }
@@ -31,7 +31,8 @@ exports.default = function spl_command_parse (input) {
 
   if(registeredCommand) {
 
-    spl.wsSet(input, "spl/execute/set-request", { headers: { spl: { request: { action: registeredCommand, status: "pending" } } }, value: splCmd.parsed });
+    spl.wsSet(input, "spl/execute/set-request", { 
+      headers: { spl: { request: { action: registeredCommand, status: "pending" } } }, value: splCmd.parsed });
     input.headers.spl.request.execute_next = "spl/execute/set-request"
     input.headers.spl.request.status = "execute";
   } else input.headers.spl.request.status = "completed";
