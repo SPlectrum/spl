@@ -1,6 +1,8 @@
 // spl/data/remove
 // create a set of folders and files from the struccture supplied in input.value
-const data = require("./data.js")
+const data = require("../data/data.js")
+
+//NEEDS TO BE MOVED TO PACKAGE API
 
 // This implementation is filesystem only
 // when going multi repo, the logic of this command must move to data.fs

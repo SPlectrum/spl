@@ -3,6 +3,9 @@
 const spl = require("../spl.js")
 const data = require("./data.js")
 
+// SHOULD BE PARKED AS IT IS DEPRECATED
+// NEED NEW IMPLEMENTATION FOR ASYNCHRONOUS
+
 const fs = require("fs")
 
 exports.default = function spl_data_execution_watcher ( input ) {

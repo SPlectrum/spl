@@ -11,6 +11,7 @@ exports.default = function spl_data_read ( input ) {
     for ( var i=0; i<sources.length; i++ ) {
         
         const folderPath = `${sources[i].repo}/${sources[i].folder}`;
+        const file = `${sources[i].file}`;
         const output = data.readFileRecord(`${cwd}/${folderPath}`);
         spl.rcSet ( output.contents, "headers.data.location", { repo: sources[i].repo, folder: sources[i].folder, file: output.file } );
         spl.wsSet ( input, `spl/data.${folderPath}`, output.contents );
