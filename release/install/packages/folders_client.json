@@ -1,8 +1,12 @@
-{   
-    "headers": {},
+{
+    "headers": {
+      "package": {
+        "name": "folders_client.json"
+      }
+    },
     "value": {
-        "client" :[ { "file": "", "contents": "{\n    \"headers\": {},\n    \"value\": {\n        \"hello/world\": [ { \"name\": \"message\" } ],\n        \"spl/console/log\": [ { \"name\": \"message\", \"alias\": \"m\", \"multiple\": true, \"defaultOption\": true } ]\n    }\n}" } ],
-        "client/requests" :[],
-        "client/responses" :[]
+        "/client/17448160797900.json" : "{\n    \"headers\": {},\n    \"value\": {\n        \"hello/world\": [ { \"name\": \"message\" } ],\n        \"spl/console/log\": [ { \"name\": \"message\", \"alias\": \"m\", \"multiple\": true, \"defaultOption\": true } ]\n    }\n}",
+        "/client/requests/" : "",
+        "/client/responses/" : ""
     }
 }

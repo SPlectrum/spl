@@ -1,8 +1,12 @@
 {   
-    "headers": {},
+    "headers": {
+        "package": {
+            "name": "folders_session.json"
+          }
+    },
     "value": {
-        "requests/complete": [],
-        "requests/initialise": [],
-        "requests/queue": []
+        "/requests/complete/": "",
+        "/requests/initialise/": "",
+        "/requests/queue/": ""
     }
 }

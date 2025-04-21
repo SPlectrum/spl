@@ -1,5 +1,6 @@
 // spl/package/create
 // create a module package
+const spl = require("../spl.js")
 const package = require("./package")
 
 exports.default = function spl_package_create ( input ) {
@@ -8,14 +9,16 @@ exports.default = function spl_package_create ( input ) {
     const root = input.headers.spl.package.root;
     const folder = input.headers.spl.package.folder;
     var rootPath = `${cwd}/${root}`;
-    const packagePath = ((folder === "") ? root : `${root}/${folder}`)
-    input.value["spl/package"][packagePath] = { headers: { package: { root: root, folder: folder } }, value: {} };
-    const packageContents = input.value["spl/package"][packagePath].value
+    const packageName = input.headers.package.name;
+    const packageRef = `spl/package.${packageName.replace(".","_")}`;
+
+    spl.wsSet ( input, packageRef, { headers: { package: { name: packageName } }, value: {} } );
+    const packageContents = spl.wsRef ( input, packageRef ).value;
 
     function iterateFolder (folderPath) {
         var contents = package.folderContents(((folderPath === "") ? rootPath : `${rootPath}/${folderPath}`));
-        if ( contents.length == 0 ) {
-            packageContents[folderPath] = undefined;
+        if ( contents.length === 0 ) {
+            packageContents[`${folderPath}/`] = {};
         } else {
             for ( var i=0; i<contents.length; i++ ) {
                 var currentPath = `${folderPath}/${contents[i]}`;
@@ -24,7 +27,7 @@ exports.default = function spl_package_create ( input ) {
             }   
         }
     }
-    iterateFolder(folder);
+    iterateFolder(`/${folder}`);
 
     input.headers.spl.request.status = "completed";
     return input;

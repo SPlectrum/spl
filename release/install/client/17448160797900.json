@@ -1,0 +1,7 @@
+{
+    "headers": {},
+    "value": {
+        "hello/world": [ { "name": "message" } ],
+        "spl/console/log": [ { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ]
+    }
+}

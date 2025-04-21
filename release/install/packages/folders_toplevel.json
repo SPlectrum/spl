@@ -1,10 +1,14 @@
 {   
-    "headers": {},
+    "headers": {
+        "package": {
+            "name": "folders_toplevel.json"
+          }
+    },
     "value": {
-        "data": [],
-        "metadata": [],
-        "modules": [],
-        "runtime": [],
-        "runtime/sessions/client" :[]
+        "/data/": "",
+        "/metadata/": "",
+        "/modules/": "",
+        "/runtime/": "",
+        "/runtime/sessions/client/" :""
     }
 }

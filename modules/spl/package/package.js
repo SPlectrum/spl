@@ -49,5 +49,5 @@ exports.putFile = function (filePath, contents) {
 // removes a full folder path with file contents
 exports.removeFolder = function (folderPath) {
     console.log(`Removing folder: ${folderPath}`);
-    fs.rmSync(dir, { recursive: true, force: true }, folderPath);
+    fs.rmSync(folderPath, { recursive: true, force: true });
 }
