@@ -1,3 +1,9 @@
+//  name        Delete File or Folder
+//  URI         spl/data/delete
+//  type        API Method
+//  description This method deletes one or more files or folders
+//              THis method executes synchrounously.
+///////////////////////////////////////////////////////////////////////////////
 // spl/data/delete
 // puts a file or a folder onto the filesystem
 const spl = require("../spl.js")

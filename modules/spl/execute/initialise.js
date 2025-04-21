@@ -1,6 +1,9 @@
-// spl/execute/initialise
-// entry point for request execution, initialise execution
-
+//  name        Executes the Initialise Action
+//  URI         spl/execute/initialise
+//  type        API Method
+//  description Initialises the execution of a pipeline segemnt.
+//              The output of this action is logged.
+///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_execute_initialise ( input ) {
 
     input.headers.spl.execute.startTime = Date.now();

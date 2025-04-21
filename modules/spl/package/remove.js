@@ -1,8 +1,12 @@
-// spl/package/remove
-// create a set of folders and files from the struccture supplied in input.value
+//  name        Remove a Package
+//  URI         spl/package/remove
+//  type        API Method
+//  description Removes a package from an install.
+//              A package in this context is assumend to be a hive,
+//              a top folder where everything underneath belongs to the package.
+///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl")
 const package = require("./package")
-
 exports.default = function spl_package_remove ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;

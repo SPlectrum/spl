@@ -1,6 +1,11 @@
-// spl/misc/noop
-
+//  name        No Operation
+//  URI         spl/misc/noop
+//  type        API Method
+//  description This command does not execute any action.
+//              It is included to facilitate testing.
+///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_misc_noop (input) { 
+
     input.headers.spl.request.status = "completed";
     return input 
 }

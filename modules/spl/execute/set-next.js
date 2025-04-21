@@ -1,6 +1,8 @@
-// spl/execute/set-next
-// sets next action from pipeline
-
+//  name        Set Next Request
+//  URI         spl/execute/set-next
+//  type        API Method
+//  description Sets the next request action to execute from the execution pipeline.
+///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_execute_set_next ( input ) {
 
     if(input.headers.spl.execute.repeat) {

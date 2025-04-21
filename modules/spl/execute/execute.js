@@ -1,7 +1,11 @@
-// spl/execute/execute
-// executes a command
+//  name        Execute a pipeline segment
+//  URI         spl/execute/execute
+//  type        API Method
+//  description Manages the execution flow of a pipeline segment.
+//              It starts with an initialise action and finishes with a complete action.
+//              Output of bot actions is logged. 
+///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
-
 exports.default = function spl_execute_execute ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;

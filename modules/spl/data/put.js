@@ -1,11 +1,12 @@
-// spl/data/put
-// puts a file or a folder onto the filesystem
+//  name        Put File 
+//  URI         spl/data/put
+//  type        API Method
+//  description Saves one or more data files to the filesystem.
+//              This method executes asynchronously.
+//              The file data resides in the workspace.
+///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 const data = require("./data.js")
-
-// This implementation is filesystem only
-// when going multi repo, the logic of this command must move to data.fs
-
 exports.default = function spl_data_put ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;

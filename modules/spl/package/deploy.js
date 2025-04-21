@@ -1,8 +1,11 @@
-// spl/package/deploy
-// deploys a module package
+//  name        Deploy a Package
+//  URI         spl/package/deploy
+//  type        API Method
+//  description Deploys a package to an existing install.
+//              It is used to deliver data and module packages.
+///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl")
 const package = require("./package.js")
-
 exports.default = function spl_package_deploy ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;

@@ -1,8 +1,10 @@
-// spl/package/load
-// loads a package
+//  name        Load a Package
+//  URI         spl/package/load
+//  type        API Method
+//  description Loads a package from file.
+///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 const package = require("./package")
-
 exports.default = function spl_package_load ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;

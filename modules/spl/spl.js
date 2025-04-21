@@ -1,5 +1,10 @@
-// spl/spl.js
-// A library of useful functions
+//  name        SPL Package Useful Functions
+//  URI         spl/spl
+//  type        Auxiliary Library
+//  description Library of auxiliary methods at package level
+//              It contains methods to invoke actions, set properties and
+//              interacts with the workspace.
+///////////////////////////////////////////////////////////////////////////////
 const { randomUUID } = require('crypto');
 
 // gather error information

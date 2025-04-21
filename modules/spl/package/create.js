@@ -1,8 +1,11 @@
-// spl/package/create
-// create a module package
+//  name        Create a Package
+//  URI         spl/package/create
+//  type        API Method
+//  description Creates a new package from an existing data or module install
+//              It creates a package of parts of an existing install.
+///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 const package = require("./package")
-
 exports.default = function spl_package_create ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;

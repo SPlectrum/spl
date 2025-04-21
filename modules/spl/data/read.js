@@ -1,8 +1,11 @@
-// spl/data/read
-// puts a request on to a folder
+//  name        Reads one or more Data Records
+//  URI         spl/data/read
+//  type        API Method
+//  description Reads one or more data records, by default the latest.
+//              This means the latest for a specific (primary) key.
+///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 const data = require("./data.js")
-
 exports.default = function spl_data_read ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;

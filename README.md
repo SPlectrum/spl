@@ -1,29 +1,32 @@
 # spl
 
-This module implements the platform within which a SPlectrum install runs.  
-Functionality is installed as modules on the platform and this module contributes the *spl* module
-which contains the core functionality needed for the platform to be able to run.
+The modules implemented in this repository make up the minimum core functionality of the SPlectrum platform.  
+The core functionality consists of the execution layer, the data layer and package management,
+but also minimal implementations of the command pipeline and client management and probably other component not yet in scope.  
 
-It is primed with the end result of *hello-splectrum*.
+The emphasis is on minimal viable implementation. more advanced implementation will be installed as additional module packages.  
+A SPlectum install will always begin with the install of this core package.
+
+Each release comes with notes about the functionality that has been added or improved.  
+The aim is to come to a MVP for application development by version 1.0  
+It will already be possible to add applications to earlier versions, but tooling may still be lacking at that stage.
 
 User notes are available in the readMe.md file of the spl folder (the root of the self-extracting package).
 
 ## Main Areas of Work
 
- The initial implementation of the platform is on top of a file system.  
+ - Create releases as self-extracting zips and install routines
+ - Platform overall structure - functional modules and data covering both runtime and application data
+ - client specification and implementation (e.g terminals) - a client is an application
+ - Process specification and implementation: boot, system, user sessions - data backup and housekeeping
+ - Platform data layer ( filesystem, AVRO integration, dynamic indexes )
 
- - Platform overall structure
- - Runtime structure
- - client specification and implementation (e.g terminals)
- - Process specification: boot, system, user sessions
- - Platform data layer ( AVRO integration, dynamic indexes )
- - Implement *boot* process
- - Implement *system* process
- - Implement *session* process
- - Implement install/uninstall and backup functionality
- - Create releases as self-extracting zips
+## SPlectrum Philosophy
 
+This project is at the proof of concept phase, which means that there remains a lot of fluidity in the design and implementation flow.  
+However, it already has chosen a lot of paradigms, a more complete wish list of which can be found in the SRS documentation repository.  
 
+The Platform aims to be self-documenting but in the early stages documentation will be added separately to the repository.
 
 ## Miscellaneous
 

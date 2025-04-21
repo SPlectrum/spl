@@ -1,11 +1,11 @@
-// spl/data/write
-// puts a request on to a folder
+//  name        Write one or more Data Records
+//  URI         spl/data/write
+//  type        API Method
+//  description Writes a new data record to a folder.
+//              It creates a timestamp filename.
+///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 const data = require("./data.js")
-
-// This implementation is filesystem only
-// when going multi repo, the logic of this command must move to data.fs
-
 exports.default = function spl_data_write ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;

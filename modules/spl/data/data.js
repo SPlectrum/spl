@@ -1,5 +1,10 @@
-// spl/data/data.js
-// A library of useful functions
+//  name        Data Auxiliary Functions
+//  URI         spl/data/data
+//  type        Auxiliary Library
+//  description Contains common data functions used by the data API
+//              There is a mixture of synchronous and asynchronous methods.
+//              The initial implementation of the data layer is filesystem only.
+///////////////////////////////////////////////////////////////////////////////
 const path = require('path');
 const fs = require('fs');
 

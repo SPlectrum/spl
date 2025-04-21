@@ -1,7 +1,11 @@
-// spl/command/parse
+//  name        Parse the commandline string
+//  URI         spl/command/parse
+//  type        API Method
+//  description Parses the commandline and sets the requested action.
+//              Uses the command-line-args module
+///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl");
 const command = require("./command");
-
 exports.default = function spl_command_parse (input) { 
 
   splCmd = spl.wsGet(input, "spl/command.value");

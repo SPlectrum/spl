@@ -1,3 +1,10 @@
+//  name        Write Command Record
+//  URI         spl/command/write
+//  type        API Method
+//  description Writes a commasnd record to a folder - either requests or responses.
+//              It creates a timestamp filename.
+//              This method is used to log the initial and completed command.
+///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js");
 // spl/command/write
 // Writes the request to a folder

@@ -1,7 +1,10 @@
-// spl/execute/next
-// executes next action and sets next execute command
+//  name        Executes the next action
+//  URI         spl/execution/next
+//  type        API Method
+//  description Executes the next action request.
+//              It also routes data and error tasks raised by the request action.
+///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
-
 exports.default = function spl_execute_next ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;

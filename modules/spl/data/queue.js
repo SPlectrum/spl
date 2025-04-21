@@ -1,10 +1,11 @@
-// spl/data/queue
-// puts a request on the request queue
+//  name        Queue an Action
+//  URI         spl/data/queue
+//  type        API Method
+//  description Puts an Action request on the request queue
+//              set in the execution header.
+//              It writes it in Kafka record mode.
+///////////////////////////////////////////////////////////////////////////////
 const data = require("./data.js")
-
-// This implementation is filesystem only
-// when going multi repo, the logic of this command must move to data.fs
-
 exports.default = function spl_data_queue ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;

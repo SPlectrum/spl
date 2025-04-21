@@ -1,9 +1,11 @@
-// spl/package/package.js
-// A library of useful functions
+//  name        package Auxiliary Functions
+//  URI         package/package
+//  type        Auxiliary Library
+//  description Contains the common functions for the package API.
+//              These are very similar to the filesystem data library.
+///////////////////////////////////////////////////////////////////////////////
 const path = require('path');
 const fs = require('fs');
-
-// spl/package has its own fs implementation independent of spl/data
 
 // adds a full folder path 
 exports.addFolder = function (folderPath) {

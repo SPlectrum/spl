@@ -1,6 +1,11 @@
-// spl/command/parse
+//  name        Execute Command
+//  URI         spl/command/execute API Method
+//  type        API Method
+//  description This is the entry point for commandline command execution.
+//              It sets the execution pipeline.
+//              
+///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
-
 exports.default = function spl_command_execute (input) { 
 
     const session = input.headers.spl.execute.session;
