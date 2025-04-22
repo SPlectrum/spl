@@ -1,4 +1,14 @@
-# SPL Node Philosophy
+[Home](../README.md)
+# SPlectrum Philosophy
+
+## SPL Node Philosophy
+
+This project is at the proof of concept phase, which means that there remains a lot of fluidity in the design and implementation flow.  
+However, it already has chosen a lot of paradigms, a more complete wish list of which can be found in the SRS documentation repository.  
+
+The Platform aims to be self-documenting but in the early stages documentation will be added separately to the repository.
+
+----
 
 It is the aim to use the SPlectrum node wherever we can. That is during module development, testing, etc. up to production.  
 
@@ -19,3 +29,9 @@ The idea is as follows:
  The simple tests of the module would be the equivalend of unit tests.  
  However, integration test can be included by upgrading the minimal release install.  
  More work needs to be done on the tests, simple and structured, and the tooling to manage these test suites.
+
+---
+
+To be a data streaming application platform that is fit for p2p application development (pear), integrates tightly with AI for automation.
+
+It would like to tackle application development in the blockchain scene.

@@ -13,33 +13,10 @@ It will already be possible to add applications to earlier versions, but tooling
 
 User notes are available in the readMe.md file of the spl folder (the root of the self-extracting package).
 
-## Main Areas of Work
+ - [SPlectrum Philosophy](./docs/spl-node-philosophy.md)
+ - [Main Areas of Work](./docs/main-areas-of-work.md)
+ - [Creating a Release](./docs/creating-a-release.md)
+ - [spl package overview](./docs/spl-package-overview.md)
+ - [Command Flow](./docs/command-flow.md)
+ - [Data Structures](./docs/data-structures.md)
 
- - Create releases as self-extracting zips and install routines
- - Platform overall structure - functional modules and data covering both runtime and application data
- - client specification and implementation (e.g terminals) - a client is an application
- - Process specification and implementation: boot, system, user sessions - data backup and housekeeping
- - Platform data layer ( filesystem, AVRO integration, dynamic indexes )
-
-## SPlectrum Philosophy
-
-This project is at the proof of concept phase, which means that there remains a lot of fluidity in the design and implementation flow.  
-However, it already has chosen a lot of paradigms, a more complete wish list of which can be found in the SRS documentation repository.  
-
-The Platform aims to be self-documenting but in the early stages documentation will be added separately to the repository.
-
-## Miscellaneous
-
-### Creating a Release
-
-To create an install package that can be zipped up, run the following command from the root of the repository:
-```
-node createInstall
-```
-
-This will copy the files in the relase folder and the repository modules folder to the release  
-
-To create the selfextracting package from the git repository run the command below in the root:
-
-(linux) 7z a -sfx spl.exe ./spl
-(windows)"C:\Program Files\7-Zip\7z.exe" a -sfx spl.exe ./spl
