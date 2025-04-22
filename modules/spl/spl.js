@@ -75,7 +75,7 @@ exports.rcSet = rcSet;
 // wbGet returns a deep clone of a keyvalue in input.value.
 exports.wsGet = function (record, key)
 { 
-    return rcRef(record.value, key);
+    return rcGet(record.value, key);
 }
 
 // wbGet returns a reference to a keyvalue in input.value.
