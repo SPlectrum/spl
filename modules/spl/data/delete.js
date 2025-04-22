@@ -4,14 +4,9 @@
 //  description This method deletes one or more files or folders
 //              THis method executes synchrounously.
 ///////////////////////////////////////////////////////////////////////////////
-// spl/data/delete
-// puts a file or a folder onto the filesystem
 const spl = require("../spl.js")
 const data = require("./data.js")
-
-// This implementation is filesystem only
-// when going multi repo, the logic of this command must move to data.fs
-
+///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_data_delete ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;
@@ -31,3 +26,4 @@ exports.default = function spl_data_delete ( input ) {
     input.headers.spl.request.status = "completed";
     return input;
 }
+///////////////////////////////////////////////////////////////////////////////

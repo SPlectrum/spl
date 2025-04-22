@@ -3,9 +3,9 @@
 //  type        API Method
 //  description This is the entry point for commandline command execution.
 //              It sets the execution pipeline.
-//              
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
+///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_command_execute (input) { 
 
     const session = input.headers.spl.execute.session;
@@ -24,3 +24,4 @@ exports.default = function spl_command_execute (input) {
     input.headers.spl.request.status = "execute";
     return input 
 }
+///////////////////////////////////////////////////////////////////////////////

@@ -7,11 +7,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 const path = require('path');
 const fs = require('fs');
+///////////////////////////////////////////////////////////////////////////////
 
-//-------------------------------------------------------
-// FILE AND FOLDER API - STANDARD FILE OPERATIONS - mixed
-
-// copy file asynchronously, in the backgroud - asynchronous
 exports.copyFile = function (fromFilePath, toFilePath) {
     fs.copyFile(fromFilePath, toFilePath, function (err) {
         if (err) console.log(`error while attempting to move ${fromFilePath}: ${err}`); 
@@ -90,4 +87,5 @@ exports.removeFolder = function (folderPath) {
 }
 // RECORD FOLDER API - synchronous
 //--------------------------------
+///////////////////////////////////////////////////////////////////////////////
 

@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl")
 const package = require("./package")
+///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_package_remove ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;
@@ -24,3 +25,4 @@ exports.default = function spl_package_remove ( input ) {
     input.headers.spl.request.status = "completed";
     return input;
 }
+///////////////////////////////////////////////////////////////////////////////

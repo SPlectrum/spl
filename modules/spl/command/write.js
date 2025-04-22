@@ -6,9 +6,7 @@
 //              This method is used to log the initial and completed command.
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js");
-// spl/command/write
-// Writes the request to a folder
-
+///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_command_write ( input ) {
     
     const repo = "data";
@@ -30,3 +28,4 @@ exports.default = function spl_command_write ( input ) {
     input.headers.spl.request.status = "data";
     return input;
 }
+///////////////////////////////////////////////////////////////////////////////
