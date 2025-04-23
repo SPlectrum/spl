@@ -13,10 +13,11 @@ It will already be possible to add applications to earlier versions, but tooling
 
 User notes are available in the readMe.md file of the spl folder (the root of the self-extracting package).
 
- - [SPlectrum Philosophy](./docs/spl-node-philosophy.md)
- - [Main Areas of Work](./docs/main-areas-of-work.md)
  - [Creating a Release](./docs/creating-a-release.md)
  - [spl package overview](./docs/spl-package-overview.md)
+ - [spl data layer](./docs/spl-data-layer.md)
+ - [Main Areas of Work](./docs/main-areas-of-work.md)
+ - [SPlectrum Philosophy](./docs/spl-node-philosophy.md)
  - [Command Flow](./docs/command-flow.md)
  - [Data Structures](./docs/data-structures.md)
 
