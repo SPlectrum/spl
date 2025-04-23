@@ -1,3 +1,4 @@
+[Home](../README.md)
 # spl Data Layer
 
 The data is stored as (immutable) Kafka records, and accessed throught the data layer spl/data.  
@@ -25,4 +26,3 @@ This settings record could be used as template for a client request (as it conta
 Separate from the clients folder there would be a client API structure with all the APIs parsing details in use on the platform.  
 That structure would also feature the same schema from parent folder down.
 
-It is p
