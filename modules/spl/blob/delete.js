@@ -1,27 +1,27 @@
 //  name        Delete File or Folder
-//  URI         spl/data/delete
+//  URI         spl/blob/delete
 //  type        API Method
 //  description This method deletes one or more files or folders
-//              THis method executes synchrounously.
+//              This method executes asynchrounously.
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
-const data = require("./data.js")
+const blob = require("./blob.js")
 ///////////////////////////////////////////////////////////////////////////////
-exports.default = function spl_data_delete ( input ) {
+exports.default = function spl_blob_delete ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;
-    const sources = input.headers.spl.data.delete;
+    const sources = input.headers.spl.blob.delete;
 
     for ( var i=0; i<sources.length; i++ ) {
 
         const folder = `${sources[i].repo}/${sources[i].folder}`;
         const file = sources[i].file;
-        if( file === undefined ) data.removeFolder ( `${cwd}/${folder}` );
-        else data.deleteFile ( `${cwd}/${folder}/${file}` ) );
-        input.headers.spl.data.history.push ( `delete ${folderPath}/${fileName}/${file}` );
+        if( file === undefined ) blob.removeFolder ( `${cwd}/${folder}` );
+        else blob.deleteFile ( `${cwd}/${folder}/${file}` ) );
+        input.headers.spl.blob.history.push ( `delete ${folderPath}/${fileName}/${file}` );
     }
 
-    delete input.headers.spl.data.delete;
+    delete input.headers.spl.blob.delete;
     input.headers.spl.execute.action = "spl/execute/set-next";
     input.headers.spl.request.status = "completed";
     return input;
