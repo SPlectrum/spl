@@ -9,7 +9,7 @@ const command = require("./command");
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_command_parse (input) { 
 
-  splCmd = spl.wsGet(input, "spl/command.value");
+  splCmd = spl.wsRef(input, "spl/command.value");
   parseOptions = spl.wsGet(input, `spl/data.${input.headers.spl.request.parseOptions}.value`);
   splCmd.parsed = {};
   var registeredCommand;

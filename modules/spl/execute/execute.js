@@ -49,14 +49,14 @@ exports.default = function spl_execute_execute ( input ) {
                 const putRecord = {
                     headers: { 
                         spl: { 
-                            data: { put: [ { repo: `runtime/${session}`, folder: `requests/complete`, file: input.headers.spl.execute.fileName } ], history: [] },
+                            blob: { put: [ { repo: `runtime/${session}`, folder: `requests/complete`, file: input.headers.spl.execute.fileName } ], history: [] },
                             execute: structuredClone(input.headers.spl.execute),
                             request: {}
                         } 
                     },
-                    value: { "spl/data": putFile }
+                    value: { "spl/blob": putFile }
                 }
-                spl.moduleAction( putRecord, "spl/data/put" );
+                spl.moduleAction( putRecord, "spl/blob/put" );
             }
         }
 

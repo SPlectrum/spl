@@ -9,10 +9,18 @@ const path = require('path');
 const fs = require('fs');
 ///////////////////////////////////////////////////////////////////////////////
 
+// copy file from source to destination
 exports.copyFile = function (fromFilePath, toFilePath) {
     fs.copyFile(fromFilePath, toFilePath, function (err) {
-        if (err) console.log(`error while attempting to move ${fromFilePath}: ${err}`); 
-        else console.log(`moved file from ${fromFilePath}\n           to ${toFilePath}`); });
+        if (err) console.log(`error while attempting to copy ${fromFilePath} to ${toFilePath}: ${err}`); 
+        else console.log(`copied file from ${fromFilePath}\n           to ${toFilePath}`); });
+}
+
+// copy folder from source to destination
+exports.copyFolder = function (fromFolderPath, toFolderPath) {
+    fs.cp(fromFolderPath, toFolderPath, function (err) {
+        if (err) console.log(`error while attempting to copy ${fromFolderPath} to ${toFolderPath}: ${err}`); 
+        else console.log(`copied folder from ${fromFolderPath}\n             to ${toFolderPath}`); });
 }
 
 // delete file asynchronously, in the background - asynchronous

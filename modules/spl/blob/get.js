@@ -14,21 +14,19 @@ exports.default = function spl_blob_get ( input ) {
 
     for ( var i=0; i<sources.length; i++ ) {
         
-        const folderPath = `${sources[i].repo}/${sources[i].folder}`;
-        const file = `${sources[i].file}`;
-        const output = data.getFile(`${cwd}/${folderPath}`);
-        spl.rcSet ( output.contents, "headers.blob.location", { repo: sources[i].repo, folder: sources[i].folder, file: output.file } );
-        spl.wsSet ( input, `spl/blob.${folderPath}`, output.contents );
-        input.headers.spl.data.history.push(`read ${folderPath}/${output.file}}`);
+        const filePath = `${sources[i].repo}/${sources[i].folder}/${sources[i].file}`;
+        const output = blob.getFile(`${cwd}/${filePath}`);
+        spl.wsSet ( input, `spl/blob.${filePath}`, output );
+        input.headers.spl.blob.history.push(`read ${filePath}}`);
         if( sources[i].copy ) 
             for(var j=0; j<sources[i].copy.length; j++) 
-                spl.wsSet( input, sources[i].copy[j], structuredClone(output.contents) );
+                spl.wsSet( input, sources[i].copy[j], structuredClone(output) );
         if( sources[i].reference ) 
             for(var j=0; j<sources[i].reference.length; j++) 
-                pl.wsSet( input, sources[i].reference[j], output.contents );
+                pl.wsSet( input, sources[i].reference[j], output );
     }
 
-    delete input.headers.spl.blob/get;
+    delete input.headers.spl.blob.get;
     input.headers.spl.execute.action = "spl/execute/set-next";
     input.headers.spl.request.status = "completed";
     return input;

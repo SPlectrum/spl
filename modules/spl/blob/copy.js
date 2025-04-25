@@ -15,10 +15,11 @@ exports.default = function spl_blob_copy ( input ) {
     for ( var i=0; i<sources.length; i++ ) {
 
         const fromFolder = `${sources[i].from.repo}/${sources[i].from.folder}`;
-        const fromFile = `${sources[i].repo}/${sources[i].from.file}`;
-        if( file === undefined ) blob.removeFolder ( `${cwd}/${folder}` );
-        else blob.deleteFile ( `${cwd}/${folder}/file` ) );
-        input.headers.spl.blob.history.push ( `delete ${folderPath}/${fileName}/${file}` );
+        const fromFile = sources[i].from.file;
+        const toFolder = `${sources[i].to.repo}/${sources[i].to.folder}`;
+        const toFile = sources[i].to.file;
+        blob.copyFile ( `${cwd}/${fromFolder}/${fromFile}`, `${cwd}/${toFolder}/${toFile}` );
+        input.headers.spl.blob.history.push ( `copy from ${fromFolder}/${((fromFile===undefined)?"":fromFile)} to ${toFolder}/${((toFile===undefined)?"":toFile)}` );
     }
 
     delete input.headers.spl.blob.copy;
