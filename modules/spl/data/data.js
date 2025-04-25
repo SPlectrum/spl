@@ -88,4 +88,3 @@ exports.removeFolder = function (folderPath) {
 // RECORD FOLDER API - synchronous
 //--------------------------------
 ///////////////////////////////////////////////////////////////////////////////
-

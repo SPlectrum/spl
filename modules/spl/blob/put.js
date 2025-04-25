@@ -15,14 +15,12 @@ exports.default = function spl_blob_put ( input ) {
 
     for ( var i=0; i<sources.length; i++ ) {
 
-        const folder = `${sources[i].repo}/${sources[i].folder}`;
-        const file = sources[i].file;
-        if( file === undefined ) blob.addFolder ( `${cwd}/${folder}` );
+        if( sources[i].file === undefined ) blob.addFolder ( blob.path( cwd, sources[i].repo, sources[i].folder ) );
         else {
-            const contents = spl.wsGet( input, `spl/blob.${folder}/${file.replace(".","_")}` );
-            blob.putFile ( `${cwd}/${folder}/${file}`, JSON.stringify(contents, null, 2) );
+            const contents = spl.wsGet( input, `spl/blob.${sources[i].repo}/${sources[i].folder}/${sources[i].file.replace(".","_")}` );
+            blob.putFile ( blob.path( cwd, sources[i].repo, sources[i].folder, sources[i].file ), JSON.stringify(contents, null, 2) );
         }
-        input.headers.spl.blob.history.push ( `put ${folder}/${((file===undefined)?"":file)}` );
+        input.headers.spl.blob.history.push ( `put ${blob.path( sources[i].repo, sources[i].folder, ((sources[i].file===undefined)?"":sources[i].file))}` );
     }
 
     delete input.headers.spl.blob.put;

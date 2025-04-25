@@ -13,12 +13,9 @@ exports.default = function spl_blob_delete ( input ) {
     const sources = input.headers.spl.blob.delete;
 
     for ( var i=0; i<sources.length; i++ ) {
-
-        const folder = `${sources[i].repo}/${sources[i].folder}`;
-        const file = sources[i].file;
-        if( file === undefined ) blob.removeFolder ( `${cwd}/${folder}` );
-        else blob.deleteFile ( `${cwd}/${folder}/${file}` );
-        input.headers.spl.blob.history.push ( `delete ${folder}/${file}/${((file===undefined)?"":file)}` );
+        if( sources[i].file === undefined ) blob.deleteFile ( blob.path( cwd, sources[i].repo, sources[i].folder ) );
+        else blob.deleteFile ( blob.path( cwd, sources[i].repo, sources[i].folder, sources[i].file ) );
+        input.headers.spl.blob.history.push ( `delete ${blob.path( sources[i].repo, sources[i].folder, ((sources[i].file===undefined)?"":sources[i].file))}` );
     }
 
     delete input.headers.spl.blob.delete;

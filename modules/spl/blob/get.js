@@ -24,6 +24,7 @@ exports.default = function spl_blob_get ( input ) {
         if( sources[i].reference ) 
             for(var j=0; j<sources[i].reference.length; j++) 
                 pl.wsSet( input, sources[i].reference[j], output );
+        input.headers.spl.blob.history.push ( `get ${folder}/${((file===undefined)?"":file)}` );
     }
 
     delete input.headers.spl.blob.get;

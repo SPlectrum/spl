@@ -13,13 +13,10 @@ exports.default = function spl_blob_move ( input ) {
     const sources = input.headers.spl.blob.move;
 
     for ( var i=0; i<sources.length; i++ ) {
-
-        const fromFolder = `${sources[i].from.repo}/${sources[i].from.folder}`;
-        const fromFile = sources[i].from.file;
-        const toFolder = `${sources[i].to.repo}/${sources[i].to.folder}`;
-        const toFile = sources[i].to.file;
-        blob.moveFile ( `${cwd}/${fromFolder}/${fromFile}`, `${cwd}/${toFolder}/${toFile}` );
-        input.headers.spl.blob.history.push ( `move from ${fromFolder}/${((fromFile===undefined)?"":fromFile)} to ${toFolder}/${((toFile===undefined)?"":toFile)}` );
+        const fromPath = blob.path( sources[i].from.repo, sources[i].from.folder, ((sources[i].from.file===undefined)?"":sources[i].from.file) );
+        const toPath = blob.path( sources[i].to.repo, sources[i].to.folder, ((sources[i].to.file===undefined)?"":sources[i].to.file) );
+        blob.moveFile ( blob.path(cwd, fromPath), blob.path(cwd, toPath) );
+        input.headers.spl.blob.history.push ( `move ${fromPath} to ${toPath} );
     }
 
     delete input.headers.spl.blob.move;
