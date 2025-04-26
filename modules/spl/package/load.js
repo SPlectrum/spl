@@ -11,7 +11,7 @@ exports.default = function spl_package_load ( input ) {
     const cwd = input.headers.spl.execute.cwd;
     const source = input.headers.spl.package;
 
-    const output = package.getFile( `${cwd}/${source.root}/${source.folder}/${source.name}` );
+    const output = package.getFile ( package.path ( cwd, source.root, source.folder, source.name ) );
     spl.wsSet ( input, `spl/package.${source.name.replace(".","_")}`, JSON.parse( output ) );
 
     input.headers.spl.execute.action = "spl/execute/set-next";

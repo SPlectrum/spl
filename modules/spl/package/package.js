@@ -14,15 +14,7 @@ exports.addFolder = function (folderPath) {
     fs.mkdirSync(folderPath, { recursive: true });
 }
 
-// delete file asynchronously, in the background - asynchronous
-exports.deleteFile = function (filePath) {
-    fs.unlink(filePath,(err) => { 
-        if (err) console.log(`error while attempting to delete ${filePath}: ${err}`); 
-        else console.log(`deleted file ${filePath}`); });
-}
-
 // returns an array of files and folders - synchronous
-// on Splectrum files have file extensions (i.e. dot in name), folders have not
 exports.folderContents = function (folderPath) {
     return fs.readdirSync(folderPath);    
 }
@@ -35,11 +27,9 @@ exports.getFile = function (filePath) {
 // Checks if the folder item is a file or folder - synchronous
 exports.isFile = function (filePath) { return fs.lstatSync(filePath).isFile(); }
 
-// move file asynchronously, in the backgroud - asynchronous
-exports.moveFile = function (fromFilePath, toFilePath) {
-    fs.rename(fromFilePath, toFilePath, function (err) {
-        if (err) console.log(`error while attempting to move ${fromFilePath}: ${err}`); 
-        else console.log(`moved file from ${fromFilePath}\n           to ${toFilePath}`); });
+// create a properly formatted file path
+exports.path = function ( ...args ){
+    return path.join(...args);
 }
 
 // put file asynchronously, in the background - asynchronous

@@ -12,22 +12,20 @@ exports.default = function spl_package_create ( input ) {
     const cwd = input.headers.spl.execute.cwd;
     const root = input.headers.spl.package.root;
     const folder = input.headers.spl.package.folder;
-    var rootPath = `${cwd}/${root}`;
     const packageName = input.headers.package.name;
-    const packageRef = `spl/package.${packageName.replace(".","_")}`;
+    const packageRef = `spl/package.${packageName.replace ( ".", "_" ) }`;
 
     spl.wsSet ( input, packageRef, { headers: { package: { name: packageName } }, value: {} } );
     const packageContents = spl.wsRef ( input, packageRef ).value;
 
-    function iterateFolder (folderPath) {
-        var contents = package.folderContents(((folderPath === "") ? rootPath : `${rootPath}/${folderPath}`));
-        if ( contents.length === 0 ) {
-            packageContents[`${folderPath}/`] = {};
-        } else {
+    function iterateFolder ( folderPath ) {
+        var contents = package.folderContents ( package.path ( cwd, root, folderPath ) );
+        if ( contents.length === 0 ) packageContents[`${folderPath}/`] = {};
+        else {
             for ( var i=0; i<contents.length; i++ ) {
                 var currentPath = `${folderPath}/${contents[i]}`;
-                if(package.isFile(`${rootPath}/${currentPath}`)) packageContents[currentPath] = package.getFile(`${rootPath}/${currentPath}`);
-                else iterateFolder(currentPath);
+                if ( package.isFile ( package.path ( cwd, root, currentPath ) ) ) packageContents[currentPath] = package.getFile( package.path ( cwd, root, currentPath ) );
+                else iterateFolder ( currentPath );
             }   
         }
     }
