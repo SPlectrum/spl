@@ -15,16 +15,16 @@ exports.default = function spl_blob_get ( input ) {
     for ( var i=0; i<sources.length; i++ ) {
         
         const filePath = `${sources[i].repo}/${sources[i].folder}/${sources[i].file}`;
-        const output = blob.getFile(`${cwd}/${filePath}`);
+        const output = blob.getFile( blob.path( cwd, sources[i].repo, sources[i].folder, sources[i].file ) );
         spl.wsSet ( input, `spl/blob.${filePath}`, output );
-        input.headers.spl.blob.history.push(`read ${filePath}}`);
+        input.headers.spl.blob.history.push(`read ${filePath}`);
         if( sources[i].copy ) 
             for(var j=0; j<sources[i].copy.length; j++) 
                 spl.wsSet( input, sources[i].copy[j], structuredClone(output) );
         if( sources[i].reference ) 
             for(var j=0; j<sources[i].reference.length; j++) 
                 pl.wsSet( input, sources[i].reference[j], output );
-        input.headers.spl.blob.history.push ( `get ${folder}/${((file===undefined)?"":file)}` );
+        input.headers.spl.blob.history.push ( `get ${filePath}` );
     }
 
     delete input.headers.spl.blob.get;

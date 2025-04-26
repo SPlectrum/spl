@@ -20,12 +20,12 @@ exports.default = function spl_blob_put ( input ) {
             const contents = spl.wsGet( input, `spl/blob.${sources[i].repo}/${sources[i].folder}/${sources[i].file.replace(".","_")}` );
             blob.putFile ( blob.path( cwd, sources[i].repo, sources[i].folder, sources[i].file ), JSON.stringify(contents, null, 2) );
         }
-        input.headers.spl.blob.history.push ( `put ${blob.path( sources[i].repo, sources[i].folder, ((sources[i].file===undefined)?"":sources[i].file))}` );
+        input.headers.spl.blob.history.push ( `put ${sources[i].repo}/${sources[i].folder}/${((sources[i].file===undefined)?"":sources[i].file)}` );
     }
-
     delete input.headers.spl.blob.put;
     input.headers.spl.execute.action = "spl/execute/set-next";
     input.headers.spl.request.status = "completed";
-    return input;
+    return input; 
+
 }
 ///////////////////////////////////////////////////////////////////////////////

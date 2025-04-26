@@ -13,7 +13,7 @@ exports.default = function spl_data_queue ( input ) {
     var session = input.headers.spl.execute.session;
     if( session !== "boot" && session !== "system" ) session = `sessions/${session}`;
 
-    data.writeFileRecord(`${cwd}/runtime/${session}/requests/queue`, input);
+    data.writeFileRecord ( data.path( cwd, "runtime", session, "requests/queue" ), input );
 
     return input;
 }
