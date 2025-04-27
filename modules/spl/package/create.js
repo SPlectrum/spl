@@ -11,13 +11,9 @@ exports.default = function spl_package_create ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;
     const root = input.headers.spl.package.root;
-    const folder = input.headers.spl.package.folder;
-    const packageName = input.headers.package.name;
-    const packageRef = `spl/package.${packageName.replace ( ".", "_" ) }`;
-
-    spl.wsSet ( input, packageRef, { headers: { package: { name: packageName } }, value: {} } );
+    const packageRef = `spl/package.${spl.fURI ( input.headers.package.name )}`;
+    spl.wsSet ( input, packageRef, { headers: { package: { name: input.headers.package.name } }, value: {} } );
     const packageContents = spl.wsRef ( input, packageRef ).value;
-
     function iterateFolder ( folderPath ) {
         var contents = package.folderContents ( package.path ( cwd, root, folderPath ) );
         if ( contents.length === 0 ) packageContents[`${folderPath}/`] = {};
@@ -29,8 +25,7 @@ exports.default = function spl_package_create ( input ) {
             }   
         }
     }
-    iterateFolder(`/${folder}`);
-
+    iterateFolder(`/${input.headers.spl.package.folder}`);
     input.headers.spl.request.status = "completed";
     return input;
 }

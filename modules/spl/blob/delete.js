@@ -8,7 +8,6 @@ const spl = require("../spl.js")
 const blob = require("./blob.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_blob_delete ( input ) {
-
     const cwd = input.headers.spl.execute.cwd;
     const sources = input.headers.spl.blob.delete;
 
@@ -19,7 +18,6 @@ exports.default = function spl_blob_delete ( input ) {
     }
     delete input.headers.spl.blob.delete;
     input.headers.spl.execute.action = "spl/execute/set-next";
-    input.headers.spl.request.status = "completed";
     return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

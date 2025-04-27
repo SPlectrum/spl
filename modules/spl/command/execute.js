@@ -19,7 +19,6 @@ exports.default = function spl_command_execute (input) {
             { action: "spl/command/write", destination: "responses" },
         ]
     });
-
     input.headers.spl.request.execute_next = "spl/execute/set-pipeline";
     input.headers.spl.request.status = "execute";
     return input 

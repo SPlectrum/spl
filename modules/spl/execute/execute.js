@@ -26,13 +26,13 @@ exports.default = function spl_execute_execute ( input ) {
             var folder = execAction.substring(execAction.lastIndexOf("/")+1);
             if ( folder === "initialise" ) {
 
-                const filePath = spl.path ( "runtime", session, "requests/initialise" );
+                const filePath = spl.URI ( "runtime", session, "requests/initialise" );
                 const writeFile = {};
                 writeFile[ filePath ] = structuredClone(input);
                 const writeRecord = {
                     headers: { 
                         spl: { 
-                            data: { write: [ { repo: spl.path ( "runtime", session ), folder: "requests/initialise" } ], history: [] },
+                            data: { write: [ { repo: spl.URI ( "runtime", session ), folder: "requests/initialise" } ], history: [] },
                             execute: structuredClone(input.headers.spl.execute),
                             request: {}
                         } 
@@ -44,11 +44,11 @@ exports.default = function spl_execute_execute ( input ) {
             }
             else {
                 const putFile = {};
-                putFile[ spl.path ( "runtime", session, "requests/complete", spl.file(input.headers.spl.execute.fileName ) ) ] = structuredClone ( input );
+                putFile[ spl.fURI ( "runtime", session, "requests/complete", input.headers.spl.execute.fileName ) ] = structuredClone ( input );
                 const putRecord = {
                     headers: { 
                         spl: { 
-                            blob: { put: [ { repo: `runtime/${session}`, folder: `requests/complete`, file: input.headers.spl.execute.fileName } ], history: [] },
+                            blob: { put: [ { repo: spl.URI ( "runtime", session ), folder: "requests/complete", file: input.headers.spl.execute.fileName } ], history: [] },
                             execute: structuredClone(input.headers.spl.execute),
                             request: {}
                         } 

@@ -8,7 +8,6 @@ const spl = require("../spl.js")
 const data = require("./data.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_data_read ( input ) {
-
     const cwd = input.headers.spl.execute.cwd;
     const sources = input.headers.spl.data.read;
 
@@ -27,7 +26,6 @@ exports.default = function spl_data_read ( input ) {
     }
     delete input.headers.spl.data.read;
     input.headers.spl.execute.action = "spl/execute/set-next";
-    input.headers.spl.request.status = "completed";
     return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

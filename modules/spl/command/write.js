@@ -12,9 +12,7 @@ exports.default = function spl_command_write ( input ) {
     const repo = "data";
     const folder = `clients/${input.headers.spl.execute.session}/${input.headers.spl.request.destination}`
     const folderPath = `${repo}/${folder}`;
-
     input.headers.spl.data.write = [ { repo: repo, folder: folder } ];
-
     const spl_command = spl.wsGet(input,"spl/command");
     const responseValue = {
         headers: { data: { location: { repo: repo, folder:folder } } },
@@ -24,7 +22,6 @@ exports.default = function spl_command_write ( input ) {
     }
     for(key in spl_command.parsed) responseValue.value[key] = input.value[key];
     spl.wsSet(input, `spl/data.${folderPath}`, responseValue)
-
     input.headers.spl.request.data_next = "spl/data/write";
     input.headers.spl.request.status = "data";
     return input;

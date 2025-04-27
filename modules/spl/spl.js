@@ -34,10 +34,13 @@ exports.executeAction = function (input) { return moduleAction(input, input.head
 exports.requestAction = function (input) { return moduleAction(input, input.headers.spl.request.action); }
 
 // construct a forward slash path for platform internal use
-exports.path = function ( ...args ) { return args.join ( "/" ); }
+exports.URI = function ( ...args ) { return args.join ( "/" ); }
 
 // construct a forward slash path for platform internal use
-exports.file = function ( file ) { return file.replace ( ".", "_" ); }
+exports.fURI = function ( ... args ) { 
+    args[args.length-1] = args[args.length-1].replace ( ".", "_" );
+    return args.join ( "/" );
+}
 
 // gets a deep clone of a keyvalue in input
 function rcGet (reference, key)

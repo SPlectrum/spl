@@ -12,7 +12,7 @@ exports.default = function spl_package_deploy ( input ) {
     const cwd = input.headers.spl.execute.cwd;
     const root = input.headers.spl.package.root;
     const folder = input.headers.spl.package.folder;
-    const packageRef = `spl/package.${input.headers.spl.package.name.replace ( ".", "_" )}`;
+    const packageRef = `spl/package.${spl.fURI ( input.headers.spl.package.name )}`;
 
     const packageContents = spl.wsRef( input, packageRef ).value;
     for ( key in packageContents ) {
