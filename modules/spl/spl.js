@@ -33,6 +33,12 @@ exports.moduleAction = moduleAction;
 exports.executeAction = function (input) { return moduleAction(input, input.headers.spl.execute.action); }
 exports.requestAction = function (input) { return moduleAction(input, input.headers.spl.request.action); }
 
+// construct a forward slash path for platform internal use
+exports.path = function ( ...args ) { return args.join ( "/" ); }
+
+// construct a forward slash path for platform internal use
+exports.file = function ( file ) { return file.replace ( ".", "_" ); }
+
 // gets a deep clone of a keyvalue in input
 function rcGet (reference, key)
 { 

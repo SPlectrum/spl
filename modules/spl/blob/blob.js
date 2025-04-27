@@ -30,25 +30,21 @@ exports.deleteFile = function (filePath) {
 }
 
 // get file, synchronous
-exports.getFile = function (filePath) {
-    return fs.readFileSync(filePath, 'utf8');
-}
+exports.getFile = function ( filePath ) { return fs.readFileSync ( filePath, 'utf8' ); }
 
 // move file asynchronously, in the backgroud - asynchronous
-exports.moveFile = function (fromFilePath, toFilePath) {
-    fs.rename(fromFilePath, toFilePath, function (err) {
-        if (err) console.log(`error while attempting to move ${fromFilePath}: ${err}`); 
-        else console.log(`moved file from ${fromFilePath}\n           to ${toFilePath}`); });
+exports.moveFile = function ( fromFilePath, toFilePath ) {
+    fs.rename ( fromFilePath, toFilePath, function ( err ) {
+        if ( err ) console.log ( `error while attempting to move ${fromFilePath}: ${err}` ); 
+        else console.log ( `moved file from ${fromFilePath}\n           to ${toFilePath}` ); });
 }
 
 // create a properly formatted file path
-exports.path = function ( ...args ){
-    return path.join(...args);
-}
+exports.path = function ( ...args ) { return path.join ( ...args ); }
 
 // put file asynchronously, in the background - asynchronous
-exports.putFile = function (filePath, contents) {
-    fs.writeFile(filePath, contents, (err) => {
-        if (err) console.log(`error while attempting to put ${filePath}: ${err}`); 
-        else console.log(`put file ${filePath}`); });
+exports.putFile = function ( filePath, contents ) {
+    fs.writeFile ( filePath, contents, ( err ) => {
+        if ( err ) console.log ( `error while attempting to put ${filePath}: ${err}` ); 
+        else console.log ( `put file ${filePath}` ); });
 }
