@@ -14,7 +14,7 @@ exports.default = function spl_data_write ( input ) {
     for ( var i=0; i<sources.length; i++ ) {
         const folderPath = `${sources[i].repo}/${sources[i].folder}`;
         const fileName = data.writeFileRecord ( data.path ( cwd, folderPath ), spl.wsGet( input, `spl/data.${folderPath}` ) );
-        spl.rcSet( input.value["spl/data"][folderPath], "headers.data.location.file", fileName );
+        spl.rcSet( input.value["spl/data"][folderPath], "headers.spl.data.file", fileName );
         input.headers.spl.data.history.push(`write ${folderPath}/${fileName}}`);
     }
     delete input.headers.spl.data.write;

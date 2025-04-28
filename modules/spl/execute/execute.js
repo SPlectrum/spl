@@ -40,7 +40,7 @@ exports.default = function spl_execute_execute ( input ) {
                     value: { "spl/data": writeFile }
                 }
                 const writeOutput = spl.moduleAction( writeRecord, "spl/data/write" );
-                input.headers.spl.execute.fileName = writeOutput.value["spl/data"][filePath].headers.data.location.file;
+                input.headers.spl.execute.fileName = writeOutput.value["spl/data"][filePath].headers.spl.data.file;
             }
             else {
                 const putFile = {};

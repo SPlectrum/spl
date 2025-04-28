@@ -20,4 +20,5 @@ User notes are available in the readMe.md file of the spl folder (the root of th
  - [SPlectrum Philosophy](./docs/spl-node-philosophy.md)
  - [Command Flow](./docs/command-flow.md)
  - [Data Structures](./docs/data-structures.md)
+ - [Schema and Repo Notes](./docs/schema-and-repo-notes.md)
 

@@ -15,7 +15,7 @@ exports.default = function spl_command_write ( input ) {
     input.headers.spl.data.write = [ { repo: repo, folder: folder } ];
     const spl_command = spl.wsGet(input,"spl/command");
     const responseValue = {
-        headers: { data: { location: { repo: repo, folder:folder } } },
+        headers: { spl: { data: { repo: repo, folder:folder } } },
         value: {
             "spl/command": spl_command
         }
