@@ -23,15 +23,12 @@ function generateUUID() { return randomUUID(); }
 exports.generateUUID = generateUUID;
 
 // easy functions to invoke actions
-function moduleAction (input, module)
+exports.moduleAction = function (input, module)
 {
     const cwd = input.headers.spl.execute.cwd;
     const moduleRoot = (input.headers.spl.execute.modules===undefined) ? "modules" : input.headers.spl.execute.modules;
     return require(`${cwd}/${moduleRoot}/${module}`).default(input);
 }
-exports.moduleAction = moduleAction;
-exports.executeAction = function (input) { return moduleAction(input, input.headers.spl.execute.action); }
-exports.requestAction = function (input) { return moduleAction(input, input.headers.spl.request.action); }
 
 // construct a forward slash path for platform internal use
 exports.URI = function ( ...args ) { return args.join ( "/" ); }

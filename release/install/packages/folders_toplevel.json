@@ -5,9 +5,10 @@
           }
     },
     "value": {
+        "/clients/": "",
         "/data/": "",
-        "/metadata/": "",
         "/modules/": "",
+        "/packages/": "",
         "/runtime/": "",
         "/runtime/sessions/client/" :""
     }

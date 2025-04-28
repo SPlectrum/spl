@@ -14,8 +14,8 @@ exports.default = function spl_execute_execute ( input ) {
 
     function executeRequest() {
 
-        var execAction = input.headers.spl.execute.action;
-        input = spl.executeAction ( input );
+        var execAction = ( input.headers.spl.execute.action === undefined ) ? "spl/execute/initialise" : input.headers.spl.execute.action ;
+        input = spl.moduleAction ( input, execAction );
         input.headers.spl.execute.history.push ( `${execAction} ${input.headers.spl.request.action}` );
 
         // Update TTL -- NEEDS A SEPARATE ERROR SECTION IN THE WORKSPACE

@@ -9,8 +9,18 @@ const command = require("./command");
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_command_parse (input) { 
 
+  const parserOptionsURI = spl.fURI("spl/command", input.value["spl/command"].headers.spl.command.parser.file);
+  if ( input.value[ parserOptionsURI ] === undefined ) {
+    input.headers.spl.blob.get = [ input.value["spl/command"].headers.spl.command.parser ];
+    input.headers.spl.blob.get[0].reference = [ spl.fURI("spl/command", input.value["spl/command"].headers.spl.command.parser.file) ];
+    input.headers.spl.request.blob_next = "spl/blob/get";
+    input.headers.spl.request.status = "blob";
+    input.headers.spl.request.repeat = true;
+    return input;
+  }
+  input.value[parserOptionsURI] = JSON.parse(input.value[parserOptionsURI]);
+  const parseOptions = spl.wsGet(input, `${parserOptionsURI}.value`);
   splCmd = spl.wsRef(input, "spl/command.value");
-  parseOptions = spl.wsGet(input, `spl/data.${input.headers.spl.request.parseOptions}.value`);
   splCmd.parsed = {};
   var registeredCommand;
   var commandAction = "";

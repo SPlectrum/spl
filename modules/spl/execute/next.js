@@ -8,7 +8,7 @@ const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_execute_next ( input ) {
 
-    input = spl.requestAction(input);
+    input = spl.moduleAction(input, input.headers.spl.request.action);
     switch(input.headers.spl.request.status) {
         case "data": 
             input.headers.spl.execute.action = input.headers.spl.request.data_next; 
