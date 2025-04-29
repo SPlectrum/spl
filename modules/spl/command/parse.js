@@ -54,7 +54,7 @@ exports.default = function spl_command_parse (input) {
   parseCommand();
 
   if ( registeredCommand ) {
-    const newRequest = { headers: { spl: { request: { action: registeredCommand, status: "pending" } } }, value: {} };
+    const newRequest = { headers: { spl: { request: { action: registeredCommand, status: "pending" } } } };
     newRequest.headers.spl.request[registeredCommand] = splCmd.parsed[registeredCommand].value;
     if ( steps > 0 ) newRequest.headers.spl.request.TTL = steps;
     spl.wsSet( input, "spl/execute/set-request", newRequest );

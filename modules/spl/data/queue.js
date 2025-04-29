@@ -13,6 +13,8 @@ exports.default = function spl_data_queue ( input ) {
     var session = input.headers.spl.execute.session;
     if( session !== "boot" && session !== "system" ) session = `sessions/${session}`;
     data.writeFileRecord ( data.path( cwd, "runtime", session, "requests/queue" ), input );
+    input.headers.spl.execute.action = "spl/execute/set-next";
+    input.headers.spl.request.status = "completed";
     return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

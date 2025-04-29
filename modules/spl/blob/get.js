@@ -26,6 +26,7 @@ exports.default = function spl_blob_get ( input ) {
     }
     delete input.headers.spl.blob.get;
     input.headers.spl.execute.action = "spl/execute/set-next";
-    return input;
+    input.headers.spl.request.status = "completed";
+return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

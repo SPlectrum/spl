@@ -11,12 +11,13 @@ exports.default = function spl_command_write ( input ) {
     
     const spl_command = spl.wsGet(input,"spl/command");
     const repo = spl_command.headers.spl.command.repo;
-    const dir = spl.URI("commands",input.headers.spl.request.destination);
+    const dir = spl.URI("commands",input.headers.spl.command.write.destination);
     input.headers.spl.data.write = [ { repo: repo, dir: dir } ];
 
     for(key in spl_command.parsed) spl_command.value[key] = input.value[key];
     spl.wsSet(input, `spl/data.${spl.URI(repo, dir)}`, spl_command)
 
+    delete input.headers.spl.command.write;
     input.headers.spl.request.data_next = "spl/data/write";
     input.headers.spl.request.status = "data";
     return input;

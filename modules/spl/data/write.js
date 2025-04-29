@@ -16,10 +16,11 @@ exports.default = function spl_data_write ( input ) {
         const dirPath = `${sources[i].repo}/${sources[i].dir}`;
         const fileName = data.writeFileRecord ( data.path ( cwd, dirPath ), spl.wsGet( input, `spl/data.${dirPath}` ) );
         spl.rcSet( input.value["spl/data"][dirPath], "headers.spl.data.file", fileName );
-        input.headers.spl.data.history.push(`write ${dirPath}/${fileName}}`);
+        input.headers.spl.data.history.push(`write ${dirPath}/${fileName}`);
     }
     delete input.headers.spl.data.write;
     input.headers.spl.execute.action = "spl/execute/set-next";
+    input.headers.spl.request.status = "completed";
     return input;
 }
 ///////////////////////////////////////////////////////////////////////////////
