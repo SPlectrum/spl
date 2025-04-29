@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "spl": {
+      "package": {
+        "name": "clients_test.json"
+      }
+    }
+  },
+  "value": {
+    "/test/commands/command.json": "{\r\n    \"headers\": {\r\n        \"spl\": {\r\n            \"command\": {  \"parser\": { \"folder\": \"commands\", \"file\": \"parser.json\" } }\r\n        }\r\n    },\r\n    \"value\": {\r\n        \"UUID\": \"\", \r\n        \"commandString\": \"\"\r\n    }\r\n}",
+    "/test/commands/parser.json": "{\n    \"headers\": {},\n    \"value\": {\n        \"hello/world\": [ { \"name\": \"message\" } ],\n        \"spl/console/log\": [ { \"name\": \"message\", \"alias\": \"m\", \"multiple\": true, \"defaultOption\": true } ]\n    }\n}",
+    "/test/commands/requests/": {},
+    "/test/commands/responses/": {},
+    "/test/spl": "node spl.js $@\r\n",
+    "/test/spl.cmd": "node spl.js %*\r\n",
+    "/test/spl.js": "const spl = require(\"../../../modules/spl/spl.js\");\r\n\r\n// Set SPlectrum and client root folder, extract command string\r\nvar root = process.cwd().split(\"/\");\r\nif (root.length === 1 ) root = root[0].split(`\\\\`);\r\nconst splRoot = root.slice(0,root.length-2).join(\"/\");\r\nconst session = root[root.length-1];\r\nconst clientRoot = root.slice(root.length - 2).join(\"/\")\r\nconst commandString = process.argv.slice(2);\r\n\r\nvar command = {\r\n    headers: { \r\n        spl: { \r\n            execute: { cwd: splRoot, session: session, modules: \"../modules\", TTL: 100 }, \r\n            request: { action: \"spl/command/execute\", command: { UUID: spl.generateUUID(), cwd: clientRoot, commandString: commandString } }\r\n        } \r\n    },\r\n    value: {}\r\n}\r\nconsole.log(JSON.stringify(command,null,2));\r\ncommand = spl.moduleAction(command, \"spl/execute/execute\");\r\nconsole.log(JSON.stringify(command,null,2));\r\n\r\n"
+  }
+}

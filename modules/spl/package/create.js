@@ -11,8 +11,8 @@ exports.default = function spl_package_create ( input ) {
 
     const cwd = input.headers.spl.execute.cwd;
     const root = input.headers.spl.package.root;
-    const packageRef = `spl/package.${spl.fURI ( input.headers.package.name )}`;
-    spl.wsSet ( input, packageRef, { headers: { package: { name: input.headers.package.name } }, value: {} } );
+    const packageRef = `spl/package.${spl.fURI ( input.headers.spl.package.name )}`;
+    spl.wsSet ( input, packageRef, { headers: { spl: { package: { name: input.headers.spl.package.name } } }, value: {} } );
     const packageContents = spl.wsRef ( input, packageRef ).value;
     function iterateFolder ( folderPath ) {
         var contents = package.folderContents ( package.path ( cwd, root, folderPath ) );

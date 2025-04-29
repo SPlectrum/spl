@@ -10,6 +10,7 @@
         "/modules/": "",
         "/packages/": "",
         "/runtime/": "",
-        "/runtime/sessions/client/" :""
+        "/runtime/sessions/client/" :"",
+        "/runtime/sessions/test/" :""
     }
 }

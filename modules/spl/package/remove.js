@@ -14,7 +14,7 @@ exports.default = function spl_package_remove ( input ) {
     const root = input.headers.spl.package.root;
     const folder = input.headers.spl.package.folder;
     const basePath = package.path ( cwd, root, folder );
-    const packageRef = spl.fURI ( "spl/package", input.headers.spl.package.name );
+    const packageRef = `spl/package.${spl.fURI ( input.headers.spl.package.name )}`;
     const folders = spl.wsRef ( input, packageRef ).value;
     for ( key in folders ) package.removeFolder( package.path ( basePath, key ) );
     input.headers.spl.request.status = "completed";

@@ -1,0 +1,11 @@
+{
+    "headers": {
+        "spl": {
+            "command": {  "parser": { "folder": "commands", "file": "parser.json" } }
+        }
+    },
+    "value": {
+        "UUID": "", 
+        "commandString": ""
+    }
+}

@@ -12,9 +12,9 @@ exports.default = function spl_package_save ( input ) {
     const root = input.headers.spl.package.root;
     const folder = input.headers.spl.package.folder;
     const folderPath = package.path ( cwd, root, folder );
-    const packageRef = spl.fURI ( "spl/package", input.headers.package.name );
+    const packageRef = `spl/package.${spl.fURI ( input.headers.spl.package.name )}`;
     package.addFolder ( folderPath );
-    package.putFile ( package.path ( folderPath, input.headers.package.name ), JSON.stringify( spl.wsRef ( input, packageRef ), null, 2 ) );
+    package.putFile ( package.path ( folderPath, input.headers.spl.package.name ), JSON.stringify( spl.wsRef ( input, packageRef ), null, 2 ) );
     input.headers.spl.request.status = "completed";
     return input;
 }
