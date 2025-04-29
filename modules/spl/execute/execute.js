@@ -23,8 +23,8 @@ exports.default = function spl_execute_execute ( input ) {
 
         if ( execAction === "spl/execute/initialise" || execAction === "spl/execute/complete" ) {
 
-            var folder = execAction.substring(execAction.lastIndexOf("/")+1);
-            if ( folder === "initialise" ) {
+            var dir = execAction.substring(execAction.lastIndexOf("/")+1);
+            if ( dir === "initialise" ) {
 
                 const filePath = spl.URI ( "runtime", session, "requests/initialise" );
                 const writeFile = {};
@@ -32,7 +32,7 @@ exports.default = function spl_execute_execute ( input ) {
                 const writeRecord = {
                     headers: { 
                         spl: { 
-                            data: { write: [ { repo: spl.URI ( "runtime", session ), folder: "requests/initialise" } ], history: [] },
+                            data: { write: [ { repo: spl.URI ( "runtime", session ), dir: "requests/initialise" } ], history: [] },
                             execute: structuredClone(input.headers.spl.execute),
                             request: {}
                         } 
@@ -48,7 +48,7 @@ exports.default = function spl_execute_execute ( input ) {
                 const putRecord = {
                     headers: { 
                         spl: { 
-                            blob: { put: [ { repo: spl.URI ( "runtime", session ), folder: "requests/complete", file: input.headers.spl.execute.fileName } ], history: [] },
+                            blob: { put: [ { repo: spl.URI ( "runtime", session ), dir: "requests/complete", file: input.headers.spl.execute.fileName } ], history: [] },
                             execute: structuredClone(input.headers.spl.execute),
                             request: {}
                         } 

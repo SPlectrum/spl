@@ -21,13 +21,13 @@ spl.command contains the header properties of the command being executed.
 ```
 
 spl.data contains data properties used by the data layer when the underlying repository is filesystem based.
-The folder is referenced relative to the root of the SPlectrum instance.
+The directory is referenced relative to the root of the SPlectrum instance.
 ```
 "spl": {
     "data": {
         "action": "spl/data/read",
         "repo": "data", // also "runtime/data", "runtime/boot/data", "runtime/boot/requests ...
-        "folder": "clients/client_123",
+        "dir": "clients/client_123",
         "file": "1234.json"
     }
 }

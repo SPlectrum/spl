@@ -12,11 +12,11 @@ exports.default = function spl_data_read ( input ) {
     const sources = input.headers.spl.data.read;
 
     for ( var i=0; i<sources.length; i++ ) {
-        const folderPath = `${sources[i].repo}/${sources[i].folder}`;
-        const output = data.readFileRecord( data.path ( cwd, folderPath ) );
-        spl.rcSet ( output.contents, "headers.spl.data", { repo: sources[i].repo, folder: sources[i].folder, file: output.file } );
-        spl.wsSet ( input, `spl/data.${folderPath}`, output.contents );
-        input.headers.spl.data.history.push ( `read ${folderPath}/${output.file}}` );
+        const dirPath = `${sources[i].repo}/${sources[i].dir}`;
+        const output = data.readFileRecord( data.path ( cwd, dirPath ) );
+        spl.rcSet ( output.contents, "headers.spl.data", { repo: sources[i].repo, dir: sources[i].dir, file: output.file } );
+        spl.wsSet ( input, `spl/data.${dirrPath}`, output.contents );
+        input.headers.spl.data.history.push ( `read ${dirPath}/${output.file}}` );
         if( sources[i].copy ) 
             for(var j=0; j<sources[i].copy.length; j++) 
                 spl.wsSet( input, sources[i].copy[j], structuredClone( output.contents ) );

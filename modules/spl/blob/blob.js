@@ -9,10 +9,10 @@ const path = require('path');
 const fs = require('fs');
 ///////////////////////////////////////////////////////////////////////////////
 
-// adds a full folder path 
-exports.addFolder = function (folderPath) {
-    console.log(`Adding folder: ${folderPath}`);
-    fs.mkdirSync(folderPath, { recursive: true });
+// adds a full dir path 
+exports.addDir = function (dirPath) {
+    console.log(`Adding dir: ${dirPath}`);
+    fs.mkdirSync(dirPath, { recursive: true });
 }
 
 // copy file from source to destination

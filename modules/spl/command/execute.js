@@ -11,7 +11,7 @@ exports.default = function spl_command_execute (input) {
     const session = input.headers.spl.execute.session;
 
     if( input.value["spl/command"] === undefined ) {
-        input.headers.spl.blob.get = [ { repo: input.headers.spl.request.command.cwd, folder: "commands", file: "command.json", reference: [ "spl/command" ] } ];
+        input.headers.spl.blob.get = [ { repo: input.headers.spl.request.command.cwd, dir: "commands", file: "command.json", reference: [ "spl/command" ] } ];
         input.headers.spl.request.blob_next = "spl/blob/get";
         input.headers.spl.request.status = "blob";
         input.headers.spl.request.repeat = true;

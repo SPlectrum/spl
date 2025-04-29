@@ -1,7 +1,7 @@
 //  name        Write one or more Data Records
 //  URI         spl/data/write
 //  type        API Method
-//  description Writes a new data record to a folder.
+//  description Writes a new data record to a dir.
 //              It creates a timestamp filename.
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
@@ -12,10 +12,10 @@ exports.default = function spl_data_write ( input ) {
     const sources = input.headers.spl.data.write;
 
     for ( var i=0; i<sources.length; i++ ) {
-        const folderPath = `${sources[i].repo}/${sources[i].folder}`;
-        const fileName = data.writeFileRecord ( data.path ( cwd, folderPath ), spl.wsGet( input, `spl/data.${folderPath}` ) );
-        spl.rcSet( input.value["spl/data"][folderPath], "headers.spl.data.file", fileName );
-        input.headers.spl.data.history.push(`write ${folderPath}/${fileName}}`);
+        const dirPath = `${sources[i].repo}/${sources[i].dir}`;
+        const fileName = data.writeFileRecord ( data.path ( cwd, dirPath ), spl.wsGet( input, `spl/data.${dirPath}` ) );
+        spl.rcSet( input.value["spl/data"][dirPath], "headers.spl.data.file", fileName );
+        input.headers.spl.data.history.push(`write ${dirPath}/${fileName}}`);
     }
     delete input.headers.spl.data.write;
     input.headers.spl.execute.action = "spl/execute/set-next";

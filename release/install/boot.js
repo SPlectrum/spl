@@ -2,60 +2,60 @@ const spl = require("./modules/spl/spl.js");
 const cwd = process.cwd();
 const reset = (process.argv[2] === "--reset") ? true : false;
 
-// create the top level folder structure
+// create the top level dir structure
 var input = {
     headers:  { 
         spl: { 
             execute: { cwd: cwd, modules: "install/modules"  },
-            package: { root: "install", folder: "packages", name: "folders_toplevel.json" },
+            package: { root: "install", dir: "packages", name: "dirs_toplevel.json" },
             request: { }
         },
-        package: { name: "folders_toplevel.json", type: "framework" }
+        package: { name: "dirs_toplevel.json", type: "framework" }
     },
     value: { }
 }
 input = spl.moduleAction(input, "spl/package/load");
 console.log(JSON.stringify(input,null,2));
 if(reset) {
-    input.headers.spl.package = { root: "", folder: "", name: "folders_toplevel.json" };
+    input.headers.spl.package = { root: "", dir: "", name: "dirs_toplevel.json" };
     input = spl.moduleAction(input, "spl/package/remove");
     console.log(JSON.stringify(input,null,2));
 }
-input.headers.spl.package = { root: "", folder: "", name: "folders_toplevel.json" };
+input.headers.spl.package = { root: "", dir: "", name: "dirs_toplevel.json" };
 input = spl.moduleAction(input, "spl/package/deploy");
 console.log(JSON.stringify(input,null,2));
 
-// create the session folder structure
+// create the session dir structure
 var input = {
     headers:  { 
         spl: { 
             execute: { cwd: cwd, modules: "install/modules"  },
-            package: { root: "install", folder: "packages", name: "folders_session.json" },
+            package: { root: "install", dir: "packages", name: "dirs_session.json" },
             request: { }
         },
-        package: { name: "folders_toplevel.json", type: "framework" }
+        package: { name: "dirs_toplevel.json", type: "framework" }
     },
     value: { }
 }
 input = spl.moduleAction(input, "spl/package/load");
-input.headers.spl.package = { root: "", folder: "runtime/sessions/client", name: "folders_session.json" };
+input.headers.spl.package = { root: "", dir: "runtime/sessions/client", name: "dirs_session.json" };
 input = spl.moduleAction(input, "spl/package/deploy");
 console.log(JSON.stringify(input,null,2));
 
-// create the client folder structure
+// create the client dir structure
 var input = {
     headers:  { 
         spl: { 
             execute: { cwd: cwd, modules: "install/modules"  },
-            package: { root: "install", folder: "packages", name: "folders_client.json" },
+            package: { root: "install", dir: "packages", name: "dirs_client.json" },
             request: { }
         },
-        package: { name: "folders_client.json", type: "framework" }
+        package: { name: "dirs_client.json", type: "framework" }
     },
     value: { }
 }
 input = spl.moduleAction(input, "spl/package/load");
-input.headers.spl.package = { root: "data", folder: "clients", name: "folders_client.json" };
+input.headers.spl.package = { root: "data", dir: "clients", name: "dirs_client.json" };
 input = spl.moduleAction(input, "spl/package/deploy");
 console.log(JSON.stringify(input,null,2));
 
@@ -64,7 +64,7 @@ input = {
     headers:  { 
         spl: { 
             execute: { cwd: cwd, modules: "install/modules"  },
-            package: { root: "install/modules", folder: "spl", name: "modules_spl.json" },
+            package: { root: "install/modules", dir: "spl", name: "modules_spl.json" },
             request: { }
         },
         package: { name: "modules_spl.json", type: "modules" }
@@ -72,7 +72,7 @@ input = {
     value: { }
 }
 input = spl.moduleAction(input, "spl/package/create");
-input.headers.spl.package = { root: "", folder: "modules", name: "modules_spl.json"};
+input.headers.spl.package = { root: "", dir: "modules", name: "modules_spl.json"};
 input = spl.moduleAction(input, "spl/package/deploy");
 console.log(JSON.stringify(input,null,2));
 console.log("Package ${spl} created.");

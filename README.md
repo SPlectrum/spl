@@ -11,7 +11,7 @@ Each release comes with notes about the functionality that has been added or imp
 The aim is to come to a MVP for application development by version 1.0  
 It will already be possible to add applications to earlier versions, but tooling may still be lacking at that stage.
 
-User notes are available in the readMe.md file of the spl folder (the root of the self-extracting package).
+User notes are available in the readMe.md file of the spl directory (the root of the self-extracting package).
 
  - [Creating a Release](./docs/creating-a-release.md)
  - [spl package overview](./docs/spl-package-overview.md)

@@ -1,4 +1,4 @@
-//  name        Copies one or more files or folders
+//  name        Copies one or more files or dirs
 //  URI         spl/request/copy
 //  type        API Method
 //  description A wrapper around spl/blob/copy.

@@ -14,18 +14,18 @@ exports.default = function spl_package_create ( input ) {
     const packageRef = `spl/package.${spl.fURI ( input.headers.spl.package.name )}`;
     spl.wsSet ( input, packageRef, { headers: { spl: { package: { name: input.headers.spl.package.name } } }, value: {} } );
     const packageContents = spl.wsRef ( input, packageRef ).value;
-    function iterateFolder ( folderPath ) {
-        var contents = package.folderContents ( package.path ( cwd, root, folderPath ) );
-        if ( contents.length === 0 ) packageContents[`${folderPath}/`] = {};
+    function iterateDir ( dirPath ) {
+        var contents = package.dirContents ( package.path ( cwd, root, dirrPath ) );
+        if ( contents.length === 0 ) packageContents[`${dirPath}/`] = {};
         else {
             for ( var i=0; i<contents.length; i++ ) {
-                var currentPath = `${folderPath}/${contents[i]}`;
+                var currentPath = `${dirPath}/${contents[i]}`;
                 if ( package.isFile ( package.path ( cwd, root, currentPath ) ) ) packageContents[currentPath] = package.getFile( package.path ( cwd, root, currentPath ) );
-                else iterateFolder ( currentPath );
+                else iterateDir ( currentPath );
             }   
         }
     }
-    iterateFolder(`/${input.headers.spl.package.folder}`);
+    iterateDir(`/${input.headers.spl.package.dir}`);
     input.headers.spl.request.status = "completed";
     return input;
 }

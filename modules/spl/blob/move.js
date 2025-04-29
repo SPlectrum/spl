@@ -1,7 +1,7 @@
-//  name        Move one or more files or folders
+//  name        Move one or more files or dirs
 //  URI         spl/blob/move
 //  type        API Method
-//  description This method moves one or more files or folders.
+//  description This method moves one or more files or dirs.
 //              This method executes asynchrounously.
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
@@ -12,8 +12,8 @@ exports.default = function spl_blob_move ( input ) {
     const sources = input.headers.spl.blob.move;
 
     for ( var i=0; i<sources.length; i++ ) {
-        const fromPath = `${sources[i].from.repo}/${sources[i].from.folder}/${((sources[i].from.file===undefined)?"":sources[i].from.file)}`;
-        const toPath = `${sources[i].to.repo}/${sources[i].to.folder}/${((sources[i].to.file===undefined)?"":sources[i].to.file)}`;
+        const fromPath = `${sources[i].from.repo}/${sources[i].from.dir}/${((sources[i].from.file===undefined)?"":sources[i].from.file)}`;
+        const toPath = `${sources[i].to.repo}/${sources[i].to.dir}/${((sources[i].to.file===undefined)?"":sources[i].to.file)}`;
         blob.moveFile ( blob.path(cwd, fromPath ), blob.path(cwd, toPath ) );
         input.headers.spl.blob.history.push ( `move ${fromPath} to ${toPath}` );
     }

@@ -4,14 +4,14 @@
 
 ### Topics
 
-The initial idea was to implement a separate metadata folder next to the repository data folder.  
+The initial idea was to implement a separate metadata directory next to the repository data directory.  
 However as far as schemas is concerned, metadata doesn't seem to come into play.  
 
 The data repository seems to take the following shape:  
-1. The initial folder(s) set the topic - I propose a two part setup of package and topic, similar to modules structure.  
-2. Additional subfolder set the PK. For many topics in initial configuration, the folder with records is the full PK name. 
-3. By design, all the records within a topic have the same schema. A schema file is only required at the topic folder level.  
-4. By desing, the topic folder contains only subfolders. These can be seen as partitions (and are part of PK).
+1. The initial dir(s) set the topic - I propose a two part setup of package and topic, similar to modules structure.  
+2. Additional subdir set the PK. For many topics in initial configuration, the directory with records is the full PK name. 
+3. By design, all the records within a topic have the same schema. A schema file is only required at the topic directory level.  
+4. By desing, the topic directory contains only subdirectories. These can be seen as partitions (and are part of PK).
 
 ### Modules
 
@@ -37,5 +37,5 @@ E.g. schemas as functional elements are in avsc files, but there should also be 
 
 This has design consequences. Structural entities used by SPlectrum internally are used in functional form.  
 But there is also a data structure representation of these entities so SPlectrum can be used to mould them in the desired functional form.  
-The functional form of these entities can be stored in a functional folder structure like modules,  
-or added to functional folder structures like schemas.
+The functional form of these entities can be stored in a functional directory structure like modules,  
+or added to functional directory structures like schemas.

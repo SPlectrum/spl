@@ -14,12 +14,12 @@ exports.default = function spl_blob_put ( input ) {
 
     for ( var i=0; i<sources.length; i++ ) {
 
-        if( sources[i].file === undefined ) blob.addFolder ( blob.path( cwd, sources[i].repo, sources[i].folder ) );
+        if( sources[i].file === undefined ) blob.addDir ( blob.path( cwd, sources[i].repo, sources[i].dir ) );
         else {
-            const contents = spl.wsGet( input, `spl/blob.${sources[i].repo}/${sources[i].folder}/${sources[i].file.replace(".","_")}` );
-            blob.putFile ( blob.path( cwd, sources[i].repo, sources[i].folder, sources[i].file ), JSON.stringify(contents, null, 2) );
+            const contents = spl.wsGet( input, `spl/blob.${sources[i].repo}/${sources[i].dir}/${sources[i].file.replace(".","_")}` );
+            blob.putFile ( blob.path( cwd, sources[i].repo, sources[i].dir, sources[i].file ), JSON.stringify(contents, null, 2) );
         }
-        input.headers.spl.blob.history.push ( `put ${sources[i].repo}/${sources[i].folder}/${((sources[i].file===undefined)?"":sources[i].file)}` );
+        input.headers.spl.blob.history.push ( `put ${sources[i].repo}/${sources[i].dir}/${((sources[i].file===undefined)?"":sources[i].file)}` );
     }
     delete input.headers.spl.blob.put;
     input.headers.spl.execute.action = "spl/execute/set-next";

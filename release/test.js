@@ -5,14 +5,14 @@ input = {
     headers:  { 
         spl: { 
             execute: { cwd: cwd, modules: "../modules"  },
-            package: { root: "clients", folder: "test", name: "clients_test.json" },
+            package: { root: "clients", dir: "test", name: "clients_test.json" },
             request: { }
         }
     },
     value: { }
 }
 input = spl.moduleAction(input, "spl/package/create");
-input.headers.spl.package = { root: "../release", folder: "install/packages", name: "clients_test.json"};
+input.headers.spl.package = { root: "../release", dir: "install/packages", name: "clients_test.json"};
 input = spl.moduleAction(input, "spl/package/save");
 console.log(JSON.stringify(input,null,2));
 
@@ -21,7 +21,7 @@ console.log(JSON.stringify(input,null,2));
     headers: { 
         spl: { 
             execute: { action: "spl/execute/initialise", status: "new", cwd: cwd, session: "client", modules: "../modules", TTL: 100 }, 
-            blob: { put: [ { repo: "data", folder: "test" }, { repo: "data", folder: "test", file: "12345.txt" } ], history: [] },
+            blob: { put: [ { repo: "data", dir: "test" }, { repo: "data", dir: "test", file: "12345.txt" } ], history: [] },
             request: { action: "spl/blob/put", status: "pending" }
         } 
     },
@@ -35,7 +35,7 @@ console.log(JSON.stringify(command,null,2));*/
     headers: { 
         spl: { 
             execute: { action: "spl/execute/initialise", status: "new", cwd: cwd, session: "client", modules: "../modules", TTL: 100 }, 
-            blob: { copy: [ { from : { repo: "data", folder: "test", file: "12345.txt" }, to : { repo: "data", folder: "test2", file: "12345.txt" } } ], history: [] },
+            blob: { copy: [ { from : { repo: "data", dir: "test", file: "12345.txt" }, to : { repo: "data", dir: "test2", file: "12345.txt" } } ], history: [] },
             request: { status: "pending" }
         } 
     },
@@ -50,7 +50,7 @@ var command = {
     headers: { 
         spl: { 
             execute: { action: "spl/execute/initialise", status: "new", cwd: cwd, session: "client", modules: "../modules", TTL: 100 }, 
-            data: { put: [ { repo: "runtime/sessions/client", folder: `requests/complete`, file: "17450543404380.json" } ], history: [] },
+            data: { put: [ { repo: "runtime/sessions/client", dir: `requests/complete`, file: "17450543404380.json" } ], history: [] },
             request: { action: "spl/command/execute", status: "pending" }
         } 
     },
@@ -61,7 +61,7 @@ var command = {
     headers: { 
         spl: { 
             execute: { action: "spl/execute/initialise", status: "new", cwd: cwd, session: "client", modules: "../modules", TTL: 100 }, 
-            data: { write: [ { repo: "runtime/sessions/client", folder: `requests/initialise` } ], history: [] },
+            data: { write: [ { repo: "runtime/sessions/client", dir: `requests/initialise` } ], history: [] },
             request: { action: "spl/command/execute", status: "pending" }
         } 
     },
@@ -73,7 +73,7 @@ var command = {
                 const writeRecord = {
                     headers: { 
                         spl: { 
-                            data: { write: [ { repo: `runtime/sessions/${session}`, folder: `requests/initialise` } ] },
+                            data: { write: [ { repo: `runtime/sessions/${session}`, dir: `requests/initialise` } ] },
                             execute: { cwd: input.headers.spl.execute.cwd }
                         } 
                     },

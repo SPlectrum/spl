@@ -8,15 +8,15 @@ const path = require('path');
 const fs = require('fs');
 ///////////////////////////////////////////////////////////////////////////////
 
-// adds a full folder path 
-exports.addFolder = function (folderPath) {
-    console.log(`Adding folder: ${folderPath}`);
-    fs.mkdirSync(folderPath, { recursive: true });
+// adds a full dir path 
+exports.addDir = function (dirPath) {
+    console.log(`Adding dir: ${dirPath}`);
+    fs.mkdirSync(dirPath, { recursive: true });
 }
 
-// returns an array of files and folders - synchronous
-exports.folderContents = function (folderPath) {
-    return fs.readdirSync(folderPath);    
+// returns an array of files and dirs - synchronous
+exports.dirContents = function (dirPath) {
+    return fs.readdirSync(dirPath);    
 }
 
 // gets the contents of a file from the filesystem - synchronous
@@ -24,7 +24,7 @@ exports.getFile = function (filePath) {
     return fs.readFileSync(filePath, 'utf8');
 }
 
-// Checks if the folder item is a file or folder - synchronous
+// Checks if the dir item is a file or dir - synchronous
 exports.isFile = function (filePath) { return fs.lstatSync(filePath).isFile(); }
 
 // create a properly formatted file path
@@ -39,9 +39,9 @@ exports.putFile = function (filePath, contents) {
         else console.log(`put file ${filePath}`); });
 }
 
-// removes a full folder path with file contents
-exports.removeFolder = function (folderPath) {
-    console.log(`Removing folder: ${folderPath}`);
-    fs.rmSync(folderPath, { recursive: true, force: true });
+// removes a full dir path with file contents
+exports.removeDir = function (dirPath) {
+    console.log(`Removing dir: ${dirPath}`);
+    fs.rmSync(dirPath, { recursive: true, force: true });
 }
 ///////////////////////////////////////////////////////////////////////////////

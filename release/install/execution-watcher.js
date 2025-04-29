@@ -39,10 +39,10 @@ exports.default = function spl_data_execution_watcher ( input ) {
                             var outputString = JSON.stringify(output,null,2);
                             console.log(outputString);
 
-                            // move request input to processed folder
+                            // move request input to processed dir
                             data.moveFile(`${requests}/queue/${filename}`, `${requests}/processed/${filename}`);
 
-                            // save copy of output in spl/execution folder
+                            // save copy of output in spl/execution dir
                             data.putFile(`${requests}/${action}/${filename}`, outputString);
 
                             // Update TTL

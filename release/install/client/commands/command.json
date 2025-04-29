@@ -1,7 +1,7 @@
 {
     "headers": {
         "spl": {
-            "command": {  "parser": { "folder": "commands", "file": "parser.json" } }
+            "command": {  "parser": { "dir": "commands", "file": "parser.json" } }
         }
     },
     "value": {

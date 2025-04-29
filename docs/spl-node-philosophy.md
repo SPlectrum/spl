@@ -16,13 +16,13 @@ It is important that there is a simple way to make it work for module develpment
 where a node should be run within (embedded) without the need to use submodules and the like  
 and without the need to move the code.
 
-I think this can be achieved by using within every module repository (each will have their own repo) the same *spl* folder.  
+I think this can be achieved by using within every module repository (each will have their own repo) the same *spl* directory.  
 The idea is as follows:
- - each repository has a *spl* subfolder
- - the module code sits in the *modules* folder as if it were installed.
- - testing asses sit in the *test* folder
- - both these folders are tracked - the only ones
- - a (minimal required) SPlection release is unpacked in the folder
+ - each repository has a *spl* subdirectory
+ - the module code sits in the *modules* directory as if it were installed.
+ - testing asses sit in the *test* directory
+ - both these directories are tracked - the only ones
+ - a (minimal required) SPlection release is unpacked in the directory
  - it is installed
  - now the module can be developed against the tests, i.e. its specfications.
 

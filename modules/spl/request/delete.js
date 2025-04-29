@@ -1,4 +1,4 @@
-//  name        Delete one or more files or folders
+//  name        Delete one or more files or dirs
 //  URI         spl/request/delete
 //  type        API Method
 //  description A wrapper around spl/blob/delete.
