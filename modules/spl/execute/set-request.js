@@ -12,8 +12,11 @@ exports.default = function spl_execute_set_request ( input ) {
 
     const newRequest = spl.wsRef(input, "spl/execute/set-request");
     input.headers.spl.request = newRequest.headers.spl.request;
+    const requestAction = input.headers.spl.request.action;
+    spl.rcSet( input.headers, requestAction.replaceAll("/","."), input.headers.spl.request[requestAction] );
+
     if( input.headers.spl.request.TTL > 0 ) input.headers.spl.execute.TTL = input.headers.spl.request.TTL;
-    for(key in newRequest.value) spl.wsSet(input, key, newRequest.value[key]);
+//    for(key in newRequest.value) spl.wsSet(input, key, newRequest.value[key]);
     input.headers.spl.execute.action = "spl/execute/next";
     return input;
 }

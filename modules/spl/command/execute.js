@@ -24,7 +24,7 @@ exports.default = function spl_command_execute (input) {
         input.value["spl/command"].value.UUID = input.headers.spl.request.command.UUID;
     }
 
-    spl.wsSet(input, "spl/execute/set-pipeline", { 
+    spl.wsSet(input, "spl/execute/set-pipeline", {
         headers: {}, 
         input: [ 
             { action: "spl/command/write", destination: "requests" }, 

@@ -9,7 +9,9 @@ const blob = require("./blob.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_blob_get ( input ) {
     const cwd = input.headers.spl.execute.cwd;
-    const sources = input.headers.spl.blob.get;
+    var sources = input.headers.spl.blob.get;
+    if ( !Array.isArray(sources) ) sources = [ sources ];
+
     for ( var i=0; i<sources.length; i++ ) {
         
         const output = blob.getFile( blob.path( cwd, sources[i].repo, sources[i].dir, sources[i].file ) );

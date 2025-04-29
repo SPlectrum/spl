@@ -9,7 +9,8 @@ const data = require("./data.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_data_write ( input ) {
     const cwd = input.headers.spl.execute.cwd;
-    const sources = input.headers.spl.data.write;
+    var sources = input.headers.spl.data.write;
+    if ( !Array.isArray(sources) ) sources = [ sources ];
 
     for ( var i=0; i<sources.length; i++ ) {
         const dirPath = `${sources[i].repo}/${sources[i].dir}`;

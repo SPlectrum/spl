@@ -3,6 +3,8 @@
 //  type        API Method
 //  description Sets the next request action to execute from the execution pipeline.
 ///////////////////////////////////////////////////////////////////////////////
+const spl = require("../spl");
+///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_execute_set_next ( input ) {
 
     if(input.headers.spl.execute.repeatRequest) {
@@ -11,6 +13,8 @@ exports.default = function spl_execute_set_next ( input ) {
     }
     else if (!(input.headers.spl.execute.pipeline === undefined)  && input.headers.spl.execute.pipeline.length > 0) {
         input.headers.spl.request = input.headers.spl.execute.pipeline.shift();
+        const requestAction = input.headers.spl.request.action;
+        spl.rcSet( input.headers, requestAction.replaceAll("/","."), input.headers.spl.request[requestAction] );
         input.headers.spl.execute.action = "spl/execute/next";
     } 
     else input.headers.spl.execute.action = "spl/execute/complete";

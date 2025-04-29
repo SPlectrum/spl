@@ -9,7 +9,8 @@ const blob = require("./blob.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_blob_delete ( input ) {
     const cwd = input.headers.spl.execute.cwd;
-    const sources = input.headers.spl.blob.delete;
+    var sources = input.headers.spl.blob.delete;
+    if ( !Array.isArray(sources) ) sources = [ sources ];
 
     for ( var i=0; i<sources.length; i++ ) {
         if( sources[i].file === undefined ) blob.deleteFile ( blob.path( cwd, sources[i].repo, sources[i].dir ) );

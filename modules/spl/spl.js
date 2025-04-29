@@ -35,7 +35,7 @@ exports.URI = function ( ...args ) { return args.join ( "/" ); }
 
 // construct a forward slash path for platform internal use
 exports.fURI = function ( ... args ) { 
-    args[args.length-1] = args[args.length-1].replace ( ".", "_" );
+    args[args.length-1] = args[args.length-1].replaceAll ( ".", "_" );
     return args.join ( "/" );
 }
 
