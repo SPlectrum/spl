@@ -1,7 +1,10 @@
 {
     "headers": {},
     "value": { 
-        "": [ { "name": "help", "alias": "h" }, { "name": "test", "alias": "t", "type": "Boolean" }, { "name": "steps", "alias": "s" } ],
+        "": [ 
+            { "name": "help", "alias": "h" }, 
+            { "name": "test", "alias": "t", "type": "Boolean" }, 
+            { "name": "steps", "alias": "s" } ],
         "spl/blob/copy": [ 
             { "name": "from", "alias": "f" }, 
             { "name": "to", "alias": "t" } ],
@@ -27,6 +30,13 @@
             { "name": "path", "alias": "p", "multiple": true }, 
             { "name": "uri", "alias": "u" }, 
             { "name": "contents", "alias": "c", "defaultOption": true, "type":"String" } ],
-        "spl/console/log": [ { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ]
+        "spl/console/error": [ 
+            { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ],
+        "spl/console/log": [ 
+            { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ],
+        "spl/console/trace": [ 
+            { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ],
+        "spl/console/warn": [ 
+            { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ]
     }
 }
