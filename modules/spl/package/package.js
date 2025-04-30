@@ -61,6 +61,7 @@ exports.setLocation = function ( location )
         if ( ("clients data packages").includes(uri[0])) { location.repo = uri.slice(0,2).join("/"); location.dir = uri.slice(2).join("/"); }
         else if ( uri[2] === "data" ) { location.repo = uri.slice(0,3).join("/"); location.dir = uri.slice(3).join("/"); }
         else if ( uri[3] === "data" ) { location.repo = uri.slice(0,4).join("/"); location.dir = uri.slice(4).join("/"); }
+        else { location.repo = uri.join("/"); location.dir = ""; }
     } else if( Array.isArray(location.path) ) {
         location.repo = location.path[0];
         location.dir = location.path[1];
@@ -71,6 +72,7 @@ exports.setLocation = function ( location )
         if ( ("clients data packages").includes(uri[0])) { location.repo = uri.slice(0,2).join("/"); location.dir = uri.slice(2).join("/"); }
         else if ( uri[2] === "data" ) { location.repo = uri.slice(0,3).join("/"); location.dir = uri.slice(3).join("/"); }
         else if ( uri[3] === "data" ) { location.repo = uri.slice(0,4).join("/"); location.dir = uri.slice(4).join("/"); }
+        else { location.repo = uri.join("/"); location.dir = ""; }
     }
     return location;
 }

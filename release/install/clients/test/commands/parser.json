@@ -37,6 +37,26 @@
         "spl/console/trace": [ 
             { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ],
         "spl/console/warn": [ 
-            { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ]
+            { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ],
+        "spl/data/queue": [],
+        "spl/data/read": [ 
+            { "name": "repo", "alias": "r" }, 
+            { "name": "dir", "alias": "d" }, 
+            { "name": "file", "alias": "f" }, 
+            { "name": "path", "alias": "p", "multiple": true }, 
+            { "name": "uri", "alias": "u" } ],
+        "spl/data/write": [ 
+            { "name": "repo", "alias": "r" }, 
+            { "name": "dir", "alias": "d" }, 
+            { "name": "file", "alias": "f" }, 
+            { "name": "path", "alias": "p", "multiple": true }, 
+            { "name": "uri", "alias": "u" }, 
+            { "name": "contents", "alias": "c", "defaultOption": true, "type":"String" } ],
+        "spl/package/create": [ 
+            { "name": "repo", "alias": "r" }, 
+            { "name": "dir", "alias": "d" }, 
+            { "name": "file", "alias": "f" }, 
+            { "name": "path", "alias": "p", "multiple": true }, 
+            { "name": "uri", "alias": "u" } ]
     }
 }
