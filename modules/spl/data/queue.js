@@ -12,7 +12,9 @@ exports.default = function spl_data_queue ( input ) {
     const cwd = input.headers.spl.execute.cwd;
     var session = input.headers.spl.execute.session;
     if( session !== "boot" && session !== "system" ) session = `sessions/${session}`;
-    data.writeFileRecord ( data.path( cwd, "runtime", session, "requests/queue" ), input );
+    const queueInput = JSON.stringify(spl.wsRef(input.value,`spl/data.${spl.URI("runtime", session, "requests/queue")}`));
+    data.writeFileRecord ( data.path( cwd, "runtime", session, "requests/queue" ), queueInput );
+    input.headers.spl.data.history.push ( `queue ${spl.URI("runtime", session, "requests/queue")` );
     input.headers.spl.execute.action = "spl/execute/set-next";
     input.headers.spl.request.status = "completed";
     return input;

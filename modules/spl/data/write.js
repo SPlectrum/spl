@@ -13,7 +13,9 @@ exports.default = function spl_data_write ( input ) {
     if ( !Array.isArray(sources) ) sources = [ sources ];
 
     for ( var i=0; i<sources.length; i++ ) {
-        const dirPath = `${sources[i].repo}/${sources[i].dir}`;
+        sources[i] = data.setLocation(sources[i]);
+        const dirPath = spl.URI(sources[i].repo, sources[i].dir);
+        if ( sources[i].contents ) spl.wsSet( input, `spl/data.${dirPath}`, sources[i].contents );
         const fileName = data.writeFileRecord ( data.path ( cwd, dirPath ), spl.wsGet( input, `spl/data.${dirPath}` ) );
         spl.rcSet( input.value["spl/data"][dirPath], "headers.spl.data.file", fileName );
         input.headers.spl.data.history.push(`write ${dirPath}/${fileName}`);

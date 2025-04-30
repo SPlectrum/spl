@@ -13,10 +13,11 @@ exports.default = function spl_data_read ( input ) {
     if ( !Array.isArray(sources) ) sources = [ sources ];
 
     for ( var i=0; i<sources.length; i++ ) {
+        sources[i] = data.setLocation(sources[i]);
         const dirPath = `${sources[i].repo}/${sources[i].dir}`;
         const output = data.readFileRecord( data.path ( cwd, dirPath ) );
         spl.rcSet ( output.contents, "headers.spl.data", { repo: sources[i].repo, dir: sources[i].dir, file: output.file } );
-        spl.wsSet ( input, `spl/data.${dirrPath}`, output.contents );
+        spl.wsSet ( input, `spl/data.${dirPath}`, output.contents );
         input.headers.spl.data.history.push ( `read ${dirPath}/${output.file}}` );
         if( sources[i].copy ) 
             for(var j=0; j<sources[i].copy.length; j++) 

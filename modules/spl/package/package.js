@@ -44,4 +44,34 @@ exports.removeDir = function (dirPath) {
     console.log(`Removing dir: ${dirPath}`);
     fs.rmSync(dirPath, { recursive: true, force: true });
 }
+
+// create a properly formatted file path
+exports.setLocation = function ( location )
+{
+    if( Array.isArray(location) ) {
+        const newLocation = {};
+        newLocation.repo = location[0];
+        newLocation.dir = location[1];
+        newLocation.file = location[2];
+        location = newLocation; 
+    } else if ( typeof location === "string" ) {
+        var uri = location.split("/");
+        location = {};
+        location.file = (uri[uri.length-1].indexOf(".")>0) ? uri.pop() : undefined;
+        if ( ("clients data packages").includes(uri[0])) { location.repo = uri.slice(0,2).join("/"); location.dir = uri.slice(2).join("/"); }
+        else if ( uri[2] === "data" ) { location.repo = uri.slice(0,3).join("/"); location.dir = uri.slice(3).join("/"); }
+        else if ( uri[3] === "data" ) { location.repo = uri.slice(0,4).join("/"); location.dir = uri.slice(4).join("/"); }
+    } else if( Array.isArray(location.path) ) {
+        location.repo = location.path[0];
+        location.dir = location.path[1];
+        location.file = location.path[2]; 
+    } else if ( typeof location.uri === "string" ) {
+        var uri = location.uri.split("/");
+        location.file = (uri[uri.length-1].indexOf(".")>0) ? uri.pop() : undefined;
+        if ( ("clients data packages").includes(uri[0])) { location.repo = uri.slice(0,2).join("/"); location.dir = uri.slice(2).join("/"); }
+        else if ( uri[2] === "data" ) { location.repo = uri.slice(0,3).join("/"); location.dir = uri.slice(3).join("/"); }
+        else if ( uri[3] === "data" ) { location.repo = uri.slice(0,4).join("/"); location.dir = uri.slice(4).join("/"); }
+    }
+    return location;
+}
 ///////////////////////////////////////////////////////////////////////////////
