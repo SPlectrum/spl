@@ -18,6 +18,7 @@ exports.default = function spl_command_parse (input) {
     input.headers.spl.request.repeat = true;
     return input;
   }
+
   input.value[parserOptionsURI] = JSON.parse(input.value[parserOptionsURI]);
   const parseOptions = spl.wsGet(input, `${parserOptionsURI}.value`);
   splCmd = spl.wsRef(input, "spl/command.value");
@@ -28,6 +29,7 @@ exports.default = function spl_command_parse (input) {
   var commandAction = "";
   var result = { _unknown: splCmd.commandString };
   var counter = 3;
+
 
   function parseCommand() {
     if(result._unknown) {

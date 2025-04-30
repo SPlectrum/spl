@@ -6,15 +6,14 @@
 const parser = require('command-line-args');
 ///////////////////////////////////////////////////////////////////////////////
 
-// set type Functions
 exports.activateTypes = function (options) {
-    console.log(JSON.stringify(options,null,2))
     for(var i=0; i<options.length; i++)
         if (options[i].type) {
             switch(options[i].type) {
                 case "BigInt": options[i].type = BigInt; break;
                 case "Boolean": options[i].type = Boolean; break;
                 case "Number": options[i].type = Number; break;
+                case "String": options[i].type = String; break;
             }
         }
     return options;

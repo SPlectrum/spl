@@ -13,9 +13,10 @@ exports.default = function spl_blob_delete ( input ) {
     if ( !Array.isArray(sources) ) sources = [ sources ];
 
     for ( var i=0; i<sources.length; i++ ) {
+        sources[i] = blob.setLocation(sources[i]);
         if( sources[i].file === undefined ) blob.deleteFile ( blob.path( cwd, sources[i].repo, sources[i].dir ) );
         else blob.deleteFile ( blob.path( cwd, sources[i].repo, sources[i].dir, sources[i].file ) );
-        input.headers.spl.blob.history.push ( `delete ${sources[i].repo}/${sources[i].dir}/${((sources[i].file===undefined)?"":sources[i].file)}` );
+        input.headers.spl.blob.history.push ( `delete ${spl.URI(sources[i].repo, sources[i].dir)}/${((sources[i].file===undefined)?"":sources[i].file)}` );
     }
     delete input.headers.spl.blob.delete;
     input.headers.spl.execute.action = "spl/execute/set-next";

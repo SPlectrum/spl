@@ -31,12 +31,16 @@ exports.moduleAction = function (input, module)
 }
 
 // construct a forward slash path for platform internal use
-exports.URI = function ( ...args ) { return args.join ( "/" ); }
+exports.URI = function ( ...args ) { 
+    var result = []; for(var i=0; i<args.length; i++) if(args[i] != "") result.push(args[i]);;
+    return result.join ( "/" );
+}
 
 // construct a forward slash path for platform internal use
 exports.fURI = function ( ... args ) { 
     args[args.length-1] = args[args.length-1].replaceAll ( ".", "_" );
-    return args.join ( "/" );
+    var result = []; for(var i=0; i<args.length; i++) if(args[i] != "") result.push(args[i]);;
+    return result.join ( "/" );
 }
 
 // gets a deep clone of a keyvalue in input

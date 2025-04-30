@@ -1,12 +1,32 @@
 {
     "headers": {},
     "value": { 
-        "": [ { "name": "help", "alias": "h" }, { "name": "test", "alias": "t" }, { "name": "steps", "alias": "s" } ],
+        "": [ { "name": "help", "alias": "h" }, { "name": "test", "alias": "t", "type": "Boolean" }, { "name": "steps", "alias": "s" } ],
+        "spl/blob/copy": [ 
+            { "name": "from", "alias": "f" }, 
+            { "name": "to", "alias": "t" } ],
+        "spl/blob/delete": [ 
+            { "name": "repo", "alias": "r" }, 
+            { "name": "dir", "alias": "d" }, 
+            { "name": "file", "alias": "f" }, 
+            { "name": "path", "alias": "p", "multiple": true }, 
+            { "name": "uri", "alias": "u" } ],
         "spl/blob/get": [ 
-            { "name": "repo", "alias": "r" },
-            { "name": "dir", "alias": "d" },
-            { "name": "file", "alias": "f" }            
-        ],
+            { "name": "repo", "alias": "r" }, 
+            { "name": "dir", "alias": "d" }, 
+            { "name": "file", "alias": "f" }, 
+            { "name": "path", "alias": "p", "multiple": true }, 
+            { "name": "uri", "alias": "u" } ],
+        "spl/blob/move": [ 
+            { "name": "from", "alias": "f" }, 
+            { "name": "to", "alias": "t" } ],
+        "spl/blob/put": [ 
+            { "name": "repo", "alias": "r" }, 
+            { "name": "dir", "alias": "d" }, 
+            { "name": "file", "alias": "f" }, 
+            { "name": "path", "alias": "p", "multiple": true }, 
+            { "name": "uri", "alias": "u" }, 
+            { "name": "contents", "alias": "c", "defaultOption": true, "type":"String" } ],
         "spl/console/log": [ { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ]
     }
 }

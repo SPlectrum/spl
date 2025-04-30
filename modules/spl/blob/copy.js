@@ -13,8 +13,10 @@ exports.default = function spl_blob_copy ( input ) {
     if ( !Array.isArray(sources) ) sources = [ sources ];
 
     for ( var i=0; i<sources.length; i++ ) {
-        const fromPath = `${sources[i].from.repo}/${sources[i].from.dir}/${((sources[i].from.file===undefined)?"":sources[i].from.file)}`;
-        const toPath = `${sources[i].to.repo}/${sources[i].to.dir}/${((sources[i].to.file===undefined)?"":sources[i].to.file)}`;
+        sources[i].from = blob.setLocation(sources[i].from)
+        sources[i].to = blob.setLocation(sources[i].to)
+        const fromPath = `${spl.URI(sources[i].from.repo, sources[i].from.dir)}/${((sources[i].from.file===undefined)?"":sources[i].from.file)}`;
+        const toPath = `${spl.URI(sources[i].to.repo, sources[i].to.dir)}/${((sources[i].to.file===undefined)?"":sources[i].to.file)}`;
         blob.copyFile ( blob.path(cwd, fromPath), blob.path(cwd, toPath) );
         input.headers.spl.blob.history.push ( `copy ${fromPath} to ${toPath}` );
     }

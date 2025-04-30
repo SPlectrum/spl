@@ -13,7 +13,7 @@ exports.default = function spl_blob_get ( input ) {
     if ( !Array.isArray(sources) ) sources = [ sources ];
 
     for ( var i=0; i<sources.length; i++ ) {
-        
+        sources[i] = blob.setLocation(sources[i]);
         const output = blob.getFile( blob.path( cwd, sources[i].repo, sources[i].dir, sources[i].file ) );
         spl.wsSet ( input, `spl/blob.${spl.fURI ( sources[i].repo, sources[i].dir, sources[i].file )}`, output );
         if( sources[i].copy ) 
@@ -22,7 +22,7 @@ exports.default = function spl_blob_get ( input ) {
         if( sources[i].reference ) 
             for(var j=0; j<sources[i].reference.length; j++) 
                 spl.wsSet( input, sources[i].reference[j], output );
-        input.headers.spl.blob.history.push(`get ${spl.URI ( sources[i].repo, sources[i].dir, sources[i].file )}`);
+        input.headers.spl.blob.history.push(`get ${spl.fURI ( sources[i].repo, sources[i].dir, sources[i].file )}`);
     }
     delete input.headers.spl.blob.get;
     input.headers.spl.execute.action = "spl/execute/set-next";
