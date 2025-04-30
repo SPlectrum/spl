@@ -5,6 +5,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 const parser = require('command-line-args');
 ///////////////////////////////////////////////////////////////////////////////
+
+// set type Functions
+exports.activateTypes = function (options) {
+    console.log(JSON.stringify(options,null,2))
+    for(var i=0; i<options.length; i++)
+        if (options[i].type) {
+            switch(options[i].type) {
+                case "BigInt": options[i].type = BigInt; break;
+                case "Boolean": options[i].type = Boolean; break;
+                case "Number": options[i].type = Number; break;
+            }
+        }
+    return options;
+}
+
+// parse commandline section
 exports.parse = function (args, definitions) {
     if(definitions === undefined) definitions = [{ name: 'command', defaultOption: true }];
     return parser(definitions, { stopAtFirstUnknown: true, argv: args });

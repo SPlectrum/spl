@@ -37,7 +37,7 @@ exports.default = function spl_command_parse (input) {
         registeredCommand = commandAction;
         splCmd.parsed[commandAction] = [];
         if(result._unknown) {
-          result = command.parse(result._unknown, parseOptions[commandAction]);
+          result = command.parse(result._unknown, command.activateTypes(structuredClone(parseOptions[commandAction])));
           splCmd.parsed[commandAction] = { headers: {}, value: result };
         }
       }
@@ -46,7 +46,7 @@ exports.default = function spl_command_parse (input) {
   }
 
   // parse global arguments - currently help, steps and test
-  result = command.parse(result._unknown, parseOptions[commandAction]);
+  result = command.parse(result._unknown, command.activateTypes(structuredClone(parseOptions[commandAction])));
   splCmd.parsed[commandAction] = { headers: {}, value: result };
   if( !(result["test"] === undefined ) ) parseOnly = true;
   if( result["steps"] > 0 ) steps = result["steps"];

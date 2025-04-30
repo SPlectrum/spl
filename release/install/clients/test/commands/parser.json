@@ -1,0 +1,12 @@
+{
+    "headers": {},
+    "value": { 
+        "": [ { "name": "help", "alias": "h" }, { "name": "test", "alias": "t" }, { "name": "steps", "alias": "s" } ],
+        "spl/blob/get": [ 
+            { "name": "repo", "alias": "r" },
+            { "name": "dir", "alias": "d" },
+            { "name": "file", "alias": "f" }            
+        ],
+        "spl/console/log": [ { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ]
+    }
+}
