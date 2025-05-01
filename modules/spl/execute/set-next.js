@@ -14,7 +14,7 @@ exports.default = function spl_execute_set_next ( input ) {
     else if (!(input.headers.spl.execute.pipeline === undefined)  && input.headers.spl.execute.pipeline.length > 0) {
         input.headers.spl.request = input.headers.spl.execute.pipeline.shift();
         const requestAction = input.headers.spl.request.action;
-        spl.rcSet( input.headers, requestAction.replaceAll("/","."), input.headers.spl.request[requestAction] );
+        if (input.headers.spl.request[requestAction]) spl.rcSet( input.headers, requestAction.replaceAll("/","."), input.headers.spl.request[requestAction] );
         if( input.headers.spl.request.TTL > 0 ) input.headers.spl.execute.TTL = input.headers.spl.request.TTL;
         input.headers.spl.execute.action = "spl/execute/next";
     } 

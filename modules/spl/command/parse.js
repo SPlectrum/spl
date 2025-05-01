@@ -10,27 +10,9 @@ const command = require("./command");
 exports.default = function spl_command_parse (input) { 
 
   const parserOptionsURI = spl.fURI("spl/command", input.value["spl/command"].headers.spl.command.parser.file);
-  if ( input.value[ parserOptionsURI ] === undefined ) {
-    input.headers.spl.blob.get = [ input.value["spl/command"].headers.spl.command.parser ];
-    input.headers.spl.blob.get[0].reference = [ spl.fURI("spl/command", input.value["spl/command"].headers.spl.command.parser.file) ];
-    input.headers.spl.request.blob_next = "spl/blob/get";
-    input.headers.spl.request.status = "blob";
-    input.headers.spl.request.repeat = true;
-    return input;
-  }
-  input.value[parserOptionsURI] = JSON.parse(input.value[parserOptionsURI]);
   const parseOptions = spl.wsGet(input, `${parserOptionsURI}.value`);
 
-  splCmd = spl.wsRef(input, "spl/command.value");
-  splCmd.parsed = {};
-  var parseOnly = false;
-  var steps;
-  var registeredCommand;
-  var commandAction = "";
-  var result = { _unknown: splCmd.commandString };
-  var counter = 3;
-
-
+  var splCmd, result, parseOnly = false, steps, registeredCommand, commandAction, pipeline = [], cmdArray = [];
   function parseCommand() {
     if(result._unknown) {
       result = command.parse(result._unknown)
@@ -47,27 +29,53 @@ exports.default = function spl_command_parse (input) {
     if( result._unknown && --counter > 0 ) parseCommand();   
   }
 
+  // for each substring in commandstring array, set splCmd
   // START PARSING SEQUENCE
-
-  // parse global arguments - currently help, steps and test
-  result = command.parse(result._unknown, command.activateTypes(structuredClone(parseOptions[commandAction])));
-  splCmd.parsed[commandAction] = { headers: {}, value: result };
-  if( !(result["test"] === undefined ) ) parseOnly = true;
-  if( result["steps"] > 0 ) steps = result["steps"];
-
-  parseCommand();
-
-  if ( registeredCommand ) {
-    const newRequest = { headers: { spl: { request: { action: registeredCommand, status: "pending" } } } };
-    newRequest.headers.spl.request[registeredCommand] = splCmd.parsed[registeredCommand].value;
-    if ( steps > 0 ) newRequest.headers.spl.request.TTL = steps;
-    spl.wsSet( input, "spl/execute/set-request", newRequest );
+  // split the commandstring on the pipe symbol
+  cmdObject = spl.wsRef(input, "spl/command.value");
+  var cmdString = cmdObject.commandString.join(" ").split("!");
+  for(var i = 0; i<cmdString.length; i++) {
+    cmdObject = structuredClone(cmdObject);
+    cmdObject.commandString = cmdString[i].split(" ");
+    cmdArray.push(cmdObject);
   }
 
-  // END PARSING SEQUENCE
+//  cmdArray = [ spl.wsRef(input, "spl/command.value") ]
+  for ( var i = 0; i<cmdArray.length; i++ ) {
+
+    commandAction = "";
+    registeredCommand = "";
+    splCmd = cmdArray[i];
+    splCmd.parsed = {};
+    var result = { _unknown: splCmd.commandString };
+    var counter = 3;
+
+    // parse global arguments - currently help, steps and test
+    result = command.parse(result._unknown, command.activateTypes(structuredClone(parseOptions[commandAction])));
+    splCmd.parsed[commandAction] = { headers: {}, value: result };
+    if( !(result["test"] === undefined ) ) parseOnly = true;
+    if( result["steps"] > 0 ) steps = result["steps"];
+
+    parseCommand();
+
+    if ( registeredCommand != "" ) {
+      const newRequest = { action: registeredCommand, status: "pending" };
+      newRequest[registeredCommand] = splCmd.parsed[registeredCommand].value;
+      if ( steps > 0 ) newRequest.TTL = steps;
+      pipeline.push(newRequest);
+    }
+  }
+  
+  if ( pipeline.length > 0 ) {
+    spl.wsSet(input, "spl/execute/set-pipeline", {
+        headers: {}, 
+        value: pipeline
+    });
+  }
 
   if ( !parseOnly ) {
     input.headers.spl.request.execute_next = "spl/execute/set-request"
+    input.headers.spl.request.execute_next = "spl/execute/set-pipeline";
     input.headers.spl.request.status = "execute";
   } else input.headers.spl.request.status = "completed";
 
