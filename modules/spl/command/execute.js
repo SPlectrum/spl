@@ -27,7 +27,9 @@ exports.default = function spl_command_execute (input) {
     spl.wsSet(input, "spl/execute/set-pipeline", {
         headers: {}, 
         input: [ 
+//            { action: "spl/command/load-template" },
             { action: "spl/command/write", "spl/command/write": { destination: "requests" } }, 
+//            { action: "spl/command/load-parser-options" },
             { action: "spl/command/parse" },
             { action: "spl/command/write", "spl/command/write": { destination: "responses" } },
         ]

@@ -9,12 +9,13 @@ const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_execute_execute ( input ) {
 
-    var session = input.headers.spl.execute.session;
-    if ( session !== "boot" && session !== "system" ) session = `sessions/${session}`;
+    function executeRequest(input) {
 
-    function executeRequest() {
-
+        var session = input.headers.spl.execute.session;
+        if ( session !== "boot" && session !== "system" ) session = `sessions/${session}`;
+    
         var execAction = ( input.headers.spl.execute.action === undefined ) ? "spl/execute/initialise" : input.headers.spl.execute.action ;
+
         input = spl.moduleAction ( input, execAction );
         input.headers.spl.execute.history.push ( `${execAction} ${input.headers.spl.request.action}` );
 
@@ -61,10 +62,9 @@ exports.default = function spl_execute_execute ( input ) {
 
         if ( spl.hasError(input) ) input.headers.spl.execute.action = "spl/execute/complete";
 
-        if ( execAction != "spl/execute/complete" ) executeRequest();
+        if ( execAction != "spl/execute/complete" ) process.nextTick( () => executeRequest ( input ) );
     }
-    executeRequest();
 
-    return input;
+    executeRequest(input);
 }
 ///////////////////////////////////////////////////////////////////////////////

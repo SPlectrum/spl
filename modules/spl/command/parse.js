@@ -18,9 +18,9 @@ exports.default = function spl_command_parse (input) {
     input.headers.spl.request.repeat = true;
     return input;
   }
-
   input.value[parserOptionsURI] = JSON.parse(input.value[parserOptionsURI]);
   const parseOptions = spl.wsGet(input, `${parserOptionsURI}.value`);
+
   splCmd = spl.wsRef(input, "spl/command.value");
   splCmd.parsed = {};
   var parseOnly = false;
@@ -47,6 +47,8 @@ exports.default = function spl_command_parse (input) {
     if( result._unknown && --counter > 0 ) parseCommand();   
   }
 
+  // START PARSING SEQUENCE
+
   // parse global arguments - currently help, steps and test
   result = command.parse(result._unknown, command.activateTypes(structuredClone(parseOptions[commandAction])));
   splCmd.parsed[commandAction] = { headers: {}, value: result };
@@ -61,6 +63,8 @@ exports.default = function spl_command_parse (input) {
     if ( steps > 0 ) newRequest.headers.spl.request.TTL = steps;
     spl.wsSet( input, "spl/execute/set-request", newRequest );
   }
+
+  // END PARSING SEQUENCE
 
   if ( !parseOnly ) {
     input.headers.spl.request.execute_next = "spl/execute/set-request"
