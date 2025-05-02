@@ -12,7 +12,7 @@ exports.default = function spl_command_parse (input) {
   const parserOptionsURI = spl.fURI("spl/command", input.value["spl/command"].headers.spl.command.parser.file);
   const parseOptions = spl.wsGet(input, `${parserOptionsURI}.value`);
 
-  var splCmd, result, parseOnly = false, steps, registeredCommand, commandAction, pipeline = [], cmdArray = [];
+  var splCmd, result, parseOnly = false, steps, registeredCommand, commandAction, pipeline = [], cmdArray = [], help = [];
   function parseCommand() {
     if(result._unknown) {
       result = command.parse(result._unknown)
@@ -22,6 +22,8 @@ exports.default = function spl_command_parse (input) {
         splCmd.parsed[commandAction] = [];
         if(result._unknown) {
           result = command.parse(result._unknown, command.activateTypes(structuredClone(parseOptions[commandAction])));
+          // check help flag - prepare to set help pipeline
+          if ( result.help ) help.push(registeredCommand)
           splCmd.parsed[commandAction] = { headers: {}, value: result };
         }
       }
@@ -33,12 +35,13 @@ exports.default = function spl_command_parse (input) {
   // START PARSING SEQUENCE
   // split the commandstring on the pipe symbol
   cmdObject = spl.wsRef(input, "spl/command.value");
-  var cmdString = cmdObject.commandString.join(" ").split("!");
+  var cmdString = cmdObject.commandString.join(" ").split("_!_");
   for(var i = 0; i<cmdString.length; i++) {
     cmdObject = structuredClone(cmdObject);
     cmdObject.commandString = cmdString[i].split(" ");
     cmdArray.push(cmdObject);
   }
+  spl.wsSet(input, "spl/command.value", cmdArray);
 
 //  cmdArray = [ spl.wsRef(input, "spl/command.value") ]
   for ( var i = 0; i<cmdArray.length; i++ ) {
@@ -55,6 +58,7 @@ exports.default = function spl_command_parse (input) {
     splCmd.parsed[commandAction] = { headers: {}, value: result };
     if( !(result["test"] === undefined ) ) parseOnly = true;
     if( result["steps"] > 0 ) steps = result["steps"];
+    // check help flag - prepare to set help pipeline
 
     parseCommand();
 
