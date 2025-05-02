@@ -6,15 +6,14 @@ var input = {
     headers:  { 
         spl: { 
             execute: { cwd: cwd, modules: "modules"  },
-            package: { root: "release", dir: "", name: "release_files.json" },
+            package: { create: { repo: "release", dir: "", file: "release_files.json" } },
             request: { }
-        },
-        package: { name: "release_files.json", type: "framework" }
+        }
     },
     value: { }
 }
 var input = spl.moduleAction(input, "spl/package/create");
-input.headers.spl.package = { root: "spl", dir: "", name: "release_files.json" };
+input.headers.spl.package.deploy = { repo: "spl", dir: "", file: "release_files.json" };
 input = spl.moduleAction(input, "spl/package/deploy");
 console.log(JSON.stringify(input, null, 2));
 
@@ -23,15 +22,14 @@ var input = {
     headers:  { 
         spl: { 
             execute: { cwd: cwd, modules: "modules"  },
-            package: { root: "modules", dir: "spl", name: "modules_spl.json" },
+            package: { create: { repo: "modules", dir: "spl", file: "modules_spl.json" } },
             request: { }
-        },
-        package: { name: "modules_spl.json", type: "modules" }
+        }
     },
     value: { }
 }
 var input = spl.moduleAction(input, "spl/package/create");
-input.headers.spl.package = { root: "spl/install", dir: "modules", name: "modules_spl.json" };
+input.headers.spl.package.deploy = { repo: "spl/install", dir: "modules", file: "modules_spl.json" };
 input = spl.moduleAction(input, "spl/package/deploy");
 console.log(JSON.stringify(input, null, 2));
 console.log("Package ${spl} created.");
