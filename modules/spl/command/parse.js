@@ -13,6 +13,7 @@ exports.default = function spl_command_parse (input) {
   const parseOptions = spl.wsGet(input, `${parserOptionsURI}.value`);
 
   var splCmd, result, parseOnly = false, steps, registeredCommand, commandAction, pipeline = [], cmdArray = [], help = [];
+  input.headers.spl.command.help = help;
   function parseCommand() {
     if(result._unknown) {
       result = command.parse(result._unknown)
@@ -47,7 +48,7 @@ exports.default = function spl_command_parse (input) {
   for ( var i = 0; i<cmdArray.length; i++ ) {
 
     commandAction = "";
-    registeredCommand = "";
+    registeredCommand = undefined;
     splCmd = cmdArray[i];
     splCmd.parsed = {};
     var result = { _unknown: splCmd.commandString };
@@ -58,11 +59,11 @@ exports.default = function spl_command_parse (input) {
     splCmd.parsed[commandAction] = { headers: {}, value: result };
     if( !(result["test"] === undefined ) ) parseOnly = true;
     if( result["steps"] > 0 ) steps = result["steps"];
-    // check help flag - prepare to set help pipeline
+    if ( result.help ) help.push ( commandAction );
 
     parseCommand();
 
-    if ( registeredCommand != "" ) {
+    if ( registeredCommand != undefined ) {
       const newRequest = { action: registeredCommand, status: "pending" };
       newRequest[registeredCommand] = splCmd.parsed[registeredCommand].value;
       if ( steps > 0 ) newRequest.TTL = steps;
