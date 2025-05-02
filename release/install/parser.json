@@ -2,33 +2,33 @@
     "headers": {},
     "value": { 
         "": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "test", "alias": "t", "type": "Boolean" }, 
             { "name": "steps", "alias": "s" } ],
         "spl/blob/copy": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "from", "alias": "f" }, 
             { "name": "to", "alias": "t" } ],
         "spl/blob/delete": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "repo", "alias": "r" }, 
             { "name": "dir", "alias": "d" }, 
             { "name": "file", "alias": "f" }, 
             { "name": "path", "alias": "p", "multiple": true }, 
             { "name": "uri", "alias": "u" } ],
         "spl/blob/get": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "repo", "alias": "r" }, 
             { "name": "dir", "alias": "d" }, 
             { "name": "file", "alias": "f" }, 
             { "name": "path", "alias": "p", "multiple": true }, 
             { "name": "uri", "alias": "u" } ],
         "spl/blob/move": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "from", "alias": "f" }, 
             { "name": "to", "alias": "t" } ],
         "spl/blob/put": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "repo", "alias": "r" }, 
             { "name": "dir", "alias": "d" }, 
             { "name": "file", "alias": "f" }, 
@@ -36,27 +36,28 @@
             { "name": "uri", "alias": "u" }, 
             { "name": "contents", "alias": "c", "defaultOption": true, "type":"String" } ],
         "spl/console/error": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ],
         "spl/console/log": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ],
         "spl/console/trace": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ],
         "spl/console/warn": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "message", "alias": "m", "multiple": true, "defaultOption": true } ],
-        "spl/data/queue": [],
+        "spl/data/queue": [
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" } ],
         "spl/data/read": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "repo", "alias": "r" }, 
             { "name": "dir", "alias": "d" }, 
             { "name": "file", "alias": "f" }, 
             { "name": "path", "alias": "p", "multiple": true }, 
             { "name": "uri", "alias": "u" } ],
         "spl/data/write": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "repo", "alias": "r" }, 
             { "name": "dir", "alias": "d" }, 
             { "name": "file", "alias": "f" }, 
@@ -64,41 +65,41 @@
             { "name": "uri", "alias": "u" }, 
             { "name": "contents", "alias": "c", "defaultOption": true, "type":"String" } ],
         "spl/package/create": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "repo", "alias": "r" }, 
             { "name": "dir", "alias": "d" }, 
             { "name": "file", "alias": "f" }, 
             { "name": "path", "alias": "p", "multiple": true }, 
             { "name": "uri", "alias": "u" } ],
         "spl/package/deploy": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "repo", "alias": "r" }, 
             { "name": "dir", "alias": "d" }, 
             { "name": "file", "alias": "f" }, 
             { "name": "path", "alias": "p", "multiple": true }, 
             { "name": "uri", "alias": "u" } ],
         "spl/package/load": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "repo", "alias": "r" }, 
             { "name": "dir", "alias": "d" }, 
             { "name": "file", "alias": "f" }, 
             { "name": "path", "alias": "p", "multiple": true }, 
             { "name": "uri", "alias": "u" } ],
         "spl/package/remove": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "repo", "alias": "r" }, 
             { "name": "dir", "alias": "d" }, 
             { "name": "file", "alias": "f" }, 
             { "name": "path", "alias": "p", "multiple": true }, 
             { "name": "uri", "alias": "u" } ],
         "spl/package/save": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }, 
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
             { "name": "repo", "alias": "r" }, 
             { "name": "dir", "alias": "d" }, 
             { "name": "file", "alias": "f" }, 
             { "name": "path", "alias": "p", "multiple": true }, 
             { "name": "uri", "alias": "u" } ],
         "spl/void/noop": [ 
-            { "name": "help", "alias": "h", "type": "Boolean" }]
+            { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" } ]
     }
 }

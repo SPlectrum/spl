@@ -70,7 +70,12 @@ exports.default = function spl_command_parse (input) {
       pipeline.push(newRequest);
     }
   }
-  
+
+  // switch to help pipeline if help flag was set
+  if( help.length > 0 ) {
+    pipeline = [ { action: "spl/command/help", "spl/command/help": help } ]
+  }
+
   if ( pipeline.length > 0 ) {
     spl.wsSet(input, "spl/execute/set-pipeline", {
         headers: {}, 
