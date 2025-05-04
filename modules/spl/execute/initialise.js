@@ -4,14 +4,17 @@
 //  description Initialises the execution of a pipeline segemnt.
 //              The output of this action is logged.
 ///////////////////////////////////////////////////////////////////////////////
+const spl = require("../spl.js")
+///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_execute_initialise ( input ) {
-    const spl = input.headers.spl;
-    spl.execute.pipeline = [ spl.request ];
-    spl.execute.startTime = Date.now();
-    if( spl.execute.TTL === undefined ) spl.execute.TTL = 100;
-    spl.execute.history = [];
-    spl.data = { history: [] };
-    spl.blob = { history: [] };
-    spl.execute.action = "spl/execute/set-next";
+    spl.setContext ( input, "pipeline", [ spl.request ( input ) ]);
+    spl.setContext ( input, "startTime", Date.now() );
+    if( spl.context ( input, "TTL" ) === undefined ) spl.setContext ( input, "TTL", 100 );
+    spl.setContext ( input, "history", [] );
+ 
+    input.headers.spl.data = { history: [] };
+    input.headers.spl.blob = { history: [] };
+ 
+    spl.setContext ( input, "action", "spl/execute/set-next" );
 }
 ///////////////////////////////////////////////////////////////////////////////

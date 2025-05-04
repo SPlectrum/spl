@@ -9,17 +9,14 @@ const spl = require("../spl")
 const package = require("./package")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_package_remove ( input ) {
-
-    const cwd = input.headers.spl.execute.cwd;
-    input.headers.spl.package.deploy = package.setLocation(input.headers.spl.package.remove);
-
-    const repo = input.headers.spl.package.remove.repo;
-    const dir = input.headers.spl.package.remove.dir;
+    const cwd = spl.context ( input, "cwd" );
+    const requestArgs = package.setLocation ( spl.args ( input ) );
+    const repo = requestArgs.repo;
+    const dir = requestArgs.dir;
     const basePath = package.path ( cwd, repo, dir );
-    const packageRef = `spl/package.${spl.fURI ( input.headers.spl.package.remove.file )}`;
+    const packageRef = `spl/package.${spl.fURI ( requestArgs.file )}`;
     const dirs = spl.wsRef ( input, packageRef ).value;
     for ( key in dirs ) package.removeDir( package.path ( basePath, key ) );
-    delete input.headers.spl.package.remove;
-    input.headers.spl.request.status = "completed";
+    spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

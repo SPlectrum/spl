@@ -8,10 +8,9 @@ const spl = require("../spl.js")
 const blob = require("./blob.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_blob_get ( input ) {
-    const cwd = input.headers.spl.execute.cwd;
-    var sources = input.headers.spl.blob.get;
+    const cwd = spl.context ( input, "cwd" );
+    var sources = spl.args ( input );
     if ( !Array.isArray(sources) ) sources = [ sources ];
-
     for ( var i=0; i<sources.length; i++ ) {
         sources[i] = blob.setLocation(sources[i]);
         const output = blob.getFile( blob.path( cwd, sources[i].repo, sources[i].dir, sources[i].file ) );
@@ -24,9 +23,6 @@ exports.default = function spl_blob_get ( input ) {
                 spl.wsSet( input, sources[i].reference[j], output );
         input.headers.spl.blob.history.push(`get ${spl.fURI ( sources[i].repo, sources[i].dir, sources[i].file )}`);
     }
-    delete input.headers.spl.blob.get;
-    input.headers.spl.execute.action = "spl/execute/set-next";
-    input.headers.spl.request.status = "completed";
-return input;
+    spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

@@ -7,16 +7,20 @@
 const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_execute_next ( input ) {
-    const splExecute = input.headers.spl.execute;
-    const splRequest = input.headers.spl.request;
-    spl.moduleAction(input, splRequest.action);
-    switch(splRequest.status) {
-        case "data": splExecute.action = splRequest.data_next; splExecute.repeatRequest = splRequest.repeat; break;
-        case "blob": splExecute.action = splRequest.blob_next; splExecute.repeatRequest = splRequest.repeat; break;
-        case "error": splExecute.action = input.headers.spl.request.error_next; break;
-        case "execute": splExecute.action = input.headers.spl.request.execute_next; break;
-        case "completed": splExecute.action = "spl/execute/set-next"; break;
-        default: splExecute.action = "spl/execute/complete";
+    spl.moduleAction(input, spl.request ( input, "action" ) );
+    switch(spl.request ( input, "status" ) ) {
+        case "data": 
+            spl.setContext( input, "action", spl.request ( input, "data_next" ) ); 
+            spl.setContext( input, "repeatRequest", spl.request ( input, "repeat" ) ); 
+        break;
+        case "blob": 
+            spl.setContext( input, "action", spl.request( input, "blob_next" ) ); 
+            spl.setContext( input, "repeatRequest", spl.request( input, "repeat" ) );
+        break;
+        case "error": spl.setContext( input, "action", spl.request ( input, "error_next" ) ); break;
+        case "execute": spl.setContext( input, "action", spl.request ( input, "execute_next" ) ); break;
+        case "completed": spl.setContext( input, "action", "spl/execute/set-next" ); break;
+        default: spl.setContext( input, "action", "spl/execute/complete" );
     }
 }
 ///////////////////////////////////////////////////////////////////////////////

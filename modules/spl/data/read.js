@@ -8,8 +8,8 @@ const spl = require("../spl.js")
 const data = require("./data.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_data_read ( input ) {
-    const cwd = input.headers.spl.execute.cwd;
-    var sources = input.headers.spl.data.read;
+    const cwd = spl.context ( input, "cwd" );
+    var sources = spl.args ( input );
     if ( !Array.isArray(sources) ) sources = [ sources ];
     for ( var i=0; i<sources.length; i++ ) {
         sources[i] = data.setLocation(sources[i]);
@@ -26,7 +26,6 @@ exports.default = function spl_data_read ( input ) {
             for(var j=0; j<sources[i].reference.length; j++) 
                 spl.wsSet( input, sources[i].reference[j], output.contents );
     }
-
     spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

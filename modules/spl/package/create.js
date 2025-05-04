@@ -8,14 +8,12 @@ const spl = require("../spl.js")
 const package = require("./package")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_package_create ( input ) {
-
-    const cwd = input.headers.spl.execute.cwd;
-    input.headers.spl.package.create = package.setLocation(input.headers.spl.package.create);
-    const repo = input.headers.spl.package.create.repo;
-    const packageRef = `spl/package.${spl.fURI ( input.headers.spl.package.create.file )}`;
-    spl.wsSet ( input, packageRef, { headers: { spl: { package: { name: input.headers.spl.package.create.file } } }, value: {} } );
+    const cwd = spl.context ( input, "cwd" );
+    const requestArgs = package.setLocation ( spl.args ( input ) );
+    const repo = requestArgs.repo;
+    const packageRef = `spl/package.${spl.fURI ( requestArgs.file )}`;
+    spl.wsSet ( input, packageRef, { headers: { spl: { package: { name: requestArgs.file } } }, value: {} } );
     const packageContents = spl.wsRef ( input, packageRef ).value;
-
     function iterateDir ( dirPath ) {
         var contents = package.dirContents ( package.path ( cwd, repo, dirPath ) );
         if ( contents.length === 0 ) packageContents[`${dirPath}/`] = {};
@@ -27,8 +25,7 @@ exports.default = function spl_package_create ( input ) {
             }   
         }
     }
-    iterateDir(`/${input.headers.spl.package.create.dir}`);
-    delete input.headers.spl.package.create;
-    input.headers.spl.request.status = "completed";
+    iterateDir(`/${requestArgs.dir}`);
+    spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

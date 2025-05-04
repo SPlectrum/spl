@@ -9,8 +9,8 @@ const spl = require("../spl.js")
 const blob = require("./blob.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_blob_put ( input ) {
-    const cwd = input.headers.spl.execute.cwd;
-    var sources = input.headers.spl.blob.put;
+    const cwd = spl.context ( input, "cwd" );
+    var sources = spl.args ( input );
     if ( !Array.isArray(sources) ) sources = [ sources ];
 
     for ( var i=0; i<sources.length; i++ ) {
@@ -24,10 +24,6 @@ exports.default = function spl_blob_put ( input ) {
         }
         input.headers.spl.blob.history.push ( `put ${sources[i].repo}/${sources[i].dir}/${((sources[i].file===undefined)?"":sources[i].file)}` );
     }
-    delete input.headers.spl.blob.put;
-    input.headers.spl.execute.action = "spl/execute/set-next";
-    input.headers.spl.request.status = "completed";
-    return input; 
-
+    spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

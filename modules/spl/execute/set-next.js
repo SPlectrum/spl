@@ -7,18 +7,18 @@ const spl = require("../spl");
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_execute_set_next ( input ) {
     const splExecute = input.headers.spl.execute;
-    if(splExecute.repeatRequest) {
-        splExecute.repeatRequest = false;
-        splExecute.action = "spl/execute/next";
+    if(spl.context ( input, "repeatRequest" ) ) {
+        spl.setContext ( input, "repeatRequest", false );
+        spl.setContext ( input, "action","spl/execute/next" );
     }
-    else if (!(splExecute.pipeline === undefined)  && splExecute.pipeline.length > 0) {
-        input.headers.spl.request = splExecute.pipeline.shift();
-        const splRequest = input.headers.spl.request;
-        const requestAction = splRequest.action;
-        if (splRequest[requestAction]) spl.rcSet( input.headers, requestAction.replaceAll("/","."), splRequest[requestAction] );
-        if( splRequest.TTL > 0 ) splExecute.TTL = splRequest.TTL;
-        splExecute.action = "spl/execute/next";
+    else if ( spl.context ( input, "pipeline" ).length > 0 ) {
+        input.headers.spl.request = spl.context ( input, "pipeline" ).shift();
+        const requestAction = spl.request ( input, "action" );
+        const requestArgs = spl.request ( input, requestAction );
+        if ( requestArgs ) spl.rcSet( input.headers, requestAction.replaceAll("/","."), requestArgs );
+        if( spl.request ( input, "TTL" ) > 0 ) spl.setContext( input, "TTL", spl.request ( input, "TTL" ) );
+        spl.setContext ( input, "action", "spl/execute/next" );
     } 
-    else splExecute.action = "spl/execute/complete";
+    else spl.setContext ( input, "action", "spl/execute/complete" );
 }
 ///////////////////////////////////////////////////////////////////////////////

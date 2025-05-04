@@ -18,6 +18,44 @@ exports.hasError = function (input)
     return ( !( input.value["spl/error"] === undefined ) );
 }
 
+// initialise adds all necessary properties so other functions work well
+exports.initialise = function ( input ) {
+    if ( input.headers === undefined ) input.headers = {};    
+    if ( input.headers.spl === undefined ) input.headers.spl = {};    
+    if ( input.headers.spl.execute === undefined ) input.headers.spl.execute = {};    
+    if ( input.headers.spl.request === undefined ) input.headers.spl.request = {};
+}
+
+// add to execution history
+exports.history = function ( input, activity ) {
+    const message = `${input.headers.spl.request.action} - ${input.headers.spl.execute.action} --> ${activity}`;
+    input.headers.spl.execute.history.push ( message );
+}
+
+
+// get execution context properties
+exports.context = function ( input, key ) {
+    if ( key === undefined ) return input.headers.spl.execute;
+    return input.headers.spl.execute[key];
+}
+
+// get request context properties
+exports.request = function ( input, key ) {
+    if ( key === undefined ) return input.headers.spl.request;
+    return input.headers.spl.request[key];
+}
+
+// get execution context properties
+exports.setContext = function ( input, key, value ) {
+    input.headers.spl.execute[key] = value;
+}
+
+// get request context properties
+exports.setRequest = function ( input, key, value ) {
+    if ( key === null ) input.headers.spl.request = value;
+    input.headers.spl.request[key] = value;
+}
+
 // Get input arguments
 exports.args = function ( input, arg ) {
     var parts = [];
@@ -100,10 +138,6 @@ function rcSet (reference, key, value)
         reference = reference[keys[i]];
     } 
     reference[keys[i]] = value;
-//        if ( i == keys.length - 1 ) reference[keys[i]] = value;
-//        else if( reference[keys[i]] === undefined ) reference[keys[i]] = {};
-//        reference = reference[keys[i]];
-//    } 
 }
 exports.rcSet = rcSet;
 
