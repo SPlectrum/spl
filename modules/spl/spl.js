@@ -18,14 +18,6 @@ exports.hasError = function (input)
     return ( !( input.value["spl/error"] === undefined ) );
 }
 
-// initialise adds all necessary properties so other functions work well
-exports.initialise = function ( input ) {
-    if ( input.headers === undefined ) input.headers = {};    
-    if ( input.headers.spl === undefined ) input.headers.spl = {};    
-    if ( input.headers.spl.execute === undefined ) input.headers.spl.execute = {};    
-    if ( input.headers.spl.request === undefined ) input.headers.spl.request = {};
-}
-
 // add to execution history
 exports.history = function ( input, activity ) {
     const message = `${input.headers.spl.request.action} - ${input.headers.spl.execute.action} --> ${activity}`;
@@ -147,17 +139,29 @@ exports.wsGet = function (record, key)
     return rcGet(record.value, key);
 }
 
-// wsCheckIfExists checks the presence of a property and loads it when not
+// wsExists checks the presence of a property and loads it when not
 exports.wsExists = function ( input, key, action, args, repeat ) {
     const parts = action.split ( "/" );
     if( input.value[key] === undefined ) {
-        input.headers[parts[0]][parts[1]][parts[2]] = [ args ];
+        if( Array.isArray ( args ) ) input.headers[parts[0]][parts[1]][parts[2]] = args;
+        else input.headers[parts[0]][parts[1]][parts[2]] = [ args ];
         input.headers.spl.request[`${parts[1]}_next`] = action;
         input.headers.spl.request.status = parts[1];
         input.headers.spl.request.repeat = repeat;
         return false;
     }
     return true;
+}
+
+// wsAction sets an action for the execution context
+exports.gotoExecute = function ( input, action, args ) {
+    var parts = action.split ( "/" );
+    if ( args != undefined ) input.headers[parts[0]][parts[1]][parts[2]] = args;
+    input.headers.spl.request[`${parts[1]}_next`] = action;
+    input.headers.spl.request.status = parts[1];
+    input.headers.spl.request.repeat = false;
+    parts = input.headers.spl.request.action.split ( "/" );
+    delete input.headers.spl[parts[1]][parts[2]];
 }
 
 // wbGet returns a reference to a keyvalue in input.value.

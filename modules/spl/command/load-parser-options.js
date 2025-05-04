@@ -6,17 +6,12 @@
 const spl = require("../spl.js");
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_command_set ( input ) {
-    
-    const parserOptionsURI = spl.fURI("spl/command", input.value["spl/command"].headers.spl.command.parser.file);
-    if ( input.value[ parserOptionsURI ] === undefined ) {
-        input.headers.spl.blob.get = [ input.value["spl/command"].headers.spl.command.parser ];
-        input.headers.spl.blob.get[0].reference = [ spl.fURI("spl/command", input.value["spl/command"].headers.spl.command.parser.file) ];
-        input.headers.spl.request.blob_next = "spl/blob/get";
-        input.headers.spl.request.status = "blob";
-        input.headers.spl.request.repeat = true;
-        return input;
-    }
+    const splCommand = spl.wsRef ( input, "spl/command" );    
+    const parserOptionsURI = spl.fURI("spl/command", splCommand.headers.spl.command.parser.file);
+    const args = [ splCommand.headers.spl.command.parser ];
+    args[0].reference = [ spl.fURI("spl/command", splCommand.headers.spl.command.parser.file) ];
+    if(!spl.wsExists ( input, parserOptionsURI, "spl/blob/get", args, true )) return;
     input.value[parserOptionsURI] = JSON.parse(input.value[parserOptionsURI]);
-    input.headers.spl.request.status = "completed";
+    spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

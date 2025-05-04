@@ -21,7 +21,7 @@ exports.default = function spl_blob_get ( input ) {
         if( sources[i].reference ) 
             for(var j=0; j<sources[i].reference.length; j++) 
                 spl.wsSet( input, sources[i].reference[j], output );
-        input.headers.spl.blob.history.push(`get ${spl.fURI ( sources[i].repo, sources[i].dir, sources[i].file )}`);
+        spl.history ( input, `get ${spl.fURI ( sources[i].repo, sources[i].dir, sources[i].file )}`);
     }
     spl.completed ( input );
 }

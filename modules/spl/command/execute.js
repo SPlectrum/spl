@@ -18,8 +18,6 @@ exports.default = function spl_command_execute (input) {
             { action: "spl/command/write", "spl/command/write": { destination: "responses" } },
         ]
     });
-    delete input.headers.spl.command.execute;
-    input.headers.spl.request.execute_next = "spl/execute/set-pipeline";
-    input.headers.spl.request.status = "execute";
+    spl.gotoExecute ( input, "spl/execute/set-pipeline" );
 }
 ///////////////////////////////////////////////////////////////////////////////

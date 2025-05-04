@@ -18,7 +18,7 @@ exports.default = function spl_data_write ( input ) {
         if ( sources[i].contents ) spl.wsSet( input, `spl/data.${dirPath}`, sources[i].contents );
         const fileName = data.writeFileRecord ( data.path ( cwd, dirPath ), spl.wsGet( input, `spl/data.${dirPath}` ) );
         spl.rcSet( input.value["spl/data"][dirPath], "headers.spl.data.file", fileName );
-        input.headers.spl.data.history.push(`write ${dirPath}/${fileName}`);
+        spl.history ( input, `write ${dirPath}/${fileName}`);
     }
     spl.completed ( input );
 }

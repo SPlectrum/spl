@@ -22,7 +22,7 @@ exports.default = function spl_blob_put ( input ) {
             const contents = spl.wsGet( input, `spl/blob.${sources[i].repo}/${sources[i].dir}/${sources[i].file.replaceAll ( ".", "_" )}` );
             blob.putFile ( blob.path( cwd, sources[i].repo, sources[i].dir, sources[i].file ), JSON.stringify(contents, null, 2) );
         }
-        input.headers.spl.blob.history.push ( `put ${sources[i].repo}/${sources[i].dir}/${((sources[i].file===undefined)?"":sources[i].file)}` );
+        spl.history ( input, `put ${sources[i].repo}/${sources[i].dir}/${((sources[i].file===undefined)?"":sources[i].file)}` );
     }
     spl.completed ( input );
 }
