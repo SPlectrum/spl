@@ -18,6 +18,5 @@ exports.default = function spl_package_save ( input ) {
     package.putFile ( package.path ( dirPath, input.headers.spl.package.save.file ), JSON.stringify( spl.wsRef ( input, packageRef ), null, 2 ) );
     delete input.headers.spl.package.save;
     input.headers.spl.request.status = "completed";
-    return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

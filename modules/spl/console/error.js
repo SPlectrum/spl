@@ -6,12 +6,9 @@
 const spl = require("../spl")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_console_error (input) { 
-    
-    var message = spl.rcRef( input.headers, "spl.console.error.message");
+    var message = spl.args ( input, "message" );
     if(message.join) message = message.join(" ");
     console.error(message);
-    delete input.headers.spl.console.error;
-    input.headers.spl.request.status = "completed";
-    return input 
+    spl.completed(input);
 } 
 ///////////////////////////////////////////////////////////////////////////////

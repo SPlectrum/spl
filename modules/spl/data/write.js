@@ -23,6 +23,5 @@ exports.default = function spl_data_write ( input ) {
     delete input.headers.spl.data.write;
     input.headers.spl.execute.action = "spl/execute/set-next";
     input.headers.spl.request.status = "completed";
-    return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

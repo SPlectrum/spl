@@ -17,6 +17,5 @@ exports.default = function spl_data_queue ( input ) {
     input.headers.spl.data.history.push ( `queue ${spl.URI("runtime", session, "requests/queue")` );
     input.headers.spl.execute.action = "spl/execute/set-next";
     input.headers.spl.request.status = "completed";
-    return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

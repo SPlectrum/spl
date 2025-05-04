@@ -21,6 +21,5 @@ exports.default = function spl_package_remove ( input ) {
     for ( key in dirs ) package.removeDir( package.path ( basePath, key ) );
     delete input.headers.spl.package.remove;
     input.headers.spl.request.status = "completed";
-    return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

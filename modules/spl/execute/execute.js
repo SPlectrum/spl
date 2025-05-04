@@ -10,17 +10,17 @@ const spl = require("../spl.js")
 exports.default = function spl_execute_execute ( input ) {
 
     function executeRequest(input) {
-
-        var session = input.headers.spl.execute.session;
+        const splExecute = input.headers.spl.execute;
+        var session = splExecute.session;
         if ( session !== "boot" && session !== "system" ) session = `sessions/${session}`;
     
-        var execAction = ( input.headers.spl.execute.action === undefined ) ? "spl/execute/initialise" : input.headers.spl.execute.action ;
+        var execAction = ( splExecute.action === undefined ) ? "spl/execute/initialise" : splExecute.action ;
 
-        input = spl.moduleAction ( input, execAction );
-        input.headers.spl.execute.history.push ( `${execAction} ${input.headers.spl.request.action}` );
+        spl.moduleAction ( input, execAction );
+        splExecute.history.push ( `${execAction} ${input.headers.spl.request.action}` );
 
         // Update TTL -- NEEDS A SEPARATE ERROR SECTION IN THE WORKSPACE
-        if ( --input.headers.spl.execute.TTL < 1 && execAction != "spl/execute/complete" ) spl.addErrorInfo ( input, "TTL has expired, execution aborted." );
+        if ( --splExecute.TTL < 1 && execAction != "spl/execute/complete" ) spl.addErrorInfo ( input, "TTL has expired, execution aborted." );
 
         if ( execAction === "spl/execute/initialise" || execAction === "spl/execute/complete" ) {
 
@@ -28,28 +28,26 @@ exports.default = function spl_execute_execute ( input ) {
             if ( dir === "initialise" ) {
 
                 const filePath = spl.URI ( "runtime", session, "requests/initialise" );
-                const writeFile = {};
-                writeFile[ filePath ] = structuredClone(input);
                 const writeRecord = {
                     headers: { 
                         spl: { 
                             data: { write: [ { repo: spl.URI ( "runtime", session ), dir: "requests/initialise" } ], history: [] },
                             execute: structuredClone(input.headers.spl.execute),
-                            request: {}
+                            request: { }
                         } 
                     },
-                    value: { "spl/data": writeFile }
+                    value: { "spl/data": { [ filePath ]: structuredClone(input) } }
                 }
-                const writeOutput = spl.moduleAction( writeRecord, "spl/data/write" );
-                input.headers.spl.execute.fileName = writeOutput.value["spl/data"][filePath].headers.spl.data.file;
+                spl.moduleAction( writeRecord, "spl/data/write" );
+                splExecute.fileName = writeRecord.value["spl/data"][filePath].headers.spl.data.file;
             }
             else {
                 const putFile = {};
-                putFile[ spl.fURI ( "runtime", session, "requests/complete", input.headers.spl.execute.fileName ) ] = structuredClone ( input );
+                putFile[ spl.fURI ( "runtime", session, "requests/complete", splExecute.fileName ) ] = structuredClone ( input );
                 const putRecord = {
                     headers: { 
                         spl: { 
-                            blob: { put: [ { repo: spl.URI ( "runtime", session ), dir: "requests/complete", file: input.headers.spl.execute.fileName } ], history: [] },
+                            blob: { put: [ { repo: spl.URI ( "runtime", session ), dir: "requests/complete", file: splExecute.fileName } ], history: [] },
                             execute: structuredClone(input.headers.spl.execute),
                             request: {}
                         } 
@@ -60,7 +58,7 @@ exports.default = function spl_execute_execute ( input ) {
             }
         }
 
-        if ( spl.hasError(input) ) input.headers.spl.execute.action = "spl/execute/complete";
+        if ( spl.hasError(input) ) splExecute.action = "spl/execute/complete";
 
         if ( execAction != "spl/execute/complete" ) process.nextTick( () => executeRequest ( input ) );
     }

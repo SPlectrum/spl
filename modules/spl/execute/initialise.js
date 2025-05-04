@@ -5,13 +5,13 @@
 //              The output of this action is logged.
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_execute_initialise ( input ) {
-
-    input.headers.spl.execute.startTime = Date.now();
-    if( input.headers.spl.execute.TTL === undefined ) input.headers.spl.execute.TTL = 100;
-    input.headers.spl.execute.history = [];
-    input.headers.spl.data = { history: [] };
-    input.headers.spl.blob = { history: [] };
-    input.headers.spl.execute.action = "spl/execute/next";
-    return input;
+    const spl = input.headers.spl;
+    spl.execute.pipeline = [ spl.request ];
+    spl.execute.startTime = Date.now();
+    if( spl.execute.TTL === undefined ) spl.execute.TTL = 100;
+    spl.execute.history = [];
+    spl.data = { history: [] };
+    spl.blob = { history: [] };
+    spl.execute.action = "spl/execute/set-next";
 }
 ///////////////////////////////////////////////////////////////////////////////

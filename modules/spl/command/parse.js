@@ -84,11 +84,9 @@ exports.default = function spl_command_parse (input) {
   }
 
   if ( !parseOnly ) {
-    input.headers.spl.request.execute_next = "spl/execute/set-request"
     input.headers.spl.request.execute_next = "spl/execute/set-pipeline";
     input.headers.spl.request.status = "execute";
   } else input.headers.spl.request.status = "completed";
 
-return input 
 }
 ///////////////////////////////////////////////////////////////////////////////

@@ -15,6 +15,5 @@ exports.default = function spl_package_load ( input ) {
     spl.wsSet ( input, `spl/package.${spl.fURI ( source.file )}`, JSON.parse( output ) );
     delete input.headers.spl.package.load;
     input.headers.spl.request.status = "completed";
-    return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

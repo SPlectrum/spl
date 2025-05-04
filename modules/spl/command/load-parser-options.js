@@ -18,6 +18,5 @@ exports.default = function spl_command_set ( input ) {
     }
     input.value[parserOptionsURI] = JSON.parse(input.value[parserOptionsURI]);
     input.headers.spl.request.status = "completed";
-    return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

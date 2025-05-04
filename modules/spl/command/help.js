@@ -12,6 +12,5 @@ exports.default = function spl_command_help ( input ) {
 
     delete input.headers.spl.command.help;
     input.headers.spl.request.status = "completed";
-    return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

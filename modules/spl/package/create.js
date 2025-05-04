@@ -30,6 +30,5 @@ exports.default = function spl_package_create ( input ) {
     iterateDir(`/${input.headers.spl.package.create.dir}`);
     delete input.headers.spl.package.create;
     input.headers.spl.request.status = "completed";
-    return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

@@ -25,6 +25,5 @@ exports.default = function spl_package_deploy ( input ) {
     }
     delete input.headers.spl.package.deploy;
     input.headers.spl.request.status = "completed";
-    return input;
 }
 ///////////////////////////////////////////////////////////////////////////////

@@ -18,6 +18,28 @@ exports.hasError = function (input)
     return ( !( input.value["spl/error"] === undefined ) );
 }
 
+// Get input arguments
+exports.args = function ( input, arg ) {
+    var parts = [];
+    if ( input.headers.spl.execute.action === "spl/execute/next" ) parts = input.headers.spl.request.action.split ( "/" );
+    else parts = input.headers.spl.execute.action.split ( "/" );
+    if ( arg === undefined ) return input.headers[parts[0]][parts[1]][parts[2]];
+    else return input.headers[parts[0]][parts[1]][parts[2]][arg];
+}
+
+// Complete request
+exports.completed = function ( input ) {
+    var parts = [];
+    if ( input.headers.spl.execute.action === "spl/execute/next" ) {
+        parts = input.headers.spl.request.action.split ( "/" );
+        input.headers.spl.request.status = "completed";
+    } else {
+        parts = input.headers.spl.execute.action.split ( "/" );
+        input.headers.spl.execute.action = "spl/execute/set-next";
+    }
+    delete input.headers.spl[parts[1]][parts[2]];
+}
+
 // random UUID generation
 function generateUUID() { return randomUUID(); }
 exports.generateUUID = generateUUID;
@@ -73,12 +95,15 @@ exports.rcRef = rcRef;
 function rcSet (reference, key, value)
 { 
     const keys = key.split(".");
-    for(i=0; i<keys.length; i++)
-    {
-        if ( i == keys.length - 1 ) reference[keys[i]] = value;
-        else if( reference[keys[i]] === undefined ) reference[keys[i]] = {};
+    for(i=0; i<keys.length-1; i++) {
+        if( reference[keys[i]] === undefined ) reference[keys[i]] = {};
         reference = reference[keys[i]];
     } 
+    reference[keys[i]] = value;
+//        if ( i == keys.length - 1 ) reference[keys[i]] = value;
+//        else if( reference[keys[i]] === undefined ) reference[keys[i]] = {};
+//        reference = reference[keys[i]];
+//    } 
 }
 exports.rcSet = rcSet;
 
@@ -86,6 +111,19 @@ exports.rcSet = rcSet;
 exports.wsGet = function (record, key)
 { 
     return rcGet(record.value, key);
+}
+
+// wsCheckIfExists checks the presence of a property and loads it when not
+exports.wsExists = function ( input, key, action, args, repeat ) {
+    const parts = action.split ( "/" );
+    if( input.value[key] === undefined ) {
+        input.headers[parts[0]][parts[1]][parts[2]] = [ args ];
+        input.headers.spl.request[`${parts[1]}_next`] = action;
+        input.headers.spl.request.status = parts[1];
+        input.headers.spl.request.repeat = repeat;
+        return false;
+    }
+    return true;
 }
 
 // wbGet returns a reference to a keyvalue in input.value.
