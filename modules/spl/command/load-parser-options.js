@@ -5,8 +5,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js");
 ///////////////////////////////////////////////////////////////////////////////
-exports.default = function spl_command_set ( input ) {
-    const splCommand = spl.wsRef ( input, "spl/command" );    
+exports.default = function spl_command_load_parser_options ( input ) {
+    const splCommand = spl.wsRef ( input, "spl/command" );
     const parserOptionsURI = spl.fURI("spl/command", splCommand.headers.spl.command.parser.file);
     const args = [ splCommand.headers.spl.command.parser ];
     args[0].reference = [ spl.fURI("spl/command", splCommand.headers.spl.command.parser.file) ];

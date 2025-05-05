@@ -5,31 +5,33 @@ const cwd = process.cwd();
 var input = {
     headers:  { 
         spl: { 
-            execute: { cwd: cwd, modules: "modules"  },
+            execute: { cwd: cwd, modules: "modules", action: "spl/execute/next"  },
             package: { create: { repo: "release", dir: "", file: "release_files.json" } },
-            request: { }
+            request: { action: "spl/package/create" }
         }
     },
     value: { }
 }
-var input = spl.moduleAction(input, "spl/package/create");
+spl.moduleAction(input, "spl/package/create");
+input.headers.spl.request.action = "spl/package/deploy";
 input.headers.spl.package.deploy = { repo: "spl", dir: "", file: "release_files.json" };
-input = spl.moduleAction(input, "spl/package/deploy");
+spl.moduleAction(input, "spl/package/deploy");
 console.log(JSON.stringify(input, null, 2));
 
 // for initial release the full spl package is mounted in the install directory
 var input = {
     headers:  { 
         spl: { 
-            execute: { cwd: cwd, modules: "modules"  },
+            execute: { cwd: cwd, modules: "modules", action: "spl/execute/next"  },
             package: { create: { repo: "modules", dir: "spl", file: "modules_spl.json" } },
-            request: { }
+            request: { action: "spl/package/create" }
         }
     },
     value: { }
 }
-var input = spl.moduleAction(input, "spl/package/create");
+spl.moduleAction(input, "spl/package/create");
+input.headers.spl.request.action = "spl/package/deploy";
 input.headers.spl.package.deploy = { repo: "spl/install", dir: "modules", file: "modules_spl.json" };
-input = spl.moduleAction(input, "spl/package/deploy");
+spl.moduleAction(input, "spl/package/deploy");
 console.log(JSON.stringify(input, null, 2));
 console.log("Package ${spl} created.");

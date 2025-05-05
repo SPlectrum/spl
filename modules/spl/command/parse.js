@@ -12,17 +12,18 @@ exports.default = function spl_command_parse (input) {
   const parserOptionsURI = spl.fURI("spl/command", input.value["spl/command"].headers.spl.command.parser.file);
   const parseOptions = spl.wsGet(input, `${parserOptionsURI}.value`);
 
-  var splCmd, result, parseOnly = false, steps, registeredCommand, commandAction, pipeline = [], cmdArray = [], help = [];
+  var splCmd, result, parseOnly = false, steps, registeredCommand, commandAction, pipeline = [], cmdArray = [], help = [], commandOptions = [];
   input.headers.spl.command.help = help;
   function parseCommand() {
     if(result._unknown) {
       result = command.parse(result._unknown)
       commandAction += (commandAction === "") ? result.command : "/" + result.command;
-      if(parseOptions[commandAction]) {
+      if ( command.exists ( parseOptions, commandAction ) ) {
         registeredCommand = commandAction;
         splCmd.parsed[commandAction] = [];
         if(result._unknown) {
-          result = command.parse(result._unknown, command.activateTypes(structuredClone(parseOptions[commandAction])));
+          commandOptions = command.getOptions ( parseOptions, commandAction );
+          result = command.parse ( result._unknown, commandOptions );
           // check help flag - prepare to set help pipeline
           if ( result.help ) help.push(registeredCommand)
           splCmd.parsed[commandAction] = { headers: {}, value: result };
@@ -55,10 +56,11 @@ exports.default = function spl_command_parse (input) {
     var counter = 3;
 
     // parse global arguments - currently help, steps and test
-    result = command.parse(result._unknown, command.activateTypes(structuredClone(parseOptions[commandAction])));
-    splCmd.parsed[commandAction] = { headers: {}, value: result };
-    if( !(result["test"] === undefined ) ) parseOnly = true;
-    if( result["steps"] > 0 ) steps = result["steps"];
+    commandOptions = command.getOptions ( parseOptions, commandAction );
+    result = command.parse ( result._unknown, commandOptions );
+    splCmd.parsed [ commandAction ] = { headers: {}, value: result };
+    if( !(result [ "test" ] === undefined ) ) parseOnly = true;
+    if( result [ "steps" ] > 0 ) steps = result [ "steps" ];
     if ( result.help ) help.push ( commandAction );
 
     parseCommand();
@@ -76,14 +78,9 @@ exports.default = function spl_command_parse (input) {
     pipeline = [ { action: "spl/command/help", "spl/command/help": help } ]
   }
 
-  if ( pipeline.length > 0 ) {
-    spl.wsSet(input, "spl/execute/set-pipeline", {
-        headers: {}, 
-        value: pipeline
-    });
-  }
-
-  if ( !parseOnly ) spl.gotoExecute ( input, "spl/execute/set-pipeline" );
-  else spl.completed ( input );
+  if ( !parseOnly ) {
+    if ( pipeline.length > 0 ) spl.wsSet(input, "spl/execute/set-pipeline", { headers: {}, value: pipeline });
+    spl.gotoExecute ( input, "spl/execute/set-pipeline" );
+  } else spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

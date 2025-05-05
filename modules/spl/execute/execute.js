@@ -58,7 +58,7 @@ exports.default = function spl_execute_execute ( input ) {
             }
         }
 
-        if ( spl.hasError(input) ) splExecute.action = "spl/execute/complete";
+        if ( spl.hasError(input) ) spl.setContext ( input, "action", "spl/execute/complete" );
 
         if ( execAction != "spl/execute/complete" ) process.nextTick( () => executeRequest ( input ) );
     }
