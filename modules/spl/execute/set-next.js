@@ -6,7 +6,6 @@
 const spl = require("../spl");
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_execute_set_next ( input ) {
-    const splExecute = input.headers.spl.execute;
     if(spl.context ( input, "repeatRequest" ) ) {
         spl.setContext ( input, "repeatRequest", false );
         spl.setContext ( input, "action","spl/execute/next" );

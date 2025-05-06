@@ -60,9 +60,9 @@ exports.default = function spl_execute_execute ( input ) {
 
         if ( spl.hasError(input) ) spl.setContext ( input, "action", "spl/execute/complete" );
 
-        if ( execAction != "spl/execute/complete" ) process.nextTick( () => executeRequest ( input ) );
+        if ( execAction != "spl/execute/complete" ) setImmediate( () => executeRequest ( input ) );
     }
 
-    process.nextTick( () => executeRequest ( input ) );
+    setImmediate( () => executeRequest ( input ) );
 }
 ///////////////////////////////////////////////////////////////////////////////

@@ -47,14 +47,14 @@ var input = {
     headers:  { 
         spl: { 
             execute: { cwd: cwd, modules: "install/modules"  },
-            package: { load: { repo: "install", dir: "packages", file: "clients_client.json" } },
+            package: { load: { repo: "install", dir: "packages", file: "apps_client.json" } },
             request: { }
         }
     },
     value: { }
 }
 input = spl.moduleAction(input, "spl/package/load");
-input.headers.spl.package.deploy = { repo: "clients", dir: "", file: "clients_client.json" };
+input.headers.spl.package.deploy = { repo: "apps", dir: "", file: "apps_client.json" };
 input = spl.moduleAction(input, "spl/package/deploy");
 console.log(JSON.stringify(input,null,2));
 
@@ -63,14 +63,14 @@ var input = {
     headers:  { 
         spl: { 
             execute: { cwd: cwd, modules: "install/modules"  },
-            package: { load: { repo: "install", dir: "packages", file: "clients_test.json" } },
+            package: { load: { repo: "install", dir: "packages", file: "apps_test.json" } },
             request: { }
         }
     },
     value: { }
 }
 input = spl.moduleAction(input, "spl/package/load");
-input.headers.spl.package.deploy = { repo: "clients", dir: "", file: "clients_test.json" };
+input.headers.spl.package.deploy = { repo: "apps", dir: "", file: "apps_test.json" };
 input = spl.moduleAction(input, "spl/package/deploy");
 console.log(JSON.stringify(input,null,2));
 

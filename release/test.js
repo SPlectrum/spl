@@ -5,14 +5,14 @@ input = {
     headers:  { 
         spl: { 
             execute: { cwd: cwd, modules: "../modules"  },
-            package: { root: "clients", dir: "test", name: "clients_test.json" },
+            package: { root: "apps", dir: "test", name: "apps_test.json" },
             request: { }
         }
     },
     value: { }
 }
 input = spl.moduleAction(input, "spl/package/create");
-input.headers.spl.package = { root: "../release", dir: "install/packages", name: "clients_test.json"};
+input.headers.spl.package = { root: "../release", dir: "install/packages", name: "apps_test.json"};
 input = spl.moduleAction(input, "spl/package/save");
 console.log(JSON.stringify(input,null,2));
 

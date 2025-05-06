@@ -2,7 +2,7 @@
   "headers": {
     "spl": {
       "package": {
-        "name": "clients_client.json"
+        "name": "apps_client.json"
       }
     }
   },
@@ -13,6 +13,6 @@
     "/client/commands/responses/": {},
     "/client/spl": "node spl.js $@\r\n",
     "/client/spl.cmd": "node spl.js %*\r\n",
-    "/client/spl.js": "const spl = require(\"../../modules/spl/spl.js\");\r\n\r\n// Set SPlectrum and client root directory, extract command string\r\nvar root = process.cwd().split(\"/\");\r\nif (root.length === 1 ) root = root[0].split(`\\\\`);\r\nconst splRoot = root.slice(0,root.length-2).join(\"/\");\r\nconst session = root[root.length-1];\r\nconst clientRoot = root.slice(root.length - 2).join(\"/\")\r\nconst commandString = process.argv.slice(2);\r\n\r\nvar command = {\r\n    headers: { \r\n        spl: { \r\n            execute: { cwd: splRoot, session: session, modules: \"../modules\", TTL: 100 }, \r\n            request: { action: \"spl/command/execute\" },\r\n            command: { set: { UUID: spl.generateUUID(), cwd: clientRoot, commandString: commandString } }\r\n        } \r\n    },\r\n    value: {}\r\n}\r\nconsole.dir(command,{depth:10});\r\nprocess.nextTick ( () => spl.moduleAction( command, \"spl/execute/execute\" ) );\r\n\r\nsetTimeout ( function printComplete () {\r\n    if( command.headers.spl.execute.finishTime ) console.dir(command,{depth:10});\r\n    else { console.log(command.headers.spl.execute.action); setTimeout ( printComplete, 10); }\r\n}, 10);\r\n\r\n"
+    "/client/spl.js": "const spl = require(\"../../modules/spl/spl.js\");\r\n\r\n// Set SPlectrum and client root directory, extract command string\r\nvar root = process.cwd().split(\"/\");\r\nif (root.length === 1 ) root = root[0].split(`\\\\`);\r\nconst splRoot = root.slice(0,root.length-2).join(\"/\");\r\nconst session = root[root.length-1];\r\nconst clientRoot = root.slice(root.length - 2).join(\"/\")\r\nconst commandString = process.argv.slice(2);\r\n\r\nvar command = {\r\n    headers: { \r\n        spl: { \r\n            execute: { cwd: splRoot, session: session, modules: \"./modules\", TTL: 100 }, \r\n            request: { \r\n                action: \"spl/command/execute\", \r\n                \"spl/command/execute\": { \r\n                    set: {\r\n                        commandString: commandString,\r\n                        template: { repo: clientRoot, dir: \"commands\", file: \"command.json\", copy: [ \"spl/command\" ] },\r\n                        UUID: spl.generateUUID()\r\n                    }\r\n                }\r\n            }\r\n        } \r\n    },\r\n    value: {}\r\n}\r\nconsole.dir(command,{depth:10});\r\nprocess.nextTick ( () => spl.moduleAction( command, \"spl/execute/execute\" ) );\r\n\r\nsetTimeout ( function printComplete () {\r\n    if( command.headers.spl.execute.finishTime ) console.dir(command,{depth:10});\r\n    else { console.log(command.headers.spl.execute.action); setTimeout ( printComplete, 10); }\r\n}, 10);\r\n\r\n"
   }
 }

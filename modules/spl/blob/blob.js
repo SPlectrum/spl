@@ -62,7 +62,7 @@ exports.setLocation = function ( location )
         var uri = location.split("/");
         location = {};
         location.file = (uri[uri.length-1].indexOf(".")>0) ? uri.pop() : undefined;
-        if ( ("clients data packages").includes(uri[0])) { location.repo = uri.slice(0,2).join("/"); location.dir = uri.slice(2).join("/"); }
+        if ( ("apps data packages").includes(uri[0])) { location.repo = uri.slice(0,2).join("/"); location.dir = uri.slice(2).join("/"); }
         else if ( uri[2] === "data" ) { location.repo = uri.slice(0,3).join("/"); location.dir = uri.slice(3).join("/"); }
         else if ( uri[3] === "data" ) { location.repo = uri.slice(0,4).join("/"); location.dir = uri.slice(4).join("/"); }
         else { location.repo = uri.join("/"); location.dir = ""; }
@@ -73,7 +73,7 @@ exports.setLocation = function ( location )
     } else if ( typeof location.uri === "string" ) {
         var uri = location.uri.split("/");
         location.file = (uri[uri.length-1].indexOf(".")>0) ? uri.pop() : undefined;
-        if ( ("clients data packages").includes(uri[0])) { location.repo = uri.slice(0,2).join("/"); location.dir = uri.slice(2).join("/"); }
+        if ( ("apps data packages").includes(uri[0])) { location.repo = uri.slice(0,2).join("/"); location.dir = uri.slice(2).join("/"); }
         else if ( uri[2] === "data" ) { location.repo = uri.slice(0,3).join("/"); location.dir = uri.slice(3).join("/"); }
         else if ( uri[3] === "data" ) { location.repo = uri.slice(0,4).join("/"); location.dir = uri.slice(4).join("/"); }
         else { location.repo = uri.join("/"); location.dir = ""; }
