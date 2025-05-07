@@ -12,12 +12,12 @@ exports.default = function spl_data_read ( input ) {
     var sources = spl.args ( input );
     if ( !Array.isArray(sources) ) sources = [ sources ];
     for ( var i=0; i<sources.length; i++ ) {
-        sources[i] = data.setLocation(sources[i]);
+        sources[i] = data.setLocation ( sources[i] );
         var readPath = `${sources[i].repo}/${sources[i].dir}`;
-        const output = data.readFileRecord( data.path ( cwd, readPath ), sources[i].file );
+        const output = data.readFileRecord ( data.path ( cwd, readPath ), sources[i].file );
         spl.rcSet ( output.contents, "headers.spl.data", { repo: sources[i].repo, dir: sources[i].dir, file: output.file } );
-        spl.history ( input, `read ${readPath}/${output.file}}` );
-        if( !( sources[i].file === undefined ) ) readPath += `/${sources[i].file.replaceAll(".","_")}`;
+        spl.history ( input, `read ${readPath}/${output.file}` );
+        if( !( sources[i].file === undefined ) ) readPath += `/${sources[i].file.replaceAll( ".", "_" ) }`;
         spl.wsSet ( input, `spl/data.${readPath}`, output.contents );
         if( sources[i].copy ) 
             for(var j=0; j<sources[i].copy.length; j++) 

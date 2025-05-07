@@ -34,11 +34,11 @@ exports.default = function spl_execute_execute ( input ) {
                             request: { action: "spl/data/write"}
                         } 
                     },
-                    value: { "spl/data": { [ filePath ]: structuredClone ( input ) } }
+                    value: { "spl/data": { headers: {}, value: { [ filePath ]: structuredClone ( input ) } } }
                 }
                 spl.setContext ( writeRecord, "action", "spl/execute/next" );
                 spl.moduleAction( writeRecord, "spl/data/write" );
-                spl.setContext ( input, "fileName", writeRecord.value["spl/data"][filePath].headers.spl.data.file);
+                spl.setContext ( input, "fileName", writeRecord.value["spl/data"].value[filePath].headers.spl.data.file);
             }
             else {
                 const putFile = {};
@@ -51,7 +51,7 @@ exports.default = function spl_execute_execute ( input ) {
                             request: { action: "spl/blob/put"}
                         } 
                     },
-                    value: { "spl/blob": putFile }
+                    value: { "spl/blob": { headers: {}, value: putFile } }
                 }
                 spl.setContext ( putRecord, "action", "spl/execute/next" );
                 spl.moduleAction( putRecord, "spl/blob/put" );

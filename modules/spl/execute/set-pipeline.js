@@ -8,7 +8,7 @@
 const spl = require("../spl")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_execute_set_pipeline ( input ) {
-    const newPipeline = structuredClone(spl.wsGet(input, "spl/execute/set-pipeline.value"));
+    const newPipeline = structuredClone(spl.wsRef(input, "spl/execute.set-pipeline").headers.spl.execute.pipeline);
     spl.setContext ( input, "pipeline", newPipeline.concat ( spl.context ( input, "pipeline" ) ) );
     spl.setContext ( input, "action", "spl/execute/set-next" );
 }

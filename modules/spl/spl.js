@@ -10,8 +10,8 @@ const { randomUUID } = require('crypto');
 // gather error information
 exports.addErrorInfo = function (input, info)
 {
-    if( input.value["spl/error"] === undefined ) input.value["spl/error"] = [info];
-    else input.value["spl/error"].push(info);
+    if( input.value["spl/error"] === undefined ) input.value["spl/error"] = { headers: {}, value: [info] };
+    else input.value["spl/error"].value.push(info);
 }
 exports.hasError = function (input)
 {
@@ -28,6 +28,8 @@ exports.args = function ( input, arg ) {
     var result;
     if ( arg === undefined ) result = input.headers[parts[0]][parts[1]][parts[2]];
     else result = input.headers[parts[0]][parts[1]][parts[2]][arg];
+    // if none in header then check API workspace method record header
+    
     // if none in header then check API workspace record header
     
     // if none in API workspace header then check default in request execution header header
@@ -167,29 +169,42 @@ exports.wsExists = function ( input, key, action, args, repeat ) {
     return true;
 }
 
-// wbGet returns a deep clone of a keyvalue in input.value.
+// wsGet returns a deep clone of a keyvalue in input.value.
 exports.wsGet = function (record, key)
 { 
-    return rcGet(record.value, key);
+    const parts = key.split ( "." );
+    if ( parts.length == 1  ) return structuredClone(record.value[parts[0]]);
+    else return structuredClone(record.value[parts[0]].value[parts[1]]);
 }
 
-// wbGet returns a reference to a keyvalue in input.value.
-exports.wsRef = function (record, key)
+// wsGet returns a reference to a keyvalue in input.value.
+function wsRef (record, key)
 { 
-    return rcRef(record.value, key);
+    const parts = key.split ( "." );
+    if ( parts.length == 1  ) return record.value[parts[0]];
+    else {
+        if ( record.value[parts[0]] === undefined ) return undefined;
+        else return record.value[parts[0]].value[parts[1]];
+    }
 }
+exports.wsRef = wsRef;
 
-// wbSet property sets a key in input.value but archives the existing keyvalue in an array.
+// wsSet property sets a key in input.value but archives the existing keyvalue in an array.
 exports.wsSet = function (record, key, value)
 { 
-    const current = rcRef(record.value, key);
+    const parts = key.split ( "." );
+    const current = wsRef(record, key);
     if( !( current === undefined ) ) {
-        var archive = rcRef(record.value, `${key}/archive`);
-        if ( archive === undefined ) { 
-            rcSet( record.value, `${key}/archive`, [] ); 
-            archive = rcRef(record.value, `${key}/archive`); 
-        }
+        var archive;
+        if ( parts.length == 1 && record.value[`${parts[0]}/archive`] === undefined ) record.value[`${parts[0]}/archive`] = [];
+        else if ( parts.length == 2 && record.value[parts[0]].value[`${parts[1]}/archive`] === undefined )
+             record.value[parts[0]].value[`${parts[1]}/archive`] = [];
+        archive = ( parts.length == 1 ) ? record.value[`${parts[0]}/archive`] : record.value[parts[0]].value[`${parts[1]}/archive`];
         archive.push(current);
     }
-    rcSet(record.value, key, value);
+    if ( parts.length == 1  ) record.value[parts[0]] = value;
+    else {
+        if ( record.value[parts[0]] === undefined ) record.value[parts[0]] = { headers: {}, value: {} };
+        record.value[parts[0]].value[parts[1]] = value;
+    }
 }

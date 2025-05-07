@@ -10,7 +10,7 @@ const command = require("./command");
 exports.default = function spl_command_parse (input) { 
 
   const parserOptionsURI = spl.fURI("spl/command", input.value["spl/command"].headers.spl.command.parser.file);
-  const parseOptions = spl.wsGet(input, `${parserOptionsURI}.value`);
+  const parseOptions = spl.wsGet(input, `${parserOptionsURI}`).value;
 
   var splCmd, result, parseOnly = false, steps, registeredCommand, commandAction, pipeline = [], cmdArray = [], help = [], commandOptions = [];
   input.headers.spl.command.help = help;
@@ -36,7 +36,7 @@ exports.default = function spl_command_parse (input) {
   // for each substring in commandstring array, set splCmd
   // START PARSING SEQUENCE
   // split the commandstring on the pipe symbol
-  cmdObject = spl.wsRef(input, "spl/command.value");
+  cmdObject = spl.wsRef(input, "spl/command").value;
   var cmdString = cmdObject.commandString.join(" ").split("_!_");
   for(var i = 0; i<cmdString.length; i++) {
     cmdObject = structuredClone(cmdObject);
@@ -79,7 +79,7 @@ exports.default = function spl_command_parse (input) {
   }
 
   if ( !parseOnly ) {
-    if ( pipeline.length > 0 ) spl.wsSet(input, "spl/execute/set-pipeline", { headers: {}, value: pipeline });
+    if ( pipeline.length > 0 ) spl.wsSet(input, "spl/execute.set-pipeline", { headers: { spl: { execute: { pipeline: pipeline } } }, value: {} });
     spl.gotoExecute ( input, "spl/execute/set-pipeline" );
   } else spl.completed ( input );
 }
