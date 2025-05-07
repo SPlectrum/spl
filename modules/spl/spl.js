@@ -18,24 +18,46 @@ exports.hasError = function (input)
     return ( !( input.value["spl/error"] === undefined ) );
 }
 
-// Get input arguments
-exports.args = function ( input, arg ) {
-    var parts = [];
+// Get method specific pipeline configuration ( input, etc. )
+exports.config = function ( input, key ) {
+    // split the current action ( request or execute )
+    var parts = [], result, entry;
     if ( input.headers.spl.execute.action === "spl/execute/next" ) parts = input.headers.spl.request.action.split ( "/" );
     else parts = input.headers.spl.execute.action.split ( "/" );
 
-    // input arguments from request execution header
-    var result;
-    if ( arg === undefined ) result = input.headers[parts[0]][parts[1]][parts[2]];
-    else result = input.headers[parts[0]][parts[1]][parts[2]][arg];
-    // if none in header then check API workspace method record header
+    // first: check execution header for method config
+    if ( key === undefined ) {
+        if ( input.headers[parts[0]] && input.headers[parts[0]][parts[1]] ) result = input.headers[parts[0]][parts[1]][parts[2]];
+    } else {
+        if ( input.headers[parts[0]] && input.headers[parts[0]][parts[1]] && input.headers[parts[0]][parts[1]][parts[2]] )
+            result = input.headers[parts[0]][parts[1]][parts[2]][key];
+    }
+    if ( !( result === undefined ) ) return result;
+
+    // second: check workspace method entry header for method config
+    entry = wsRef ( input, `${parts[0]}/${parts[1]}.${parts[2]})` );
+    if ( entry && entry.headers && entry.headers[parts[0]] && entry.headers[parts[0]][parts[1]] && entry.headers[parts[0]][parts[1]][parts[2]] ) {
+        if ( key === undefined ) result = entry.headers[parts[0]][parts[1]][parts[2]];
+        else result = entry.headers[parts[0]][parts[1]][parts[2]][key];
+    }
+    if ( !( result === undefined ) ) return result;
+
+    // third: check workspace API entry header  for method config
+    entry = wsRef ( input, `${parts[0]}/${parts[1]}` );
+    if ( entry && entry.headers && entry.headers[parts[0]] && entry.headers[parts[0]][parts[1]] && entry.headers[parts[0]][parts[1]][parts[2]] ) {
+        if ( key === undefined ) result = entry.headers[parts[0]][parts[1]][parts[2]];
+        else result = entry.headers[parts[0]][parts[1]][parts[2]][key];
+    }
+    if ( !( result === undefined ) ) return result;
     
-    // if none in header then check API workspace record header
+    if ( key === undefined ) return result; // no default
+    // fourth: check execution header for API config (default)
+    result = input.headers[parts[0]][parts[1]][key];
+    if ( !( result === undefined ) ) return result;
     
-    // if none in API workspace header then check default in request execution header header
-    
-    // if no default in request execution header header then check default in API workspace record header
-    
+    // fifth: check workspace API entry header for API config (default)
+    if ( entry && entry.headers && entry.headers[parts[0]] && entry.headers[parts[0]][parts[1]] )
+        result = entry.headers[parts[0]][parts[1]][key];
     return result;
 }
 
@@ -49,7 +71,7 @@ exports.completed = function ( input ) {
         parts = input.headers.spl.execute.action.split ( "/" );
         input.headers.spl.execute.action = "spl/execute/set-next";
     }
-    delete input.headers.spl[parts[1]][parts[2]];
+    if ( input.headers[parts[0]] && input.headers[parts[0]][parts[1]] ) delete input.headers.spl[parts[1]][parts[2]];
 }
 
 // get execution context properties

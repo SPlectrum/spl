@@ -6,9 +6,9 @@
 const spl = require("../spl")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_console_warn (input) { 
-    var message = spl.args ( input, "message" );
-    if(message.join) message = message.join(" ");
-    console.warn(message);
-    spl.completed(input);
+    var message = spl.config ( input, "message" );
+    if ( message.join ) message = message.join ( " " );
+    console.warn ( message );
+    spl.completed ( input );
 } 
 ///////////////////////////////////////////////////////////////////////////////

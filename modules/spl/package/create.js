@@ -9,7 +9,7 @@ const package = require("./package")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_package_create ( input ) {
     const cwd = spl.context ( input, "cwd" );
-    const requestArgs = package.setLocation ( spl.args ( input ) );
+    const requestArgs = package.setLocation ( spl.config ( input ) );
     const repo = requestArgs.repo;
     const packageRef = `spl/package.${spl.fURI ( requestArgs.file )}`;
     spl.wsSet ( input, packageRef, { headers: { spl: { package: { name: requestArgs.file } } }, value: {} } );
@@ -18,14 +18,14 @@ exports.default = function spl_package_create ( input ) {
         var contents = package.dirContents ( package.path ( cwd, repo, dirPath ) );
         if ( contents.length === 0 ) packageContents[`${dirPath}/`] = {};
         else {
-            for ( var i=0; i<contents.length; i++ ) {
+            for ( var i = 0; i < contents.length; i++ ) {
                 var currentPath = `${dirPath}/${contents[i]}`;
                 if ( package.isFile ( package.path ( cwd, repo, currentPath ) ) ) packageContents[currentPath] = package.getFile( package.path ( cwd, repo, currentPath ) );
                 else iterateDir ( currentPath );
             }   
         }
     }
-    iterateDir(`/${requestArgs.dir}`);
+    iterateDir( `/${requestArgs.dir}` );
     spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////
