@@ -10,5 +10,15 @@ const spl = require("../spl.js")
 exports.default = function spl_execute_complete ( input ) {
     spl.setContext ( input, "finishTime", Date.now() );
     spl.setContext( input, "duration", spl.context ( input, "finishTime" ) - spl.context( input, "startTime" ) );
+    const status = spl.context ( input, "status" );
+    console.log( "" );
+    switch ( status ) {
+        case "green": console.log(`Command completed succesfully ( ${spl.context ( input, "duration" )} ms ).`); break;
+        case "orange": console.log(`Command completed with warnings ( ${spl.context ( input, "duration" )} ms ).`); break;
+        case "red": console.log(`Command completed with errors ( ${spl.context ( input, "duration" )} ms ).`); break;
+    }
+    console.log( "" );
+    if ( spl.context ( input, "consoleMode" ) === "debug" ) console.dir ( input, { depth: 10 } );
+    else if ( spl.context ( input, "consoleMode" ) === "verbose" ) console.log ( "Verbose output mode not implemented yet." );
 }
 ///////////////////////////////////////////////////////////////////////////////

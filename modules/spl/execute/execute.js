@@ -14,11 +14,12 @@ exports.default = function spl_execute_execute ( input ) {
         if ( session !== "boot" && session !== "system" ) session = `sessions/${session}`;
         var execAction = ( spl.context( input, "action" ) === undefined ) ? "spl/execute/initialise" : spl.context ( input, "action" ) ;
 
+        spl.history ( input, "" );
         spl.moduleAction ( input, execAction );
-        spl.history ( input, "completed" );
+
         // Update TTL -- NEEDS A SEPARATE ERROR SECTION IN THE WORKSPACE
         spl.setContext ( input, "TTL", spl.context ( input, "TTL") - 1 );
-        if ( spl.context ( input, "TTL") < 1 && execAction != "spl/execute/complete" ) spl.addErrorInfo ( input, "TTL has expired, execution aborted." );
+        if ( spl.context ( input, "TTL") < 1 && !( "spl/error/catch spl/execute/complete" ).includes ( execAction ) ) spl.throwError ( input, "TTL has expired, execution aborted." );
 
         if ( execAction === "spl/execute/initialise" || execAction === "spl/execute/complete" ) {
 
@@ -46,19 +47,20 @@ exports.default = function spl_execute_execute ( input ) {
                 const putRecord = {
                     headers: { 
                         spl: { 
-                            blob: { put: [ { repo: spl.URI ( "runtime", session ), dir: "requests/complete", file: spl.context ( input, "fileName" ) } ], history: [] },
+                            blob: { put: [ { repo: spl.URI ( "runtime", session ), dir: "requests/complete", file: spl.context ( input, "fileName" ) } ] },
                             execute: structuredClone(input.headers.spl.execute),
                             request: { action: "spl/blob/put"}
                         } 
                     },
                     value: { "spl/blob": { headers: {}, value: putFile } }
                 }
+                spl.setContext ( putRecord, "consoleProgress", undefined );
                 spl.setContext ( putRecord, "action", "spl/execute/next" );
                 spl.moduleAction( putRecord, "spl/blob/put" );
             }
         }
 
-        if ( spl.hasError(input) ) spl.setContext ( input, "action", "spl/execute/complete" );
+//        if ( spl.hasError(input) ) spl.setContext ( input, "action", "spl/execute/complete" );
 
         if ( execAction != "spl/execute/complete" ) setImmediate( () => executeRequest ( input ) );
     }

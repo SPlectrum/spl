@@ -17,7 +17,7 @@ exports.default = function spl_execute_next ( input ) {
             spl.setContext( input, "action", spl.request( input, "blob_next" ) ); 
             spl.setContext( input, "repeatRequest", spl.request( input, "repeat" ) );
         break;
-        case "error": spl.setContext( input, "action", spl.request ( input, "error_next" ) ); break;
+        case "error": spl.setContext( input, "action", "spl/error/catch" ); break;
         case "execute": spl.setContext( input, "action", spl.request ( input, "execute_next" ) ); break;
         case "completed": spl.setContext( input, "action", "spl/execute/set-next" ); break;
         default: spl.setContext( input, "action", "spl/execute/complete" );

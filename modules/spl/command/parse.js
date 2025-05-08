@@ -62,6 +62,8 @@ exports.default = function spl_command_parse (input) {
     if( !(result [ "test" ] === undefined ) ) parseOnly = true;
     if( result [ "steps" ] > 0 ) steps = result [ "steps" ];
     if ( result.help ) help.push ( commandAction );
+    if ( result.debug ) spl.setContext ( input, "consoleMode", "debug" );
+    else if ( result.verbose ) spl.setContext ( input, "consoleMode", "verbose" );
 
     parseCommand();
 
