@@ -20,7 +20,7 @@ exports.default = function spl_blob_put ( input ) {
             if ( sources[i].contents ) 
                 spl.wsSet( input, `spl/blob.${sources[i].repo}/${sources[i].dir}/${sources[i].file.replaceAll ( ".", "_" )}`, sources[i].contents );
             const contents = spl.wsGet( input, `spl/blob.${sources[i].repo}/${sources[i].dir}/${sources[i].file.replaceAll ( ".", "_" )}` );
-            blob.putFile ( blob.path( cwd, sources[i].repo, sources[i].dir, sources[i].file ), JSON.stringify(contents, null, 2) );
+            blob.putFile ( blob.path( cwd, sources[i].repo, sources[i].dir, sources[i].file ), contents );
         }
         spl.history ( input, `put ${sources[i].repo}/${sources[i].dir}/${((sources[i].file===undefined)?"":sources[i].file)}` );
     }

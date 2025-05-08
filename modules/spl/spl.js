@@ -7,36 +7,23 @@
 ///////////////////////////////////////////////////////////////////////////////
 const { randomUUID } = require('crypto');
 
-// gather error information
-exports.addErrorInfo = function (input, info)
-{
-    if( input.value["spl/error"] === undefined ) input.value["spl/error"] = { headers: {}, value: [info] };
-    else input.value["spl/error"].value.push(info);
-}
-exports.hasError = function (input)
-{
-    return ( input.headers.spl.execute.status === "red" );
-}
-
 // Get method specific pipeline configuration ( input, etc. )
 function spl_config ( input, key ) {
     // split the current action ( request or execute )
     var parts = [], result, entry;
-    if ( input.headers.spl.execute.action === "spl/execute/next" ) parts = input.headers.spl.request.action.split ( "/" );
-    else parts = input.headers.spl.execute.action.split ( "/" );
+    if ( spl_context ( input, "action" ) === "spl/execute/next" ) parts = input.headers.spl.request.action.split ( "/" );
+    else parts = spl_context ( input, "action" ).split ( "/" );
+    const apiRef = `${parts[0]}.${parts[1]}`;
+    const methodRef = `${parts[0]}.${parts[1]}.${parts[2]}`;
 
     // first: check execution header for method config
-    if ( key === undefined ) {
-        if ( input.headers[parts[0]] && input.headers[parts[0]][parts[1]] ) result = input.headers[parts[0]][parts[1]][parts[2]];
-    } else {
-        if ( input.headers[parts[0]] && input.headers[parts[0]][parts[1]] && input.headers[parts[0]][parts[1]][parts[2]] )
-            result = input.headers[parts[0]][parts[1]][parts[2]][key];
-    }
+    if ( key === undefined ) result = spl_rcRef ( input.headers, methodRef );
+    else result = spl_rcRef ( input.headers, `${methodRef}.${key}` );
     if ( !( result === undefined ) ) return result;
 
     // second: check workspace method entry header for method config
-    entry = wsRef ( input, `${parts[0]}/${parts[1]}.${parts[2]})` );
-    if ( entry && entry.headers && entry.headers[parts[0]] && entry.headers[parts[0]][parts[1]] && entry.headers[parts[0]][parts[1]][parts[2]] ) {
+    entry = wsRef ( input, methodRef );
+    if ( entry && entry.headers && spl_rcRef ( entry.headers, methodRef ) ) {
         if ( key === undefined ) result = entry.headers[parts[0]][parts[1]][parts[2]];
         else result = entry.headers[parts[0]][parts[1]][parts[2]][key];
     }
@@ -188,7 +175,7 @@ exports.setContext = spl_setContext;
 // get request context properties
 exports.setRequest = function ( input, key, value ) {
     if ( key === null ) input.headers.spl.request = value;
-    input.headers.spl.request[key] = value;
+    else input.headers.spl.request[key] = value;
 }
 
 // Complete request

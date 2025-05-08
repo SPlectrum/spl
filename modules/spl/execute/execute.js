@@ -39,16 +39,16 @@ exports.default = function spl_execute_execute ( input ) {
                 }
                 spl.setContext ( writeRecord, "action", "spl/execute/next" );
                 spl.moduleAction( writeRecord, "spl/data/write" );
-                spl.setContext ( input, "fileName", writeRecord.value["spl/data"].value[filePath].headers.spl.data.file);
+                spl.setContext ( input, "fileName", spl.rcRef ( spl.wsRef ( writeRecord, `spl/data.${filePath}` ), "headers.spl.data.file" ) );
             }
             else {
                 const putFile = {};
-                putFile[ spl.fURI ( "runtime", session, "requests/complete", spl.context ( input, "fileName" ) ) ] = structuredClone ( input );
+                putFile[ spl.fURI ( "runtime", session, "requests/complete", spl.context ( input, "fileName" ) ) ] = JSON.stringify ( input, null, 2 );
                 const putRecord = {
                     headers: { 
                         spl: { 
                             blob: { put: [ { repo: spl.URI ( "runtime", session ), dir: "requests/complete", file: spl.context ( input, "fileName" ) } ] },
-                            execute: structuredClone(input.headers.spl.execute),
+                            execute: structuredClone ( spl.context ( input ) ),
                             request: { action: "spl/blob/put"}
                         } 
                     },
@@ -59,8 +59,6 @@ exports.default = function spl_execute_execute ( input ) {
                 spl.moduleAction( putRecord, "spl/blob/put" );
             }
         }
-
-//        if ( spl.hasError(input) ) spl.setContext ( input, "action", "spl/execute/complete" );
 
         if ( execAction != "spl/execute/complete" ) setImmediate( () => executeRequest ( input ) );
     }

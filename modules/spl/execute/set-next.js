@@ -11,7 +11,7 @@ exports.default = function spl_execute_set_next ( input ) {
         spl.setContext ( input, "action","spl/execute/next" );
     }
     else if ( spl.context ( input, "pipeline" ).length > 0 ) {
-        input.headers.spl.request = spl.context ( input, "pipeline" ).shift();
+        spl.setRequest ( input, null, structuredClone ( spl.context ( input, "pipeline" ).shift() ) );
         const requestAction = spl.request ( input, "action" );
         const requestArgs = spl.request ( input, requestAction );
         if ( requestArgs ) spl.rcSet( input.headers, requestAction.replaceAll("/","."), requestArgs );
