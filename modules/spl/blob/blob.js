@@ -11,7 +11,7 @@ const fs = require('fs');
 
 // adds a full dir path 
 exports.addDir = function ( input, spl, dirPath ) {
-    spl.history ( input, `addDir file ${dirPath}` );
+    spl.history ( input, `addDir ${dirPath}` );
     fs.mkdirSync ( dirPath, { recursive: true } );
 }
 

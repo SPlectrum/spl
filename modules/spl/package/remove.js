@@ -16,7 +16,7 @@ exports.default = function spl_package_remove ( input ) {
     const basePath = package.path ( cwd, repo, dir );
     const packageRef = `spl/package.${spl.fURI ( requestArgs.file )}`;
     const dirs = spl.wsRef ( input, packageRef ).value;
-    for ( key in dirs ) package.removeDir( package.path ( basePath, key ) );
+    for ( key in dirs ) package.removeDir( input, spl, package.path ( basePath, key ) );
     spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

@@ -20,7 +20,7 @@ exports.default = function spl_package_create ( input ) {
         else {
             for ( var i = 0; i < contents.length; i++ ) {
                 var currentPath = `${dirPath}/${contents[i]}`;
-                if ( package.isFile ( package.path ( cwd, repo, currentPath ) ) ) packageContents[currentPath] = package.getFile( package.path ( cwd, repo, currentPath ) );
+                if ( package.isFile ( package.path ( cwd, repo, currentPath ) ) ) packageContents[currentPath] = package.getFile( input, spl, package.path ( cwd, repo, currentPath ) );
                 else iterateDir ( currentPath );
             }   
         }

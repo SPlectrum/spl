@@ -9,7 +9,7 @@ const package = require("./package")
 exports.default = function spl_package_load ( input ) {
     const cwd = spl.context ( input, "cwd" );
     const source = package.setLocation ( spl.action ( input ) );
-    const output = package.getFile ( package.path ( cwd, source.repo, source.dir, source.file ) );
+    const output = package.getFile ( input, spl, package.path ( cwd, source.repo, source.dir, source.file ) );
     spl.wsSet ( input, `spl/package.${spl.fURI ( source.file )}`, JSON.parse( output ) );
     spl.completed ( input );
 }

@@ -14,7 +14,7 @@ exports.default = function spl_package_save ( input ) {
     const dirPath = package.path ( cwd, repo, dir );
     const packageRef = `spl/package.${spl.fURI ( requestArgs.file )}`;
     package.addDir ( dirPath );
-    package.putFile ( package.path ( dirPath, requestArgs.file ), JSON.stringify( spl.wsRef ( input, packageRef ), null, 2 ) );
+    package.putFile ( input, spl, package.path ( dirPath, requestArgs.file ), JSON.stringify( spl.wsRef ( input, packageRef ), null, 2 ) );
     spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

@@ -17,8 +17,8 @@ exports.default = function spl_package_deploy ( input ) {
     for ( key in packageContents ) {
         var dirName = key.substring ( 0, key.lastIndexOf( "/" ) );
         var fileName = key.substring ( key.lastIndexOf ( "/" ) + 1 );
-        package.addDir ( package.path ( cwd, repo, dir, dirName ) );
-        if ( fileName.length > 0 ) package.putFile ( package.path ( cwd, repo, dir, key ), packageContents[key] );
+        package.addDir ( input, spl, package.path ( cwd, repo, dir, dirName ) );
+        if ( fileName.length > 0 ) package.putFile ( input, spl, package.path ( cwd, repo, dir, key ), packageContents[key] );
     }
     spl.completed ( input );
 }
