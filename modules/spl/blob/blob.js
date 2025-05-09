@@ -10,43 +10,47 @@ const fs = require('fs');
 ///////////////////////////////////////////////////////////////////////////////
 
 // adds a full dir path 
-exports.addDir = function (dirPath) {
-    console.log(`Adding dir: ${dirPath}`);
-    fs.mkdirSync(dirPath, { recursive: true });
+exports.addDir = function ( input, spl, dirPath ) {
+    spl.history ( input, `addDir file ${dirPath}` );
+    fs.mkdirSync ( dirPath, { recursive: true } );
 }
 
 // copy file from source to destination
-exports.copyFile = function (fromFilePath, toFilePath) {
-    fs.copyFile(fromFilePath, toFilePath, function (err) {
-        if (err) console.log(`error while attempting to copy ${fromFilePath} to ${toFilePath}: ${err}`); 
-        else console.log(`copied file from ${fromFilePath}\n            to ${toFilePath}`); });
+exports.copyFile = function ( input, spl, fromFilePath, toFilePath ) {
+    fs.copyFile ( fromFilePath, toFilePath, function (err) {
+        if ( err ) spl.history ( input, `ERROR - async - copy file from ${fromFilePath} to ${toFilePath} - ${err.toString()}` ); 
+        else spl.history ( input, `async - COMPLETED copy file from ${fromFilePath} to ${toFilePath}` );
+    });
 }
 
 // delete file asynchronously, in the background - asynchronous
-exports.deleteFile = function (filePath) {
-    fs.unlink(filePath,(err) => { 
-        if (err) console.log(`error while attempting to delete ${filePath}: ${err}`); 
-        else console.log(`deleted file ${filePath}`); });
+exports.deleteFile = function ( input, spl, filePath ) {
+    fs.unlink( filePath, ( err ) => { 
+        if ( err ) spl.history ( input, `ERROR - async - delete file ${filePath} - ${err.toString()}` ); 
+        else spl.history ( input, `async - COMPLETED delete file ${filePath}` );
+    });
 }
 
 // get file, synchronous
 exports.getFile = function ( filePath ) { return fs.readFileSync ( filePath, 'utf8' ); }
 
 // move file asynchronously, in the backgroud - asynchronous
-exports.moveFile = function ( fromFilePath, toFilePath ) {
+exports.moveFile = function ( input, spl, fromFilePath, toFilePath ) {
     fs.rename ( fromFilePath, toFilePath, function ( err ) {
-        if ( err ) console.log ( `error while attempting to move ${fromFilePath}: ${err}` ); 
-        else console.log ( `moved file from ${fromFilePath}\n           to ${toFilePath}` ); });
+        if ( err ) spl.history ( input, `ERROR - async - move file from ${fromFilePath} to ${toFilePath} - ${err.toString()}` ); 
+        else spl.history ( input, `async - COMPLETED move file from ${fromFilePath} to ${toFilePath}` );
+    });
 }
 
 // create a properly formatted file path
 exports.path = function ( ...args ) { return path.join ( ...args ); }
 
 // put file asynchronously, in the background - asynchronous
-exports.putFile = function ( filePath, contents ) {
+exports.putFile = function ( input, spl, filePath, contents ) {
     fs.writeFile ( filePath, contents, ( err ) => {
-        if ( err ) console.log ( `error while attempting to put ${filePath}: ${err}` ); 
-        else console.log ( `put file ${filePath}` ); });
+        if ( err ) spl.history ( input, `ERROR - async - put file ${filePath} - ${err.toString()}` ); 
+        else spl.history ( input, `async - COMPLETED put file ${filePath}` );
+     });
 }
 
 // create a properly formatted file path
