@@ -9,7 +9,7 @@ const data = require("./data.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_data_read ( input ) {
     const cwd = spl.context ( input, "cwd" );
-    var sources = spl.config ( input );
+    var sources = spl.action ( input );
     if ( !Array.isArray(sources) ) sources = [ sources ];
     for ( var i=0; i<sources.length; i++ ) {
         sources[i] = data.setLocation ( sources[i] );

@@ -6,7 +6,7 @@
 const spl = require("../spl")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_console_trace (input) { 
-    var message = spl.config ( input, "message" );
+    var message = spl.action ( input, "message" );
     if ( message.join ) message = message.join ( " " );
     console.trace ( message );
     spl.completed ( input );

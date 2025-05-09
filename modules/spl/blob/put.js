@@ -10,7 +10,7 @@ const blob = require("./blob.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_blob_put ( input ) {
     const cwd = spl.context ( input, "cwd" );
-    var sources = spl.config ( input );
+    var sources = spl.action ( input );
     if ( !Array.isArray(sources) ) sources = [ sources ];
 
     for ( var i=0; i<sources.length; i++ ) {

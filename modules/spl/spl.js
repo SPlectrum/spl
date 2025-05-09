@@ -6,13 +6,24 @@
 //              interacts with the workspace.
 ///////////////////////////////////////////////////////////////////////////////
 const { randomUUID } = require('crypto');
+///////////////////////////////////////////////////////////////////////////////
 
-// Get method specific pipeline configuration ( input, etc. )
-function spl_config ( input, key ) {
+// REWORK TO ACCEPT API OR METHOD TO READ IT FROM
+function spl_action ( input, key )
+{
+    // get the current action
+    var action;
+    if ( spl_context ( input, "action" ) === "spl/execute/next" ) action = spl_request ( input, "action");
+    else action = spl_context ( input, "action" );
+    return spl_config ( input, action, key );
+}
+exports.action = spl_action;
+
+// REWORK TO ACCEPT API OR METHOD TO READ IT FROM
+function spl_config ( input, action, key )
+{
     // split the current action ( request or execute )
-    var parts = [], result, entry;
-    if ( spl_context ( input, "action" ) === "spl/execute/next" ) parts = input.headers.spl.request.action.split ( "/" );
-    else parts = spl_context ( input, "action" ).split ( "/" );
+    var parts = parts = action.split ( "/" ), result, entry;
     const apiRef = `${parts[0]}.${parts[1]}`;
     const methodRef = `${parts[0]}.${parts[1]}.${parts[2]}`;
 
@@ -22,52 +33,85 @@ function spl_config ( input, key ) {
     if ( !( result === undefined ) ) return result;
 
     // second: check workspace method entry header for method config
-    entry = wsRef ( input, methodRef );
-    if ( entry && entry.headers && spl_rcRef ( entry.headers, methodRef ) ) {
-        if ( key === undefined ) result = entry.headers[parts[0]][parts[1]][parts[2]];
-        else result = entry.headers[parts[0]][parts[1]][parts[2]][key];
+    entry = spl_wsRef ( input, methodRef );
+    if ( entry && entry.headers ) {
+        result = spl_rcRef ( entry.headers, methodRef );
+        if ( !( result === undefined || key === undefined ) ) result = result[key];
     }
     if ( !( result === undefined ) ) return result;
 
     // third: check workspace API entry header  for method config
-    entry = wsRef ( input, `${parts[0]}/${parts[1]}` );
-    if ( entry && entry.headers && entry.headers[parts[0]] && entry.headers[parts[0]][parts[1]] && entry.headers[parts[0]][parts[1]][parts[2]] ) {
-        if ( key === undefined ) result = entry.headers[parts[0]][parts[1]][parts[2]];
-        else result = entry.headers[parts[0]][parts[1]][parts[2]][key];
+    entry = spl_wsRef ( input, apiRef );
+    if ( entry && entry.headers ) {
+        result = spl_rcRef ( entry.headers, methodRef );
+        if ( !( result === undefined || key === undefined ) ) result = result[key];
     }
     if ( !( result === undefined ) ) return result;
-    
+
+    // no API default for full method property set
     if ( key === undefined ) return result; // no default
+
     // fourth: check execution header for API config (default)
-    result = input.headers[parts[0]][parts[1]][key];
+    result = spl_rcRef ( input.headers, `${apiRef}.${key}` );
     if ( !( result === undefined ) ) return result;
     
     // fifth: check workspace API entry header for API config (default)
-    if ( entry && entry.headers && entry.headers[parts[0]] && entry.headers[parts[0]][parts[1]] )
-        result = entry.headers[parts[0]][parts[1]][key];
+    if ( entry && entry.headers ) {
+        result = spl_rcRef ( entry.headers, apiRef );
+        if ( !( result === undefined ) ) result = result[key];
+    }
     return result;
 }
 exports.config = spl_config;
 
+// get execution context properties
+function spl_context ( input, key ) { return ( ( key === undefined ) ? input.headers.spl.execute : input.headers.spl.execute[key] ); }
+exports.context = spl_context;
+
+// get request properties only ( spl/execute/request )
+function spl_request ( input, key ) { return ( ( key === undefined ) ? input.headers.spl.request : input.headers.spl.request[key] ); }
+exports.request = spl_request;
+
+// set current action specific properties 
+function spl_setAction ( input, key, value ) {
+    var action;
+    if ( spl_context ( input, "action" ) === "spl/execute/next" ) action = spl_request ( input, "action");
+    else action = spl_context ( input, "action" );
+    return spl_setConfig ( input, action, key, value );
+}
+exports.setAction = spl_setAction;
+
+// set method / api specific properties 
+function spl_setConfig ( input, action, key, value ) {
+    action = action.replaceAll ( "/", "." );
+    if ( key === undefined ) spl_rcSet ( input.headers, action, value );
+    else  spl_rcSet ( input.headers, `${action}.${key}`, value );
+}
+exports.setConfig = spl_setConfig;
+
+// set execution context properties
+function spl_setContext ( input, key, value ) { input.headers.spl.execute[key] = value; }
+exports.setContext = spl_setContext;
+
+// set request properties only ( spl/execute/request )
+function spl_setRequest ( input, key, value ) {
+    if ( key === null ) input.headers.spl.request = value;
+    else input.headers.spl.request[key] = value;
+}
+exports.setRequest = spl_setRequest;
+
 // Complete request
 exports.completed = function ( input ) {
-    var parts = [];
-    if ( input.headers.spl.execute.action === "spl/execute/next" ) {
-        parts = input.headers.spl.request.action.split ( "/" );
-        input.headers.spl.request.status = "completed";
+    var action;
+    if ( spl_context ( input, "action" ) === "spl/execute/next" ) {
+        action = spl_request ( input, "action" );
+        spl_setRequest ( input, "status", "completed" );
     } else {
-        parts = input.headers.spl.execute.action.split ( "/" );
-        input.headers.spl.execute.action = "spl/execute/set-next";
+        action = spl_context ( input, "action" );
+        spl_setContext ( input, "action", "spl/execute/set-next" );
     }
-    if ( input.headers[parts[0]] && input.headers[parts[0]][parts[1]] ) delete input.headers.spl[parts[1]][parts[2]];
+    spl_rcDelete ( input.headers, action );
 }
-
-// get execution context properties
-function spl_context ( input, key ) {
-    if ( key === undefined ) return input.headers.spl.execute;
-    return input.headers.spl.execute[key];
-}
-exports.context = spl_context;
 
 // construct a forward slash path with filename for platform internal use - dot converted to underscore
 exports.fURI = function ( ... args ) { 
@@ -81,24 +125,28 @@ function generateUUID() { return randomUUID(); }
 exports.generateUUID = generateUUID;
 
 // wsAction sets an action for the execution context
-exports.gotoExecute = function ( input, action, args ) {
+exports.gotoExecute = function ( input, action, args )
+{
     var parts = action.split ( "/" );
-    if ( args != undefined ) input.headers[parts[0]][parts[1]][parts[2]] = args;
-    input.headers.spl.request[`${parts[1]}_next`] = action;
-    input.headers.spl.request.status = parts[1];
-    input.headers.spl.request.repeat = false;
-    parts = input.headers.spl.request.action.split ( "/" );
-    delete input.headers.spl[parts[1]][parts[2]];
+    if ( args != undefined ) spl_rcSet ( input.headers, parts.join ( "." ), args );
+    spl_setRequest ( input, `${parts[1]}_next`, action );
+    spl_setRequest ( input, "status", parts[1] );
+    spl_setRequest ( input, "repeat", false );
+    spl_request ( input, "action" ); //.split ( "/" );
+    spl_rcDelete ( input.headers, spl_request ( input, "action" ).replaceAll ( "/", "." ) );
 }
 
 // add to execution history
-exports.history = function ( input, activity ) {
-    var message = `${input.headers.spl.request.action} - ${input.headers.spl.execute.action}`;
-    if ( activity != "" ) message += ` --> ${activity}`;
-    input.headers.spl.execute.history.push ( message );
+exports.history = function ( input, activity )
+{
+    const action = spl_request ( input, "action" ); 
+    var message = `${action} - ${spl_context ( input, "action" )}`;
+    if ( activity ) message += ` --> ${activity}`;
+    spl_context ( input, "history" ).push ( message );
     var consoleProgress = spl_context ( input, "consoleProgress" );
-    if ( consoleProgress && consoleProgress != input.headers.spl.request.action ) {
-        consoleProgress = input.headers.spl.request.action;
+    if ( consoleProgress && consoleProgress != action )
+    {
+        consoleProgress = action;
         console.log ( ` > ${consoleProgress}` );
         spl_setContext ( input, "consoleProgress", consoleProgress );
     }
@@ -109,33 +157,33 @@ exports.history = function ( input, activity ) {
 // easy functions to invoke actions
 exports.moduleAction = function (input, module)
 {
-    const cwd = input.headers.spl.execute.cwd;
-    const moduleRoot = (input.headers.spl.execute.modules===undefined) ? "modules" : input.headers.spl.execute.modules;
-    return require(`${cwd}/${moduleRoot}/${module}`).default(input);
+    var moduleRoot = spl_context ( input, "modules" );
+    if ( moduleRoot === undefined ) moduleRoot = "modules";
+    return require ( `${ spl_context ( input, "cwd" )}/${moduleRoot}/${module}`).default ( input );
 }
 
 // gets a deep clone of a keyvalue in input
-function spl_rcGet (reference, key)
+function spl_rcDelete (reference, key)
 { 
     const keys = key.split(".");
     for(i=0; i<keys.length; i++)
     {
-        if(reference[keys[i]]==undefined) return undefined;
+        if(reference[keys[i]]==undefined) return;
         reference = reference[keys[i]];
     }
-    return structuredClone(reference);
+    delete reference;
 }
+exports.rcDelete = spl_rcDelete;
+
+// gets a deep clone of a keyvalue in input
+function spl_rcGet (reference, key) { return structuredClone ( spl_rcRef ( reference, key ) ); }
 exports.rcGet = spl_rcGet;
 
 // gets a reference to a keyvalue in input
 function spl_rcRef (reference, key)
 { 
     const keys = key.split(".");
-    for(i=0; i<keys.length; i++)
-    {
-        if(reference[keys[i]]==undefined) return undefined;
-        reference = reference[keys[i]];
-    }
+    for( i = 0; i < keys.length; i++) { if ( reference[keys[i]] === undefined ) return undefined; reference = reference[keys[i]]; }
     return reference;
 }
 exports.rcRef = spl_rcRef;
@@ -144,54 +192,24 @@ exports.rcRef = spl_rcRef;
 function spl_rcSet (reference, key, value)
 { 
     const keys = key.split(".");
-    for(i=0; i<keys.length-1; i++) {
-        if( reference[keys[i]] === undefined ) reference[keys[i]] = {};
-        reference = reference[keys[i]];
-    } 
+    for( i = 0; i < keys.length-1; i++) { if( reference[keys[i]] === undefined ) reference[keys[i]] = {}; reference = reference[keys[i]]; } 
     reference[keys[i]] = value;
+    return reference[keys[i]]
 }
 exports.rcSet = spl_rcSet;
 
-// get request context properties
-exports.request = function ( input, key ) {
-    if ( key === undefined ) return input.headers.spl.request;
-    return input.headers.spl.request[key];
-}
-
-// Get method specific pipeline configuration ( input, etc. )
-function spl_setConfig ( input, action, key, value ) {
-    action = action.replaceAll ( "/", "." );
-    if ( key === undefined ) spl_rcSet ( input.headers, action, value );
-    else  spl_rcSet ( input.headers, `${action}.${key}`, value );
-}
-exports.setConfig = spl_setConfig;
-
-// get execution context properties
-function spl_setContext ( input, key, value ) {
-    input.headers.spl.execute[key] = value;
-}
-exports.setContext = spl_setContext;
-
-// get request context properties
-exports.setRequest = function ( input, key, value ) {
-    if ( key === null ) input.headers.spl.request = value;
-    else input.headers.spl.request[key] = value;
-}
-
 // Complete request
-exports.throwError = function ( input, message ) {
-    if ( spl_context ( input, "action" ) === "spl/execute/next" ) {
-        spl_setConfig ( input, "status", "error");
-        input.headers.spl.request.error_next = "spl/error/catch";
-    } else {
-        input.headers.spl.execute.action = "spl/error/catch";
-    }
+exports.throwError = function ( input, message )
+{
+    if ( spl_context ( input, "action" ) === "spl/execute/next" ) 
+        { spl_setConfig ( input, "status", "error"); spl_setConfig ( input, "error_next", "spl/error/catch" ); }
+    else spl_setContext ( input, "action", "spl/error/catch" );
     spl_setConfig ( input, "spl/error/catch", "message", message );
 }
 
 // construct a forward slash path for platform internal use
 exports.URI = function ( ...args ) { 
-    var result = []; for(var i=0; i<args.length; i++) if(args[i] != "") result.push(args[i]);;
+    var result = []; for ( var i = 0; i < args.length; i++ ) if ( args[i] != "" ) result.push ( args[i] );
     return result.join ( "/" );
 }
 
@@ -199,52 +217,32 @@ exports.URI = function ( ...args ) {
 exports.wsExists = function ( input, key, action, args, repeat ) {
     const parts = action.split ( "/" );
     if( input.value[key] === undefined ) {
-        if( Array.isArray ( args ) ) spl_rcSet ( input.headers, `${[parts[0]]}.${[parts[1]]}.${[parts[2]]}`, args ); //input.headers[parts[0]][parts[1]][parts[2]] = args;
-        else spl_rcSet ( input.headers, `${[parts[0]]}.${[parts[1]]}.${[parts[2]]}`, [ args ] ); //input.headers[parts[0]][parts[1]][parts[2]] = [ args ];
-        input.headers.spl.request[`${parts[1]}_next`] = action;
-        input.headers.spl.request.status = parts[1];
-        input.headers.spl.request.repeat = repeat;
+        if( Array.isArray ( args ) ) spl_rcSet ( input.headers, parts.join ( "." ), args );
+        else spl_rcSet ( input.headers, parts.join ( "." ), [args] );
+        spl_setRequest ( input, `${parts[1]}_next`, action );
+        spl_setRequest ( input, "status", parts[1] );
+        spl_setRequest ( input, "repeat", repeat );
         return false;
     }
     return true;
 }
 
 // wsGet returns a deep clone of a keyvalue in input.value.
-exports.wsGet = function (record, key)
-{ 
-    const parts = key.split ( "." );
-    if ( parts.length == 1  ) return structuredClone(record.value[parts[0]]);
-    else return structuredClone(record.value[parts[0]].value[parts[1]]);
-}
+exports.wsGet = function ( record, key ) { return structuredClone ( spl_wsRef ( record, key ) ); }
 
 // wsGet returns a reference to a keyvalue in input.value.
-function wsRef (record, key)
-{ 
-    const parts = key.split ( "." );
-    if ( parts.length == 1  ) return record.value[parts[0]];
-    else {
-        if ( record.value[parts[0]] === undefined ) return undefined;
-        else return record.value[parts[0]].value[parts[1]];
-    }
-}
-exports.wsRef = wsRef;
+function spl_wsRef (record, key) { return spl_rcRef ( record.value, key.replace ( ".", ".value." ) ); }
+exports.wsRef = spl_wsRef;
 
 // wsSet property sets a key in input.value but archives the existing keyvalue in an array.
-exports.wsSet = function (record, key, value)
+exports.wsSet = function (input, key, value)
 { 
-    const parts = key.split ( "." );
-    const current = wsRef(record, key);
+    const expandedKey = key.replaceAll ( ".", ".value." );
+    const current = spl_rcRef ( input.value, expandedKey );
     if( !( current === undefined ) ) {
-        var archive;
-        if ( parts.length == 1 && record.value[`${parts[0]}/archive`] === undefined ) record.value[`${parts[0]}/archive`] = [];
-        else if ( parts.length == 2 && record.value[parts[0]].value[`${parts[1]}/archive`] === undefined )
-             record.value[parts[0]].value[`${parts[1]}/archive`] = [];
-        archive = ( parts.length == 1 ) ? record.value[`${parts[0]}/archive`] : record.value[parts[0]].value[`${parts[1]}/archive`];
+        var archive = spl_rcRef ( input.value, `${expandedKey}/archive` );
+        if ( archive === undefined ) archive = spl_rcSet ( input.value, `${expandedKey}/archive`, [] );
         archive.push(current);
     }
-    if ( parts.length == 1  ) record.value[parts[0]] = value;
-    else {
-        if ( record.value[parts[0]] === undefined ) record.value[parts[0]] = { headers: {}, value: {} };
-        record.value[parts[0]].value[parts[1]] = value;
-    }
+    spl_rcSet ( input.value, expandedKey, value );
 }

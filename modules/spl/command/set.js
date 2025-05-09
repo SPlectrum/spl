@@ -8,8 +8,8 @@ const spl = require("../spl.js");
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_command_set ( input ) {
 
-    if(!spl.wsExists ( input, "spl/command", "spl/data/read", spl.config ( input, "template" ), true ) ) return;
-    var source = spl.config ( input );
+    if(!spl.wsExists ( input, "spl/command", "spl/data/read", spl.action ( input, "template" ), true ) ) return;
+    var source = spl.action ( input );
     var destination = spl.wsRef ( input, "spl/command" );
     spl.rcSet( destination, "headers.spl.command.repo", source.template.repo );
     spl.rcSet( destination, "headers.spl.command.parser.repo", source.template.repo );

@@ -6,7 +6,7 @@
 const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_error_catch ( input ) {
-    const message = spl.config ( input, "message" );
+    const message = spl.action ( input, "message" );
     spl.setContext ( input, "status", "red" );
     spl.history ( input, `ERROR - ${message}` );
     spl.setContext ( input, "action", "spl/execute/complete" );

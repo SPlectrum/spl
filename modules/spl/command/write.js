@@ -11,7 +11,7 @@ exports.default = function spl_command_write ( input ) {
     
     const spl_command = spl.wsGet ( input,"spl/command" );
     const repo = spl_command.headers.spl.command.repo;
-    const dir = spl.URI( "commands", spl.config ( input, "destination" ) );
+    const dir = spl.URI( "commands", spl.action ( input, "destination" ) );
     input.headers.spl.data.write = [ { repo: repo, dir: dir } ];
 
     for(key in spl_command.parsed) spl_command.value[key] = input.value[key];

@@ -6,7 +6,7 @@
 const spl = require("../spl")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_console_error (input) { 
-    var message = spl.config ( input, "message" );
+    var message = spl.action ( input, "message" );
     if(message.join) message = message.join(" ");
     console.error(message);
     spl.completed(input);

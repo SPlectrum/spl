@@ -8,7 +8,7 @@ const package = require("./package.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_package_save ( input ) {
     const cwd = spl.context ( input, "cwd" );
-    const requestArgs = package.setLocation ( spl.config ( input ) );
+    const requestArgs = package.setLocation ( spl.action ( input ) );
     const repo = requestArgs.repo;
     const dir = requestArgs.dir;
     const dirPath = package.path ( cwd, repo, dir );

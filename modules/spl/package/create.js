@@ -9,7 +9,7 @@ const package = require("./package")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_package_create ( input ) {
     const cwd = spl.context ( input, "cwd" );
-    const requestArgs = package.setLocation ( spl.config ( input ) );
+    const requestArgs = package.setLocation ( spl.action ( input ) );
     const repo = requestArgs.repo;
     const packageRef = `spl/package.${spl.fURI ( requestArgs.file )}`;
     spl.wsSet ( input, packageRef, { headers: { spl: { package: { name: requestArgs.file } } }, value: {} } );

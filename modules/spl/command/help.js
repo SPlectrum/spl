@@ -9,7 +9,7 @@ const command = require("./command");
 const help = require("command-line-usage");
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_command_help ( input ) {
-    const helpRequests = spl.config ( input );
+    const helpRequests = spl.action( input );
     const splCommand = spl.wsRef ( input, "spl/command" );
     const parserOptionsURI = spl.fURI("spl/command", splCommand.headers.spl.command.parser.file);
     const parserOptions = spl.wsRef ( input, parserOptionsURI ).value;
