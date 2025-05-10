@@ -6,12 +6,14 @@
 const spl = require("../spl.js");
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_command_load_parser_options ( input ) {
-    const splCommand = spl.wsRef ( input, "spl/command" );
-    const parserOptionsURI = spl.fURI("spl/command", splCommand.headers.spl.command.parser.file);
-    const args = [ splCommand.headers.spl.command.parser ];
-    args[0].reference = [ spl.fURI("spl/command", splCommand.headers.spl.command.parser.file) ];
-    if(!spl.wsExists ( input, parserOptionsURI, "spl/blob/get", args, true )) return;
-    input.value[parserOptionsURI] = JSON.parse(input.value[parserOptionsURI]);
+    const splCommand = spl.wsRef ( input, "spl/command" ).headers.spl.command.parser;
+    const parserUri = `spl/blob.${spl.fURI ( splCommand.repo, splCommand.dir, splCommand.file )}`;
+    const parserOptionsURI = `spl/command.${spl.fURI ( splCommand.file )}`;
+    const args = [ splCommand ];
+
+    // reference must be entry within spl/command
+    if(!spl.wsExists ( input, parserUri, "spl/blob/get", args, true )) return;
+    spl.wsSet ( input, parserOptionsURI,  JSON.parse ( spl.wsRef ( input, parserUri ) ) );
     spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

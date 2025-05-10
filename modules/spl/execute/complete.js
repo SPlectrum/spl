@@ -18,7 +18,8 @@ exports.default = function spl_execute_complete ( input ) {
         case "red": console.log(`Command completed with errors ( ${spl.context ( input, "duration" )} ms ).`); break;
     }
     console.log( "" );
-    if ( spl.context ( input, "consoleMode" ) === "debug" ) console.dir ( input, { depth: 10 } );
+//    console.dir ( input, { depth: 100 } );
+    if ( spl.context ( input, "consoleMode" ) === "debug" ) console.dir ( input, { depth: 100 } );
     else if ( spl.context ( input, "consoleMode" ) === "verbose" ) console.log ( "Verbose output mode not implemented yet." );
 }
 ///////////////////////////////////////////////////////////////////////////////

@@ -13,7 +13,7 @@ exports.default = function spl_command_execute (input) {
             spl: {
                 execute: {
                     pipeline: [
-                        { action: "spl/command/set" },
+                        { action: "spl/command/set", "spl/command/set": spl.action ( input, "set" ) },
                         { action: "spl/command/write", "spl/command/write": { destination: "requests" } }, 
                         { action: "spl/command/load-parser-options" },
                         { action: "spl/command/parse" },

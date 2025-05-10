@@ -216,7 +216,7 @@ exports.URI = function ( ...args ) {
 // wsExists checks the presence of a property and loads it when not
 exports.wsExists = function ( input, key, action, args, repeat ) {
     const parts = action.split ( "/" );
-    if( input.value[key] === undefined ) {
+    if( spl_wsRef ( input, key ) === undefined ) {
         if( Array.isArray ( args ) ) spl_rcSet ( input.headers, parts.join ( "." ), args );
         else spl_rcSet ( input.headers, parts.join ( "." ), [args] );
         spl_setRequest ( input, `${parts[1]}_next`, action );

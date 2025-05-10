@@ -13,8 +13,10 @@ exports.default = function spl_command_set ( input ) {
     var destination = spl.wsRef ( input, "spl/command" );
     spl.rcSet( destination, "headers.spl.command.repo", source.template.repo );
     spl.rcSet( destination, "headers.spl.command.parser.repo", source.template.repo );
-    spl.rcSet( destination, "value.commandString", source.commandString );
-    spl.rcSet( destination, "value.UUID", source.UUID );
+
+    // needs proper entry in spl/command
+    spl.wsSet( input, "spl/command.commandString", source.commandString );
+    spl.wsSet( input, "spl/command.UUID", source.UUID );
 
     spl.completed ( input );
 }

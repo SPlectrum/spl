@@ -9,9 +9,8 @@ const command = require("./command");
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_command_parse (input) { 
 
-  const parserOptionsURI = spl.fURI("spl/command", input.value["spl/command"].headers.spl.command.parser.file);
-  const parseOptions = spl.wsGet(input, `${parserOptionsURI}`).value;
-
+  const parserOptionsURI = `spl/command.${spl.fURI ( spl.wsRef ( input, "spl/command" ).headers.spl.command.parser.file )}`;
+  const parseOptions = spl.wsGet(input, parserOptionsURI).value;
   var splCmd, result, parseOnly = false, steps, registeredCommand, commandAction, pipeline = [], cmdArray = [], help = [], commandOptions = [];
   input.headers.spl.command.help = help;
   function parseCommand() {
@@ -39,13 +38,10 @@ exports.default = function spl_command_parse (input) {
   cmdObject = spl.wsRef(input, "spl/command").value;
   var cmdString = cmdObject.commandString.join(" ").split("_!_");
   for(var i = 0; i<cmdString.length; i++) {
-    cmdObject = structuredClone(cmdObject);
-    cmdObject.commandString = cmdString[i].split(" ");
-    cmdArray.push(cmdObject);
+    cmdArray.push( { commandString: cmdString[i].split(" ") } );
   }
-  spl.wsSet(input, "spl/command.value", cmdArray);
+  spl.wsSet(input, "spl/command.commands", cmdArray);
 
-//  cmdArray = [ spl.wsRef(input, "spl/command.value") ]
   for ( var i = 0; i<cmdArray.length; i++ ) {
 
     commandAction = "";
@@ -67,6 +63,7 @@ exports.default = function spl_command_parse (input) {
 
     parseCommand();
 
+    // set pipeline to execute, MAKE SURE SPAWN IS SET (CREATE AGS FOR spl/execute/set-pipeline)
     if ( registeredCommand != undefined ) {
       const newRequest = { action: registeredCommand, status: "pending" };
       newRequest[registeredCommand] = splCmd.parsed[registeredCommand].value;
@@ -75,7 +72,7 @@ exports.default = function spl_command_parse (input) {
     }
   }
 
-  // switch to help pipeline if help flag was set
+  // switch to help pipeline if help flag was set, MAKE SURE SPAWN IS NOT SET (CREATE AGS FOR spl/execute/set-pipeline)
   if( help.length > 0 ) {
     pipeline = [ { action: "spl/command/help", "spl/command/help": help } ]
   }
