@@ -7,7 +7,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl")
 ///////////////////////////////////////////////////////////////////////////////
-exports.default = function spl_execute_set_pipeline ( input ) {
+exports.default = async function spl_execute_set_pipeline ( input )
+{
+    // spawn == false;
     const newPipeline = structuredClone ( spl.rcRef ( spl.wsRef ( input, "spl/execute.set-pipeline" ), "headers.spl.execute.pipeline" ) );
     spl.setContext ( input, "pipeline", newPipeline.concat ( spl.context ( input, "pipeline" ) ) );
     spl.setContext ( input, "action", "spl/execute/set-next" );

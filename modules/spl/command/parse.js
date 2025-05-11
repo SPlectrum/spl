@@ -79,7 +79,8 @@ exports.default = function spl_command_parse (input) {
 
   if ( !parseOnly ) {
     if ( pipeline.length > 0 ) spl.wsSet(input, "spl/execute.set-pipeline", { headers: { spl: { execute: { pipeline: pipeline } } }, value: {} });
-    spl.gotoExecute ( input, "spl/execute/set-pipeline" );
+//    spl.gotoExecute ( input, "spl/execute/set-pipeline" );
+    spl.gotoExecute ( input, "spl/execute/spawn" );
   } else spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

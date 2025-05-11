@@ -140,8 +140,7 @@ exports.gotoExecute = function ( input, action, args )
 exports.history = function ( input, activity )
 {
     const action = spl_request ( input, "action" ); 
-    var message = `${action} - ${spl_context ( input, "action" )}`;
-    if ( activity ) message += ` --> ${activity}`;
+    var message = [ action, spl_context ( input, "action" ), activity ];
     spl_context ( input, "history" ).push ( message );
     var consoleProgress = spl_context ( input, "consoleProgress" );
     if ( consoleProgress && consoleProgress != action )
@@ -150,8 +149,8 @@ exports.history = function ( input, activity )
         console.log ( ` > ${consoleProgress}` );
         spl_setContext ( input, "consoleProgress", consoleProgress );
     }
-    if ( activity.substring ( 0, 5 ) == "ERROR" ) console.error ( message );
-    else if ( spl_context ( input, "consoleMode" ) != "silent" && activity.substring ( 0, 7 ) == "WARNING" ) console.error ( message );
+    if ( activity.substring ( 0, 5 ) == "ERROR" ) console.error ( message.join ( " - " ) );
+    else if ( spl_context ( input, "consoleMode" ) != "silent" && activity.substring ( 0, 7 ) == "WARNING" ) console.error ( message.join ( " - " ) );
 }
 
 // easy functions to invoke actions

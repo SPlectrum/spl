@@ -7,10 +7,14 @@
 const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_execute_initialise ( input ) {
-    spl.setContext ( input, "pipeline", [ ]);
+    if ( spl.request ( input, "action" ) == "spl/execute/spawn" ) {
+        spl.setContext ( input, "action", "spl/execute/set-next" );
+    } else {
+        spl.setContext ( input, "pipeline", [ ]);
+        spl.setContext ( input, "action", "spl/execute/next" );
+    }
     spl.setContext ( input, "startTime", Date.now() );
     if( spl.context ( input, "TTL" ) === undefined ) spl.setContext ( input, "TTL", 100 );
     spl.setContext ( input, "status", "green" );
-    spl.setContext ( input, "action", "spl/execute/next" );
 }
 ///////////////////////////////////////////////////////////////////////////////

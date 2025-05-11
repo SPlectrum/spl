@@ -13,7 +13,7 @@ exports.default = function spl_execute_complete ( input ) {
     const status = spl.context ( input, "status" );
     console.log( "" );
     switch ( status ) {
-        case "green": console.log(`Command completed succesfully ( ${spl.context ( input, "duration" )} ms ).`); break;
+        case "green": console.log(`${spl.context ( input, "history" )[0][0]} completed succesfully ( ${spl.context ( input, "duration" )} ms ).`); break;
         case "orange": console.log(`Command completed with warnings ( ${spl.context ( input, "duration" )} ms ).`); break;
         case "red": console.log(`Command completed with errors ( ${spl.context ( input, "duration" )} ms ).`); break;
     }
