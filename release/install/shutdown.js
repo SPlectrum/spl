@@ -6,16 +6,17 @@ const reset = (process.argv[2] === "--reset") ? true : false;
 var input = {
     headers:  { 
         spl: { 
-            execute: { cwd: cwd, modules: "install/modules"  },
+            execute: { action: "spl/execute/next", cwd: cwd, modules: "install/modules"  },
             package: { load: { repo: "install", dir: "packages", file: "dirs_toplevel.json" } },
-            request: { }
+            request: { action: "spl/package/load" }
         }
     },
     value: { }
 }
-input = spl.moduleAction(input, "spl/package/load");
+spl.moduleAction(input, "spl/package/load");
 console.log(JSON.stringify(input,null,2));
-input.headers.spl.package.remove = { repo: "", dir: "", file: "dirs_toplevel.json" };
-input = spl.moduleAction(input, "spl/package/remove");
+spl.setConfig ( input, "spl/package/remove", null, { repo: "", dir: "", file: "dirs_toplevel.json" } );
+spl.setRequest ( input, "action", "spl/package/remove" )
+spl.moduleAction(input, "spl/package/remove");
 console.log(JSON.stringify(input,null,2));
 

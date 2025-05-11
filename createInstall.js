@@ -13,7 +13,7 @@ var input = {
     value: { }
 }
 spl.moduleAction(input, "spl/package/create");
-input.headers.spl.request.action = "spl/package/deploy";
+spl.setRequest ( input, "action", "spl/package/deploy" )
 input.headers.spl.package.deploy = { repo: "spl", dir: "", file: "release_files.json" };
 spl.moduleAction(input, "spl/package/deploy");
 console.log(JSON.stringify(input, null, 2));
@@ -30,7 +30,7 @@ var input = {
     value: { }
 }
 spl.moduleAction(input, "spl/package/create");
-input.headers.spl.request.action = "spl/package/deploy";
+spl.setRequest ( input, "action", "spl/package/deploy" )
 input.headers.spl.package.deploy = { repo: "spl/install", dir: "modules", file: "modules_spl.json" };
 spl.moduleAction(input, "spl/package/deploy");
 console.log(JSON.stringify(input, null, 2));
