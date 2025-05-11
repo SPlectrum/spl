@@ -84,19 +84,22 @@ exports.setAction = spl_setAction;
 // set method / api specific properties 
 function spl_setConfig ( input, action, key, value ) {
     action = action.replaceAll ( "/", "." );
-    if ( key === undefined ) spl_rcSet ( input.headers, action, value );
+    if ( key === null ) spl_rcSet ( input.headers, action, value );
     else  spl_rcSet ( input.headers, `${action}.${key}`, value );
 }
 exports.setConfig = spl_setConfig;
 
 // set execution context properties
-function spl_setContext ( input, key, value ) { input.headers.spl.execute[key] = value; }
+function spl_setContext ( input, key, value ) { 
+    if ( key === null ) return spl_rcSet ( input, "headers.spl.execute", value ); 
+    else return spl_rcSet ( input, `headers.spl.execute.${key}`, value ); 
+}
 exports.setContext = spl_setContext;
 
 // set request properties only ( spl/execute/request )
 function spl_setRequest ( input, key, value ) {
-    if ( key === null ) input.headers.spl.request = value;
-    else input.headers.spl.request[key] = value;
+    if ( key === null ) return spl_rcSet ( input, "headers.spl.request", value );
+    else spl_rcSet ( input, `headers.spl.request.${key}`, value );
 }
 exports.setRequest = spl_setRequest;
 
@@ -141,7 +144,9 @@ exports.history = function ( input, activity )
 {
     const action = spl_request ( input, "action" ); 
     var message = [ action, spl_context ( input, "action" ), activity ];
-    spl_context ( input, "history" ).push ( message );
+    var history = spl_context ( input, "history" );
+    if ( history === undefined ) history = spl_setContext ( input, "history", [] );
+    history.push ( message );
     var consoleProgress = spl_context ( input, "consoleProgress" );
     if ( consoleProgress && consoleProgress != action )
     {

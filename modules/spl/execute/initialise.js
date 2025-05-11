@@ -10,6 +10,7 @@ exports.default = function spl_execute_initialise ( input ) {
     if ( spl.request ( input, "action" ) == "spl/execute/spawn" ) {
         spl.setContext ( input, "action", "spl/execute/set-next" );
     } else {
+        spl.setContext ( input, "graph", { UUID: spl.generateUUID(), ancestors: [], children: [] })
         spl.setContext ( input, "pipeline", [ ]);
         spl.setContext ( input, "action", "spl/execute/next" );
     }

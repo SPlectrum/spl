@@ -7,6 +7,9 @@ const spl = require("../spl")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = async function spl_execute_spawn ( input )
 {
+    const childUUID = spl.generateUUID();
+    const graph = spl.context ( input, "graph" );
+    graph.children.push ( childUUID );
     spawnInput = { headers: { spl: { execute: {}, request: { action: "spl/execute/spawn" } } }, value: {} }
     const execute = {
         action: "spl/execute/initialise", 
@@ -16,10 +19,11 @@ exports.default = async function spl_execute_spawn ( input )
         cwd: spl.context ( input, "cwd" ), 
         session: spl.context ( input, "session" ),  
         modules: spl.context ( input, "modules" ),
-        pipeline:  structuredClone ( spl.rcRef ( spl.wsRef ( input, "spl/execute.set-pipeline" ), "headers.spl.execute.pipeline" ) )
+        pipeline:  structuredClone ( spl.context ( spl.wsRef ( input, "spl/execute.set-pipeline" ), "pipeline" ) ),
+        graph: { UUID: childUUID, ancestors: structuredClone( graph.ancestors ), children: [] }
     }; 
-    spl.rcSet ( spawnInput, "headers.spl.execute", execute );
-//        console.dir(spawnInput,{depth:100});
+    execute.graph.ancestors.unshift ( graph.UUID );
+    spl.setContext ( spawnInput, null, execute );
     setImmediate ( () => spl.moduleAction ( spawnInput, "spl/execute/execute" ) );
     spl.setContext ( input, "action", "spl/execute/set-next" );
 }
