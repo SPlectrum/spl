@@ -8,7 +8,7 @@
 const { randomUUID } = require('crypto');
 ///////////////////////////////////////////////////////////////////////////////
 
-// REWORK TO ACCEPT API OR METHOD TO READ IT FROM
+// Gets a configuration value associated with the action currently being executed
 function spl_action ( input, key )
 {
     // get the current action
@@ -19,7 +19,7 @@ function spl_action ( input, key )
 }
 exports.action = spl_action;
 
-// REWORK TO ACCEPT API OR METHOD TO READ IT FROM
+// Gets a configuration value for the specified action
 function spl_config ( input, action, key )
 {
     // split the current action ( request or execute )
@@ -113,7 +113,7 @@ exports.completed = function ( input ) {
         action = spl_context ( input, "action" );
         spl_setContext ( input, "action", "spl/execute/set-next" );
     }
-    spl_rcDelete ( input.headers, action );
+    spl_rcDelete ( input.headers, action.replaceAll ( "/", "." ) );
 }
 
 // construct a forward slash path with filename for platform internal use - dot converted to underscore
@@ -170,12 +170,12 @@ exports.moduleAction = function (input, module)
 function spl_rcDelete (reference, key)
 { 
     const keys = key.split(".");
-    for(i=0; i<keys.length; i++)
+    for( i = 0; i < keys.length - 1; i++)
     {
         if(reference[keys[i]]==undefined) return;
         reference = reference[keys[i]];
     }
-    delete reference;
+    delete reference[keys[i]];
 }
 exports.rcDelete = spl_rcDelete;
 
@@ -206,7 +206,7 @@ exports.rcSet = spl_rcSet;
 exports.throwError = function ( input, message )
 {
     if ( spl_context ( input, "action" ) === "spl/execute/next" ) 
-        { spl_setConfig ( input, "status", "error"); spl_setConfig ( input, "error_next", "spl/error/catch" ); }
+        { spl_setRequest ( input, "status", "error"); spl_setRequest ( input, "error_next", "spl/error/catch" ); }
     else spl_setContext ( input, "action", "spl/error/catch" );
     spl_setConfig ( input, "spl/error/catch", "message", message );
 }
@@ -232,10 +232,15 @@ exports.wsExists = function ( input, key, action, args, repeat ) {
 }
 
 // wsGet returns a deep clone of a keyvalue in input.value.
-exports.wsGet = function ( record, key ) { return structuredClone ( spl_wsRef ( record, key ) ); }
+exports.wsGet = function ( input, key ) { return structuredClone ( spl_wsRef ( input, key ) ); }
 
-// wsGet returns a reference to a keyvalue in input.value.
-function spl_wsRef (record, key) { return spl_rcRef ( record.value, key.replace ( ".", ".value." ) ); }
+// wsRef returns a reference to a keyvalue in input.value.
+function spl_wsRef (input, key) 
+{ 
+    var value = spl_rcRef ( input.value, key.replace ( ".", ".value." ) );
+    if ( typeof value == "string" ) value = spl_wsRef ( input, value );
+    return value;
+}
 exports.wsRef = spl_wsRef;
 
 // wsSet property sets a key in input.value but archives the existing keyvalue in an array.

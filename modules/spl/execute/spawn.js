@@ -16,6 +16,7 @@ exports.default = async function spl_execute_spawn ( input )
         history: [], 
         consoleProgress: "start",
         consoleMode: "standard", // silent, warning, verbose, debug 
+        runtimeMode: spl.context ( input, "runtimeMode" ),
         cwd: spl.context ( input, "cwd" ), 
         session: spl.context ( input, "session" ),  
         modules: spl.context ( input, "modules" ),

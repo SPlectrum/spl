@@ -24,39 +24,41 @@ exports.default = function spl_execute_execute ( input ) {
         if ( execAction === "spl/execute/initialise" || execAction === "spl/execute/complete" ) {
 
             var dir = execAction.substring(execAction.lastIndexOf("/")+1);
-            if ( dir === "initialise" ) {
+            if ( spl.context ( input, "runtimeMode") != "silent" ) {
+                if ( dir === "initialise" ) {
 
-                const filePath = spl.URI ( "runtime", session, "requests/initialise" );
-                const writeRecord = {
-                    headers: { 
-                        spl: { 
-                            data: { write: [ { repo: spl.URI ( "runtime", session ), dir: "requests/initialise" } ], history: [] },
-                            execute: structuredClone ( spl.context ( input ) ),
-                            request: { action: "spl/data/write"}
-                        } 
-                    },
-                    value: { "spl/data": { headers: {}, value: { [ filePath ]: structuredClone ( input ) } } }
+                    const filePath = spl.URI ( "runtime", session, "requests/initialise" );
+                    const writeRecord = {
+                        headers: { 
+                            spl: { 
+                                data: { write: [ { repo: spl.URI ( "runtime", session ), dir: "requests/initialise" } ], history: [] },
+                                execute: structuredClone ( spl.context ( input ) ),
+                                request: { action: "spl/data/write"}
+                            } 
+                        },
+                        value: { "spl/data": { headers: {}, value: { [ filePath ]: structuredClone ( input ) } } }
+                    }
+                    spl.setContext ( writeRecord, "action", "spl/execute/next" );
+                    spl.moduleAction( writeRecord, "spl/data/write" );
+                    spl.setContext ( input, "fileName", spl.rcRef ( spl.wsRef ( writeRecord, `spl/data.${filePath}` ), "headers.spl.data.file" ) );
                 }
-                spl.setContext ( writeRecord, "action", "spl/execute/next" );
-                spl.moduleAction( writeRecord, "spl/data/write" );
-                spl.setContext ( input, "fileName", spl.rcRef ( spl.wsRef ( writeRecord, `spl/data.${filePath}` ), "headers.spl.data.file" ) );
-            }
-            else {
-                const putFile = {};
-                putFile[ spl.fURI ( "runtime", session, "requests/complete", spl.context ( input, "fileName" ) ) ] = JSON.stringify ( input, null, 2 );
-                const putRecord = {
-                    headers: { 
-                        spl: { 
-                            blob: { put: [ { repo: spl.URI ( "runtime", session ), dir: "requests/complete", file: spl.context ( input, "fileName" ) } ] },
-                            execute: structuredClone ( spl.context ( input ) ),
-                            request: { action: "spl/blob/put"}
-                        } 
-                    },
-                    value: { "spl/blob": { headers: {}, value: putFile } }
+                else {
+                    const putFile = {};
+                    putFile[ spl.fURI ( "runtime", session, "requests/complete", spl.context ( input, "fileName" ) ) ] = JSON.stringify ( input, null, 2 );
+                    const putRecord = {
+                        headers: { 
+                            spl: { 
+                                blob: { put: [ { repo: spl.URI ( "runtime", session ), dir: "requests/complete", file: spl.context ( input, "fileName" ) } ] },
+                                execute: structuredClone ( spl.context ( input ) ),
+                                request: { action: "spl/blob/put"}
+                            } 
+                        },
+                        value: { "spl/blob": { headers: {}, value: putFile } }
+                    }
+                    spl.setContext ( putRecord, "consoleProgress", undefined );
+                    spl.setContext ( putRecord, "action", "spl/execute/next" );
+                    spl.moduleAction( putRecord, "spl/blob/put" );
                 }
-                spl.setContext ( putRecord, "consoleProgress", undefined );
-                spl.setContext ( putRecord, "action", "spl/execute/next" );
-                spl.moduleAction( putRecord, "spl/blob/put" );
             }
         }
 

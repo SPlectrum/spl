@@ -15,6 +15,11 @@ exports.addDir = function ( input, spl, dirPath ) {
     fs.mkdirSync ( dirPath, { recursive: true } );
 }
 
+// returns an array of files and dirs - synchronous
+exports.dirContents = function ( dirPath ) {
+    return fs.readdirSync(dirPath);    
+}
+
 // copy file from source to destination
 exports.copyFile = function ( input, spl, fromFilePath, toFilePath ) {
     fs.copyFile ( fromFilePath, toFilePath, function (err) {
