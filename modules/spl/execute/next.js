@@ -6,7 +6,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
-exports.default = function spl_execute_next ( input ) {
+exports.default = function spl_execute_next ( input ) 
+{
     spl.moduleAction(input, spl.request ( input, "action" ) );
     switch(spl.request ( input, "status" ) ) {
         case "data": 

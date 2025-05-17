@@ -4,7 +4,58 @@
 //  description Auxiliary functions for the app API.
 ///////////////////////////////////////////////////////////////////////////////
 const parser = require('command-line-args');
+const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
+
+exports.commandString = function ( splApp, current ) 
+{
+    if ( current.part == -1 ) return splApp.value.input[`line_${current.line}`];
+    else  return splApp.value.input[`line_${current.line}`][`part_${current.part}`];
+}
+
+exports.getDetails = function ( appRoot, moduleRoot, URI ) 
+{
+    var prefix = "";
+    var getRoot = "", getDir = moduleRoot;
+    if ( URI.indexOf ( "spl" ) != 0 ) { getRoot = appRoot; getDir = "modules"; }
+    
+    if ( URI.length > 0 ) prefix = `${URI}_`;
+    const fileURI = `${(URI==="")?"":prefix}arguments.json`;
+    const getURI = `spl/blob.${spl.fURI ( getRoot, getDir.replace("../",""), fileURI )}`;
+    const wsURI = `spl/app.options.${spl.fURI ( fileURI )}`;
+    const args = [ { repo: getRoot, dir: getDir, file: fileURI, reference: [ wsURI ] } ];
+    return { URI: wsURI, getURI: getURI, args: args }
+}
+
+exports.getNext = function ( splApp ) 
+{
+    var line = splApp.headers.spl.app.currentLine;
+    var part = splApp.headers.spl.app.currentPart;
+    part++;
+    if ( splApp.value.input[`line_${line}`] && splApp.value.input[`line_${line}`][`part_${part}`] ) return { line: line, part: part };
+    line++; part = 0;
+    if ( splApp.value.input[`line_${line}`] ) {
+        if ( splApp.value.input[`line_${line}`][`part_${part}`] === undefined ) part = -1;
+        return { line: line, part: part };
+    }
+    return { line: -1, part: -1 }
+}
+
+exports.setCurrent = function ( splApp, current ) 
+{
+    splApp.headers.spl.app.currentLine = current.line;
+    splApp.headers.spl.app.currentPart = current.part;
+}
+
+exports.setParsed = function ( splApp, current, result ) 
+{
+    if ( current.part == -1 ) splApp.value.parsed[`line_${current.line}`] = result;
+    else
+    {
+        if ( splApp.value.parsed[`line_${current.line}`] === undefined ) splApp.value.parsed[`line_${current.line}`] = {};
+        splApp.value.parsed[`line_${current.line}`][`part_${current.part}`] = result;
+    }
+}
 
 // activates the option types
 function activateTypes (options) {
@@ -19,6 +70,7 @@ function activateTypes (options) {
         }
     return options;
 }
+exports.activateTypes = activateTypes;
 
 // getCommandOptions 
 exports.getHelpSection = function ( parseOptions, command ) {

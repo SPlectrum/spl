@@ -2,6 +2,7 @@
 //  URI         spl/app/prepare
 //  type        API Method
 //  description This action prepares the command line entry for parsing.
+//              API internal command
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
@@ -9,25 +10,47 @@ exports.default = function spl_app_prepare (input) {
 
     // prepare the batch input for parsing
     // split into lines and where needed line parts
-    const batchInput = spl.action ( input, "batch" ).split("\n");
+    var batchInput = spl.action ( input, "batch" );
     const batchPrepared = {};
-    for ( var i = 0; i < batchInput.length; i++ ) 
+    if ( Array.isArray ( batchInput ) ) batchPrepared["line_0"] = batchInput;
+    else 
     {
-        var batchLine = {};
-        if ( batchInput[i].indexOf ( "_!_" ) > 0 ) 
+        batchInput = batchInput.split("\n");
+        for ( var i = 0; i < batchInput.length; i++ ) 
         {
-            batchInput[i] = batchInput[i].split ( "_!_" );
-            for( var j = 0; j < batchInput[i].length; j++) batchLine[`part_${j}`] = batchInput[i][j];
+            var batchLine = {};
+            if ( batchInput[i].indexOf ( "_!_" ) > 0 ) 
+            {
+                batchInput[i] = batchInput[i].split ( "_!_" );
+                for( var j = 0; j < batchInput[i].length; j++) 
+                {
+                    var result = batchInput[i][j].split(" ");
+                    for ( var k = 0; k < result.length; k++ ) 
+                    {
+                        result[k] = result[k].replaceAll ( " ", "" );
+                        if ( result[k] === "" ) delete result[k];
+                    }
+                    batchLine[`part_${j}`] = result;
+                }
+            }
+            else
+            {
+                var result = batchInput[i].split(" ");
+                for ( var k = 0; k < result.length; k++ ) 
+                {
+                    result[k] = result[k].replaceAll ( " ", "" );
+                    if ( result[k] === "" ) delete result[k];
+                }
+                batchLine = result;
+            }
+            batchPrepared[`line_${i}`] = batchLine;
         }
-        else batchLine = batchInput[i];
-
-        batchPrepared[`line_${i}`] = batchLine;
     }
 
     // create the workspace spl/app entry
     const prepared = { 
-        headers: { spl: { app: { currentLine: 0, currentPart: 0, startPrefix: spl.action ( input, "startPrefix" ), actionFolder: spl.action ( input, "actionFolder" ) } } }, 
-        value: { input: batchPrepared, parsed: [], options: {} } };
+        headers: { spl: { app: { currentLine: -1, currentPart: -1 } } }, 
+        value: { batch: {}, input: batchPrepared, parsed: {}, options: {} } };
     spl.wsSet ( input, "spl/app", prepared );
 
     spl.completed ( input );

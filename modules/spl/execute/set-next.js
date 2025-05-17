@@ -17,6 +17,7 @@ exports.default = function spl_execute_set_next ( input ) {
         if ( requestArgs ) spl.rcSet( input.headers, requestAction.replaceAll("/","."), requestArgs );
         if( spl.request ( input, "TTL" ) > 0 ) spl.setContext( input, "TTL", spl.request ( input, "TTL" ) );
         spl.setContext ( input, "action", "spl/execute/next" );
+console.log ("have set the next command: ")
     } 
     else spl.setContext ( input, "action", "spl/execute/complete" );
 }

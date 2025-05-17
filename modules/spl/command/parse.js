@@ -10,7 +10,7 @@ const command = require("./command");
 exports.default = function spl_command_parse (input) { 
 
   const parserOptionsURI = `spl/command.${spl.fURI ( spl.wsRef ( input, "spl/command" ).headers.spl.command.parser.file )}`;
-  const parseOptions = spl.wsGet(input, parserOptionsURI).value;
+  const parseOptions = spl.wsRef(input, parserOptionsURI).value;
   var splCmd, result, parseOnly = false, steps, registeredCommand, commandAction, pipeline = [], cmdArray = [], help = [], commandOptions = [];
   input.headers.spl.command.help = help;
   function parseCommand() {

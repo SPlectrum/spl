@@ -2,6 +2,7 @@
 //  URI         spl/app/process
 //  type        API Method
 //  description This is the entry action to prepare, parse and execute the command line string.
+//              API internal command
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
@@ -13,11 +14,9 @@ exports.default = function spl_app_process (input)
             spl: {
                 execute: {
                     pipeline: [
-                        { action: "spl/app/prepare", "spl/app/prepare": { 
-                                                            batch: spl.action ( input, "batch" ), 
-                                                            startPrefix: spl.action ( input, "startPrefix" ), 
-                                                            actionFolder: spl.action ( input, "actionFolder" ) } },
-                        { action: "spl/app/parse", "spl/app/parse": {  } }
+                        { action: "spl/app/prepare", "spl/app/prepare": { batch: spl.action ( input, "batch" ) } },
+                        { action: "spl/app/parse" },
+                        { action: "spl/app/pipeline" }
                     ]
                 }
             }

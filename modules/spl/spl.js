@@ -25,7 +25,9 @@ function spl_config ( input, action, key )
     // split the current action ( request or execute )
     var parts = parts = action.split ( "/" ), result, entry;
     const apiRef = `${parts[0]}.${parts[1]}`;
+    const apiRefUri = `${parts[0]}/${parts[1]}`;
     const methodRef = `${parts[0]}.${parts[1]}.${parts[2]}`;
+    const methodRefUri = action;
 
     // first: check execution header for method config
     if ( key === undefined ) result = spl_rcRef ( input.headers, methodRef );
@@ -33,7 +35,7 @@ function spl_config ( input, action, key )
     if ( !( result === undefined ) ) return result;
 
     // second: check workspace method entry header for method config
-    entry = spl_wsRef ( input, methodRef );
+    entry = spl_wsRef ( input, methodRefUri );
     if ( entry && entry.headers ) {
         result = spl_rcRef ( entry.headers, methodRef );
         if ( !( result === undefined || key === undefined ) ) result = result[key];
@@ -41,7 +43,7 @@ function spl_config ( input, action, key )
     if ( !( result === undefined ) ) return result;
 
     // third: check workspace API entry header  for method config
-    entry = spl_wsRef ( input, apiRef );
+    entry = spl_wsRef ( input, apiRefUri );
     if ( entry && entry.headers ) {
         result = spl_rcRef ( entry.headers, methodRef );
         if ( !( result === undefined || key === undefined ) ) result = result[key];
@@ -56,6 +58,7 @@ function spl_config ( input, action, key )
     if ( !( result === undefined ) ) return result;
     
     // fifth: check workspace API entry header for API config (default)
+    entry = spl_wsRef ( input, apiRefUri );
     if ( entry && entry.headers ) {
         result = spl_rcRef ( entry.headers, apiRef );
         if ( !( result === undefined ) ) result = result[key];
@@ -205,9 +208,7 @@ exports.rcSet = spl_rcSet;
 // Complete request
 exports.throwError = function ( input, message )
 {
-    if ( spl_context ( input, "action" ) === "spl/execute/next" ) 
-        { spl_setRequest ( input, "status", "error"); spl_setRequest ( input, "error_next", "spl/error/catch" ); }
-    else spl_setContext ( input, "action", "spl/error/catch" );
+    spl_setContext ( input, "action", "spl/error/catch" );
     spl_setConfig ( input, "spl/error/catch", "message", message );
 }
 
@@ -232,13 +233,16 @@ exports.wsExists = function ( input, key, action, args, repeat ) {
 }
 
 // wsGet returns a deep clone of a keyvalue in input.value.
-exports.wsGet = function ( input, key ) { return structuredClone ( spl_wsRef ( input, key ) ); }
+exports.wsGet = function ( input, key ) { 
+    return structuredClone ( spl_rcRef ( input.value, key.replaceAll ( ".", ".value." ) ) ); 
+}
 
 // wsRef returns a reference to a keyvalue in input.value.
 function spl_wsRef (input, key) 
 { 
-    var value = spl_rcRef ( input.value, key.replace ( ".", ".value." ) );
-    if ( typeof value == "string" ) value = spl_wsRef ( input, value );
+    const parts = key.split ( "." );
+    var value = spl_rcRef ( input.value, key.replaceAll ( ".", ".value." ) );
+    if ( typeof value == "string" && !( "spl/blob spl/package").includes ( parts[0] ) ) value = spl_wsRef ( input, value );
     return value;
 }
 exports.wsRef = spl_wsRef;

@@ -10,10 +10,11 @@ exports.default = function spl_command_load_parser_options ( input ) {
     const parserUri = `spl/blob.${spl.fURI ( splCommand.repo, splCommand.dir, splCommand.file )}`;
     const parserOptionsURI = `spl/command.${spl.fURI ( splCommand.file )}`;
     const args = [ splCommand ];
+    splCommand.reference = [ parserOptionsURI ];
 
     // reference must be entry within spl/command
     if(!spl.wsExists ( input, parserUri, "spl/blob/get", args, true )) return;
-    spl.wsSet ( input, parserOptionsURI,  JSON.parse ( spl.wsRef ( input, parserUri ) ) );
+//    spl.wsSet ( input, parserOptionsURI,  spl.wsRef ( input, parserUri ) );
     spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

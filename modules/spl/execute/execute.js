@@ -15,7 +15,9 @@ exports.default = function spl_execute_execute ( input ) {
         var execAction = ( spl.context( input, "action" ) === undefined ) ? "spl/execute/initialise" : spl.context ( input, "action" ) ;
 
         spl.history ( input, "" );
-        spl.moduleAction ( input, execAction );
+        //spl.moduleAction ( input, execAction );
+        try { spl.moduleAction ( input, execAction ); }
+        catch (e) { spl.throwError ( input, e.toString() ); }
 
         // Update TTL -- NEEDS A SEPARATE ERROR SECTION IN THE WORKSPACE
         spl.setContext ( input, "TTL", spl.context ( input, "TTL") - 1 );

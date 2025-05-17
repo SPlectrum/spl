@@ -1,11 +1,12 @@
-//  name        Invoke
-//  URI         spl/app/invoke
+//  name        Pipeline
+//  URI         spl/app/pipeline
 //  type        API Method
-//  description This action parses and invokes an app action
+//  description Creates pipelines from the parsed commands
+//              API internal command
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
-exports.default = function spl_app_invoke (input) { 
+exports.default = function spl_app_pipeline (input) { 
     spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////
