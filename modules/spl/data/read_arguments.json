@@ -3,10 +3,10 @@
     {
         "header": 
         [
-            { "header": "spl/data" },
-            { "content": "The API Kafka style data operations." },
-            { "content": "{bold syntax}: {italic ./spl <appOpts> spl/data <apiOpts> <method>}" }
-]
+            { "header": "spl/data/read" },
+            { "content": "Reads a record from a folder." },
+            { "content": "{bold syntax}: {italic ./spl <appOptions> spl/data/read <options>}" }
+        ]
     },
     "value": 
     [ 
