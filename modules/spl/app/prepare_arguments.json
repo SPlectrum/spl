@@ -4,7 +4,7 @@
         "header": 
         [
             { "header": "spl/app/prepare" },
-            { "content": "Prepares teh raw multiline commandline input for parsing." },
+            { "content": "Internal action.  Prepares teh raw multiline commandline input for parsing." },
             { "content": "{bold syntax}: {italic ./spl <appOpts> spl/app/prepare <opts>}" }
         ]
     },

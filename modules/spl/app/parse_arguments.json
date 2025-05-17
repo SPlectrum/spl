@@ -4,7 +4,7 @@
         "header": 
         [
             { "header": "spl/app/parse" },
-            { "content": "Parses a batch of commands that was prepared by spl/app/prepare. It expects its input in the spl/app workspace entry." },
+            { "content": "Internal action. Parses a batch of commands that was prepared by spl/app/prepare. It expects its input in the spl/app workspace entry." },
             { "content": "{bold syntax}: {italic ./spl <appOpts> spl/app/pipeline <opts>}" }
         ]
     },

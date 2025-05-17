@@ -1,0 +1,15 @@
+{
+    "headers": 
+    {
+        "header": 
+        [
+            { "header": "spl/package" },
+            { "content": "Standalone API to manage creation and deployment of data and functional packages." },
+            { "content": "{bold syntax}: {italic ./spl <appOpts> spl/package <apiOpts> <method>}" }
+]
+    },
+    "value": 
+    [ 
+        { "name": "help", "alias": "h", "type": "Boolean", "description": "show help information", "typeLabel": "flag" }
+    ]
+}

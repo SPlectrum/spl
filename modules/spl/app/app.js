@@ -57,6 +57,14 @@ exports.setParsed = function ( splApp, current, result )
     }
 }
 
+exports.splitAndTrim = function ( input )
+{
+    var output = [];
+    input = input.split(" ");
+    for ( var i = 0; i < input.length; i++ ) if ( input[i].trim() != "") output.push(input[i]);
+    return output
+}
+
 // activates the option types
 function activateTypes (options) {
     for(var i=0; i<options.length; i++)

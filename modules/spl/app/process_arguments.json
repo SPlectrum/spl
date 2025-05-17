@@ -4,7 +4,7 @@
         "header": 
         [
             { "header": "spl/app/process" },
-            { "content": "Process a multiline commandline input. This is the entry command for app execution." },
+            { "content": "Internal action. Process a multiline commandline input. This is the entry command for app execution." },
             { "content": "{bold syntax}: {italic ./spl <appOpts> spl/app/process <opts>}" }
         ]
     },

@@ -5,6 +5,7 @@
 //              API internal command
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
+const app = require("./app.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_app_prepare (input) { 
 
@@ -22,27 +23,9 @@ exports.default = function spl_app_prepare (input) {
             if ( batchInput[i].indexOf ( "_!_" ) > 0 ) 
             {
                 batchInput[i] = batchInput[i].split ( "_!_" );
-                for( var j = 0; j < batchInput[i].length; j++) 
-                {
-                    var result = batchInput[i][j].split(" ");
-                    for ( var k = 0; k < result.length; k++ ) 
-                    {
-                        result[k] = result[k].replaceAll ( " ", "" );
-                        if ( result[k] === "" ) delete result[k];
-                    }
-                    batchLine[`part_${j}`] = result;
-                }
+                for( var j = 0; j < batchInput[i].length; j++) batchLine[`part_${j}`] = app.splitAndTrim ( batchInput[i][j] );
             }
-            else
-            {
-                var result = batchInput[i].split(" ");
-                for ( var k = 0; k < result.length; k++ ) 
-                {
-                    result[k] = result[k].replaceAll ( " ", "" );
-                    if ( result[k] === "" ) delete result[k];
-                }
-                batchLine = result;
-            }
+            else batchLine = app.splitAndTrim ( batchInput[i] );
             batchPrepared[`line_${i}`] = batchLine;
         }
     }
