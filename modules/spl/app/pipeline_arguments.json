@@ -3,9 +3,9 @@
     {
         "header": 
         [
-            { "header": "spl/app/pipeline" },
-            { "content": "Internal action. Creates execution pipelines of a batch of commands that was parsed by spl/app/parse. It expects its input in the spl/app workspace entry." },
-            { "content": "{bold syntax}: {italic ./spl <appOpts> spl/app/pipeline <opts>}" }
+            { "header": "spl/app/finalise" },
+            { "content": "Internal action. Prepares execution of batch based on global settings. It expects its input in the spl/app workspace entry." },
+            { "content": "{bold syntax}: {italic ./spl <appOpts> spl/app/finalise <opts>}" }
         ]
     },
     "value": 

@@ -5,7 +5,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
-exports.default = function spl_app_help (input) { 
+exports.default = function spl_app_help (input) 
+{ 
+    console.log ( "spl/app/help is not implemented yet." );
 
     // there is the app API which is accessed with single word - first command API
     // there are the module actions: currently spl with three part action URI

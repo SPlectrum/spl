@@ -31,17 +31,16 @@ exports.default = function spl_app_parse (input) {
         parsed [ "" ] = result;
 
         // update parsed (if not already done)
-        var counter = 1, commandAction = "";
-        while ( counter-- > 0 && result._unknown ) {
-           result = app.parse(result._unknown);
+        var counter = 3, commandAction = "";
+        while ( counter-- > 0 && result._unknown ) 
+        {
+            result = app.parse(result._unknown);
             commandAction += (commandAction === "") ? result.command : "/" + result.command;
             var getDetails = app.getDetails ( appRoot, moduleRoot, commandAction );
-            if ( result._unknown && result._unknown.length > 0 )
-            {
-                if(!spl.wsExists ( input, getDetails.getURI, "spl/blob/get", getDetails.args, true )) return;
-                parseOptions = app.activateTypes( spl.wsRef ( input, getDetails.URI ).value );
-                result = app.parse ( result._unknown, parseOptions );
-            }
+            if ( result._unknown === undefined ) result._unknown = [];
+            if(!spl.wsExists ( input, getDetails.getURI, "spl/blob/get", getDetails.args, true )) return;
+            parseOptions = app.activateTypes( spl.wsRef ( input, getDetails.URI ).value );
+            result = app.parse ( result._unknown, parseOptions );
             parsed [ commandAction ] = result;
             if ( !( result._unknown && counter > 0 ) ) break;   
         }
@@ -52,10 +51,8 @@ exports.default = function spl_app_parse (input) {
     }
 
     if( TTL < 1 ) return spl.throwError ( input, "Parser ran out of steps when parsing.")
-    console.log("still continuing ...");
-    
     spl.completed ( input );
-/*
+/*  required when validating batch prior to execution, not in this implementation
     // get folder contents of actions, batches and scripts folders
     const appRoot = spl.action ( input, "appRoot" );
     const actions = { repo: appRoot, dir: "actions", reference: [ "spl/app.actions" ] };

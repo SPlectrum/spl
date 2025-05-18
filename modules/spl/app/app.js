@@ -13,6 +13,12 @@ exports.commandString = function ( splApp, current )
     else  return splApp.value.input[`line_${current.line}`][`part_${current.part}`];
 }
 
+exports.parsed = function ( splApp, current ) 
+{
+    if ( current.part == -1 ) return structuredClone ( splApp.value.parsed[`line_${current.line}`] );
+    else  return structuredClone ( splApp.value.parsed[`line_${current.line}`][`part_${current.part}`] );
+}
+
 exports.getDetails = function ( appRoot, moduleRoot, URI ) 
 {
     var prefix = "";
@@ -39,6 +45,12 @@ exports.getNext = function ( splApp )
         return { line: line, part: part };
     }
     return { line: -1, part: -1 }
+}
+
+exports.reset = function ( splApp ) 
+{
+    splApp.headers.spl.app.currentLine = -1;
+    splApp.headers.spl.app.currentPart = -1;
 }
 
 exports.setCurrent = function ( splApp, current ) 

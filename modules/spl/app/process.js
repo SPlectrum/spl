@@ -16,7 +16,8 @@ exports.default = function spl_app_process (input)
                     pipeline: [
                         { action: "spl/app/prepare", "spl/app/prepare": { batch: spl.action ( input, "batch" ) } },
                         { action: "spl/app/parse" },
-                        { action: "spl/app/pipeline" }
+                        { action: "spl/app/pipeline" },
+                        { action: "spl/app/finalise" }
                     ]
                 }
             }
