@@ -24,10 +24,11 @@ exports.default = function spl_app_pipeline (input)
         {
             // first process global arguments
             // current implementation sets the global argument for the whole batch
+            var steps;
             if ( key === "" ) 
             {
                 if ( !(parsed[key].test === undefined ) ) splApp.global.parseOnly = true;
-                if ( parsed[key].steps > 0 ) splApp.global.steps = parsed[key].steps;
+                if ( parsed[key].steps > 0 ) steps = parsed[key].steps;
                 if ( parsed[key].help ) splApp.global.help.push ( key );
                 if ( parsed[key].debug ) splApp.global.consoleMode = "debug";
                 else if ( parsed[key].verbose ) splApp.global.consoleMode = "verbose";
@@ -35,14 +36,18 @@ exports.default = function spl_app_pipeline (input)
             else
             {
                 if ( parsed[key]._unknown != undefined ) delete parsed[key]._unknown;
-                if ( parsed[key].help ) { splApp.global.help.push ( key ); delete parsed[key].help; };
-                const request = { action: key };
-                for ( var k in parsed[key] ) { request[key] = parsed[key]; break; };
-                splApp.pipeline.push ( request );
+                // help request is added to spl/app/help action
+                if ( parsed[key].help ) splApp.global.help.push ( key );
+                else 
+                {
+                    const request = { action: key };
+                    var args; for ( var k in parsed[key] ) { args = parsed[key]; break; };
+                    // if steps were set, add to the first request in the pipeline
+                    if ( steps ) { if ( args === undefined ) args = {}; args.TTL = steps; steps = undefined; }
+                    if ( args != undefined ) request[key] = args;
+                    splApp.pipeline.push ( request );
+                }
             }
-            
-            // next create the pipelines
-            // the current implementation puts all commands in one single pipeline
         }
         app.setCurrent ( splApp, current );
     }

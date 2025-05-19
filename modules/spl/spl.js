@@ -166,6 +166,11 @@ exports.moduleAction = function (input, module)
 {
     var moduleRoot = spl_context ( input, "modules" );
     if ( moduleRoot === undefined ) moduleRoot = "modules";
+    var moduleOverlay = spl_context ( input, "moduleOverlay" );
+    if ( moduleOverlay )
+        for ( var i = 0; i < moduleOverlay.length; i++ )
+            if ( module.indexOf ( moduleOverlay[i].prefix ) == 0 )
+                { moduleRoot = moduleOverlay[i].moduleRoot; i = moduleOverlay.length; }
     return require ( `${ spl_context ( input, "cwd" )}/${moduleRoot}/${module}`).default ( input );
 }
 
