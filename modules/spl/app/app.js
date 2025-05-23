@@ -91,7 +91,7 @@ function activateTypes (options) {
     return options;
 }
 exports.activateTypes = activateTypes;
-
+/*
 // getCommandOptions 
 exports.getHelpSection = function ( parseOptions, command ) {
     var parts = command.split("/");
@@ -160,7 +160,7 @@ exports.exists = function ( parseOptions, command ) {
     else if ( parts.length == 2 )  return parseOptions.packages[parts[0]].apis[parts[1]];
     else if ( parts.length == 3 )  return parseOptions.packages[parts[0]].apis[parts[1]].methods[parts[2]];
 }
-
+*/
 // parse commandline section
 exports.parse = function (args, definitions) {
     if(definitions === undefined) definitions = [{ name: 'command', defaultOption: true }];

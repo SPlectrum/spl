@@ -6,6 +6,10 @@
             { "header": "SPlectrum Test App" },
             { "content": "A client used to test the current package functionaltiy." }
         ],
+        "bottom": 
+        [ 
+            { "content": "Project home: {underline https://github.com/SPlectrum/spl}" } 
+        ],
         "header": 
         [
             { "content": "Overview 1." },
