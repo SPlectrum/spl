@@ -33,6 +33,19 @@ exports.getDetails = function ( appRoot, moduleRoot, URI )
     return { URI: wsURI, getURI: getURI, args: args }
 }
 
+exports.getContentsDetails = function ( appRoot, moduleRoot, URI ) 
+{
+//    var prefix = "";
+    var getRoot = "", getDir = moduleRoot;
+    if ( URI.indexOf ( "spl" ) != 0 ) { getRoot = appRoot; getDir = "modules"; }
+//    if ( URI.length > 0 ) prefix = `${URI;
+//    const fileURI = `${(URI==="")?"":prefix}arguments.json`;
+    const getURI = `spl/blob.${spl.URI ( getRoot, getDir.replace("../",""), URI )}`;
+    const wsURI = `spl/app.options.${spl.URI ( URI )}`;
+    const args = [ { repo: getRoot, dir: spl.URI( getDir, URI ), reference: [ wsURI ] } ];
+    return { URI: wsURI, getURI: getURI, args: args }
+}
+
 exports.getNext = function ( splApp ) 
 {
     var line = splApp.headers.spl.app.currentLine;
@@ -91,6 +104,12 @@ function activateTypes (options) {
     return options;
 }
 exports.activateTypes = activateTypes;
+
+exports.getChildOptions = function ( input, parent )
+{
+
+}
+
 /*
 // getCommandOptions 
 exports.getHelpSection = function ( parseOptions, command ) {

@@ -31,11 +31,12 @@ exports.default = function spl_app_prepare (input) {
     }
 
     // create the workspace spl/app entry
+    const previous = spl.wsRef ( input, "spl/app" );
     const prepared = { 
         headers: { spl: { app: { currentLine: -1, currentPart: -1 } } }, 
         value: { batch: {}, input: batchPrepared, parsed: {}, options: {} } };
+    if ( previous != undefined ) prepared.value.options = previous.value.options;
     spl.wsSet ( input, "spl/app", prepared );
-
     spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

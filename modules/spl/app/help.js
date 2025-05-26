@@ -17,7 +17,7 @@ exports.default = function spl_app_help (input)
     console.log ( helpURIs );
 
     var currentArgs = app.getDetails ( appRoot, moduleRoot, helpURIs[0] );
-    if(!spl.wsExists ( input, currentArgs.getURI, "spl/blob/get", currentArgs, true )) return;
+    if(!spl.wsExists ( input, currentArgs.getURI, "spl/blob/get", currentArgs.args, true )) return;
     var helpData = [];
     var parseOptions = spl.wsRef ( input, currentArgs.URI );
     helpData = helpData.concat ( parseOptions.headers.top );
@@ -26,10 +26,17 @@ exports.default = function spl_app_help (input)
     for ( var i = 0; i < helpURIs.length; i++ )
     {
         currentArgs = app.getDetails ( appRoot, moduleRoot, helpURIs[i] );
-        if(!spl.wsExists ( input, currentArgs.getURI, "spl/blob/get", currentArgs, true )) return;
+        if(!spl.wsExists ( input, currentArgs.getURI, "spl/blob/get", currentArgs.args, true )) return;
         parseOptions = spl.wsRef ( input, currentArgs.URI );
         helpData = helpData.concat ( parseOptions.headers.header );
         helpData = helpData.concat ([ { header: "Options", optionList: parseOptions.value } ]);
+/*        if ( i > 0 ) 
+        {
+            currentArgs = app.getContentsDetails ( appRoot, moduleRoot, helpURIs[i] );
+            if(!spl.wsExists ( input, currentArgs.getURI, "spl/blob/contents", currentArgs.args, true )) return;
+console.dir ( currentArgs, {depth:10} )
+//            parseOptions = spl.wsRef ( input, currentArgs.URI );
+        }*/
     }
 
     helpData = helpData.concat ( bottom );

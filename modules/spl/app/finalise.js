@@ -11,6 +11,7 @@ exports.default = function spl_app_finalise (input)
 { 
     // current implementation executes the batch within the same execution record - no spawning
     const splApp = spl.wsRef ( input, "spl/app" );
+    if ( splApp.global.consoleMode ) spl.setContext( input, "consoleMode", splApp.global.consoleMode );
 
     // if help required, add to the pipeline
     if ( splApp.global.help.length > 0 ) splApp.pipeline.push ( { action: "spl/app/help", "spl/app/help": splApp.global.help } );
