@@ -318,3 +318,8 @@ spl/test-suite/
 - **Phase 4**: Optimization and CI/CD integration (Weeks 7-8)
 
 This approach provides comprehensive test coverage while leveraging proven infrastructure, ensuring test execution consistency with production behavior and enabling robust quality assurance as the system evolves.
+2025-05-27 02:54:00 - **Issue Management System Architecture**: Decided to create comprehensive three-tier documentation structure: docs/current/ for active work, docs/archive/ for historical reference, and docs/future-issues.md for backlog. This provides clear separation of concerns and workflow progression from current → future → archive.
+
+2025-05-27 02:54:00 - **Local Issue Numbering Strategy**: Chose to start local project issues at #150 to avoid conflicts with existing GitHub issues (#1-143). This ensures clean integration between local project tracking and GitHub repository management while maintaining traceability.
+
+2025-05-27 02:54:00 - **GitHub CLI Integration**: Implemented automated fetching of GitHub issues (both open and closed) to maintain complete project visibility. This enables comprehensive issue management combining local project work with repository-wide context.
