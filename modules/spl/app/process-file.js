@@ -19,7 +19,7 @@ exports.default = function spl_app_process_file (input)
         repo: fileRepo,
         dir: fileDir,
         file: filePath,
-        format: "text"
+        encoding: "text"
     }, true ) ) return;
     
     // Get the file contents from workspace and store it as batch for processing

@@ -8,29 +8,6 @@ This file tracks issues and tasks for the SPL project, specifically focused on t
 
 ## Open Issues
 
-### Issue #150: Create Test Suite App Structure
-**Priority:** High
-**Assignee:** Unassigned
-**Created:** 2025-05-27
-**Labels:** enhancement, testing, foundation
-
-**Description:**
-Create the basic app structure for the test-suite in spl/apps/test-suite/ following SPL app conventions.
-
-**Tasks:**
-- [ ] Create `spl/apps/test-suite/` directory
-- [ ] Copy `spl.js` from existing app (e.g., `spl/apps/test2/spl.js`)
-- [ ] Create `batches/` subdirectory for test command files
-- [ ] Verify app structure matches SPL app conventions
-- [ ] Test basic app functionality
-
-**Acceptance Criteria:**
-- Test app directory structure is created
-- spl.js is functional and can execute commands
-- batches/ directory is ready for test files
-- App follows standard SPL app patterns
-
----
 
 ### Issue #151: Implement Console Module Tests
 **Priority:** High
@@ -40,22 +17,22 @@ Create the basic app structure for the test-suite in spl/apps/test-suite/ follow
 **Dependencies:** Issue #150
 
 **Description:**
-Create test command file for console module functionality testing.
+Create individual test command files for console module functionality testing using debug flag approach.
 
 **Tasks:**
-- [ ] Create `spl/apps/test-suite/batches/console-tests.txt`
-- [ ] Add test commands for `spl/console/log`
-- [ ] Add test commands for `spl/console/warn`
-- [ ] Add test commands for `spl/console/error`
-- [ ] Add test commands for `spl/console/trace`
-- [ ] Test execution: `cd spl/apps/test-suite && ./spl spl/app/exec -f console-tests.txt`
-- [ ] Verify all commands execute successfully (green status)
+- [ ] Create `spl/apps/test-suite/batches/console-test-log.txt` for log testing
+- [ ] Create `spl/apps/test-suite/batches/console-test-warn.txt` for warn testing
+- [ ] Create `spl/apps/test-suite/batches/console-test-error.txt` for error testing
+- [ ] Create `spl/apps/test-suite/batches/console-test-trace.txt` for trace testing
+- [ ] Test execution with debug flag: `cd spl/apps/test-suite && ./spl -d spl/app/exec -f [test-file].txt`
+- [ ] Verify comprehensive execution tracing and performance metrics
+- [ ] Validate detailed error detection capabilities
 
 **Acceptance Criteria:**
-- console-tests.txt file created with comprehensive test commands
-- All console operations execute without errors
-- Test output displays messages correctly
-- Execution logs are generated properly
+- Individual test files created for each console method
+- Debug flag execution provides detailed validation and performance metrics
+- All console operations execute with comprehensive tracing
+- Execution logs capture detailed request/response data
 
 ---
 
@@ -67,24 +44,25 @@ Create test command file for console module functionality testing.
 **Dependencies:** Issue #150
 
 **Description:**
-Create test command file for blob module file operation testing.
+Create individual test command files for blob module file operation testing using debug flag approach with test data storage.
 
 **Tasks:**
-- [ ] Create `spl/apps/test-suite/batches/blob-tests.txt`
-- [ ] Add test commands for `spl/blob/put` (create test file)
-- [ ] Add test commands for `spl/blob/get` (read test file)
-- [ ] Add test commands for `spl/blob/contents` (display file contents)
-- [ ] Add test commands for `spl/blob/copy` (copy file operation)
-- [ ] Add test commands for `spl/blob/move` (move file operation)
-- [ ] Add test commands for `spl/blob/delete` (cleanup operations)
-- [ ] Test execution: `cd spl/apps/test-suite && ./spl spl/app/exec -f blob-tests.txt`
-- [ ] Verify file operations complete without errors
+- [ ] Create `spl/apps/test-suite/batches/blob-test-put.txt` for put operations
+- [ ] Create `spl/apps/test-suite/batches/blob-test-get.txt` for get operations
+- [ ] Create `spl/apps/test-suite/batches/blob-test-contents.txt` for contents operations
+- [ ] Create `spl/apps/test-suite/batches/blob-test-copy.txt` for copy operations
+- [ ] Create `spl/apps/test-suite/batches/blob-test-move.txt` for move operations
+- [ ] Create `spl/apps/test-suite/batches/blob-test-delete.txt` for delete operations
+- [ ] Utilize `spl/apps/test-suite/data/` directory for test data storage
+- [ ] Test execution with debug flag: `cd spl/apps/test-suite && ./spl -d spl/app/exec -f [test-file].txt`
+- [ ] Verify comprehensive execution tracing for each file operation
 
 **Acceptance Criteria:**
-- blob-tests.txt file created with comprehensive CRUD operations
-- File creation, reading, copying, moving, and deletion work correctly
-- Test cleanup removes temporary files
-- No file operation errors in execution
+- Individual test files created for each blob method
+- Test data properly organized in apps/test-suite/data/ directory
+- Debug flag execution provides detailed validation and performance metrics
+- File operations execute with comprehensive tracing and error detection
+- Test cleanup removes temporary files with detailed logging
 
 ---
 
@@ -230,13 +208,24 @@ Perform final validation of the complete test suite and establish foundation for
 
 ## Completed Issues
 
-*No issues completed yet*
-
----
 
 ## Closed Issues
 
-*No issues closed yet*
+### Issue #150: Create Test Suite App Structure ✅
+**Closed:** 2025-05-27 14:14:00
+**Priority:** High
+**Labels:** enhancement, testing, foundation
+
+**Description:** Successfully created the basic app structure for the test-suite in spl/apps/test-suite/ following SPL app conventions.
+
+**Completed Tasks:**
+- ✅ Created `spl/apps/test-suite/` directory
+- ✅ Copied `spl.js` from existing app
+- ✅ Created `batches/` subdirectory for test command files
+- ✅ Verified app structure matches SPL app conventions
+- ✅ Test basic app functionality
+
+**Result:** Test app directory structure is fully functional with spl.js, batches/ directory, and standard SPL app patterns. Foundation established for debug flag testing approach with modular test files.
 
 ---
 

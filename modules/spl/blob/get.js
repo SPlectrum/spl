@@ -15,11 +15,11 @@ exports.default = function spl_blob_get ( input ) {
         sources[i] = blob.setLocation(sources[i]);
         const output = blob.getFile( blob.path( cwd, sources[i].repo, sources[i].dir, sources[i].file ) );
         
-        // Determine format - default to 'json' for backward compatibility
-        const format = sources[i].format || 'json';
+        // Determine encoding - default to 'json' for backward compatibility
+        const encoding = sources[i].encoding || 'json';
         
         let parsedOutput;
-        if ( format === 'text' ) {
+        if ( encoding === 'text' ) {
             // Store as plain text
             parsedOutput = { headers: {}, value: output };
         } else {

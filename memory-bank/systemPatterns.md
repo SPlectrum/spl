@@ -50,3 +50,7 @@ This file documents recurring patterns and standards used in the project.
 - **Documentation Co-location**: `docs/` directory with comprehensive documentation
 - **Release Management**: Dedicated `release/` directory with installation and testing infrastructure
 - **Configuration Files**: JSON files for arguments, packages, and parser configuration
+[2025-05-27 14:55:00] - **Debug Flag Testing Pattern**: Updated testing methodology to use debug flag (-d) with SPL commands for comprehensive execution tracing. Test files organized by API module with one file per method, using apps/test-suite/data/ directory for test data storage. This provides detailed validation, performance metrics, and error detection capabilities.
+## Testing Patterns
+
+[2025-05-27 15:04:00] - **Active Debug Flag Testing Implementation**: Currently applying debug flag methodology to blob API testing with comprehensive execution tracing. Test files organized in apps/test-suite/ structure with batches/ directory for command files and data/ directory for test fixtures. This provides detailed validation capabilities and performance metrics for each API operation.

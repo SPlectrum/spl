@@ -323,3 +323,21 @@ This approach provides comprehensive test coverage while leveraging proven infra
 2025-05-27 02:54:00 - **Local Issue Numbering Strategy**: Chose to start local project issues at #150 to avoid conflicts with existing GitHub issues (#1-143). This ensures clean integration between local project tracking and GitHub repository management while maintaining traceability.
 
 2025-05-27 02:54:00 - **GitHub CLI Integration**: Implemented automated fetching of GitHub issues (both open and closed) to maintain complete project visibility. This enables comprehensive issue management combining local project work with repository-wide context.
+## Decision
+
+[2025-05-27 15:04:00] - **Debug Flag Testing Methodology Implementation**: Adopted comprehensive debug flag (-d) testing approach for API validation with execution tracing.
+
+## Rationale
+
+The debug flag testing methodology provides detailed execution traces, performance metrics, and comprehensive validation capabilities that enable thorough testing of each API operation while maintaining consistency with production execution patterns.
+
+## Implementation Details
+
+- **Test Structure**: Tests organized in `apps/test-suite/` with `batches/` for command files and `data/` for fixtures
+- **Debug Execution**: Using `-d` flag with SPL commands for comprehensive execution tracing
+- **Validation Approach**: Execution traces provide detailed validation of API operations and data flow
+- **Performance Tracking**: Debug output includes timing and performance metrics for regression detection
+- **Error Detection**: Comprehensive error capture and status reporting through debug traces
+- **Test Data Management**: Organized fixture structure in `apps/test-suite/data/` directory
+
+This approach leverages existing SPL infrastructure while providing robust testing capabilities for quality assurance.
