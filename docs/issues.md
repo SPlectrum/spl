@@ -9,63 +9,6 @@ This file tracks issues and tasks for the SPL project, specifically focused on t
 ## Open Issues
 
 
-### Issue #151: Implement Console Module Tests
-**Priority:** High
-**Assignee:** Unassigned
-**Created:** 2025-05-27
-**Labels:** testing, console
-**Dependencies:** Issue #150
-
-**Description:**
-Create individual test command files for console module functionality testing using debug flag approach.
-
-**Tasks:**
-- [ ] Create `spl/apps/test-suite/batches/console-test-log.txt` for log testing
-- [ ] Create `spl/apps/test-suite/batches/console-test-warn.txt` for warn testing
-- [ ] Create `spl/apps/test-suite/batches/console-test-error.txt` for error testing
-- [ ] Create `spl/apps/test-suite/batches/console-test-trace.txt` for trace testing
-- [ ] Test execution with debug flag: `cd spl/apps/test-suite && ./spl -d spl/app/exec -f [test-file].txt`
-- [ ] Verify comprehensive execution tracing and performance metrics
-- [ ] Validate detailed error detection capabilities
-
-**Acceptance Criteria:**
-- Individual test files created for each console method
-- Debug flag execution provides detailed validation and performance metrics
-- All console operations execute with comprehensive tracing
-- Execution logs capture detailed request/response data
-
----
-
-### Issue #152: Implement Blob Module Tests
-**Priority:** High
-**Assignee:** Unassigned
-**Created:** 2025-05-27
-**Labels:** testing, blob, file-operations
-**Dependencies:** Issue #150
-
-**Description:**
-Create individual test command files for blob module file operation testing using debug flag approach with test data storage.
-
-**Tasks:**
-- [ ] Create `spl/apps/test-suite/batches/blob-test-put.txt` for put operations
-- [ ] Create `spl/apps/test-suite/batches/blob-test-get.txt` for get operations
-- [ ] Create `spl/apps/test-suite/batches/blob-test-contents.txt` for contents operations
-- [ ] Create `spl/apps/test-suite/batches/blob-test-copy.txt` for copy operations
-- [ ] Create `spl/apps/test-suite/batches/blob-test-move.txt` for move operations
-- [ ] Create `spl/apps/test-suite/batches/blob-test-delete.txt` for delete operations
-- [ ] Utilize `spl/apps/test-suite/data/` directory for test data storage
-- [ ] Test execution with debug flag: `cd spl/apps/test-suite && ./spl -d spl/app/exec -f [test-file].txt`
-- [ ] Verify comprehensive execution tracing for each file operation
-
-**Acceptance Criteria:**
-- Individual test files created for each blob method
-- Test data properly organized in apps/test-suite/data/ directory
-- Debug flag execution provides detailed validation and performance metrics
-- File operations execute with comprehensive tracing and error detection
-- Test cleanup removes temporary files with detailed logging
-
----
-
 ### Issue #153: Implement Data Module Tests
 **Priority:** Medium
 **Assignee:** Unassigned

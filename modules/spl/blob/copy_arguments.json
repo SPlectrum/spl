@@ -12,6 +12,6 @@
     [ 
         { "name": "help", "alias": "h", "type": "Boolean", "description": "show help informatiion", "typeLabel": "flag" }, 
         { "name": "from", "alias": "f", "description": "The repository the file is in." }, 
-        { "name": "to", "alias": "t", "description": "The repository the file is in." }                                ]
+        { "name": "to", "alias": "t", "description": "The repository the file is in." }                               
     ]
 }

@@ -14,7 +14,7 @@ exports.default = function spl_app_parse (input) {
     const moduleRoot = spl.context ( input, "modules" );
     const splApp = spl.wsRef ( input, "spl/app" );
     // load folder contents
-    var TTL = 10;
+    var TTL = 100;
     while ( TTL-- > 0 ) {
 
         // get next line, if line = -1 then no next and break - it is finished

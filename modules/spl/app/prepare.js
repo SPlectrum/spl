@@ -11,9 +11,10 @@ exports.default = function spl_app_prepare (input) {
 
     // prepare the batch input for parsing
     // split into lines and where needed line parts
-    var batchInput = spl.action ( input, "batch" );
+    var batchInput = structuredClone(spl.action ( input, "batch" ));
     const batchPrepared = {};
     if ( Array.isArray ( batchInput ) ) batchInput = batchInput.join(" ");
+    batchInput = batchInput.replaceAll ( "\r", "" );
     batchInput = batchInput.split("\n");
     for ( var i = 0; i < batchInput.length; i++ ) 
     {
@@ -31,7 +32,7 @@ exports.default = function spl_app_prepare (input) {
     const previous = spl.wsRef ( input, "spl/app" );
     const prepared = { 
         headers: { spl: { app: { currentLine: -1, currentPart: -1 } } }, 
-        value: { batch: {}, input: batchPrepared, parsed: {}, options: {} } };
+        value: { batch: spl.action ( input, "batch" ), input: batchPrepared, parsed: {}, options: {} } };
     if ( previous != undefined ) prepared.value.options = previous.value.options;
     spl.wsSet ( input, "spl/app", prepared );
     spl.completed ( input );

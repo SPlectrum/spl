@@ -12,7 +12,7 @@ exports.default = function spl_app_pipeline (input)
     // current implementation executes the batch within the same execution record - no spawning
     const splApp = spl.wsRef ( input, "spl/app" );
     app.reset ( splApp );
-    var TTL = 10
+    var TTL = 100
     splApp.pipeline = [];
     splApp.global = { help: [] };
     while ( TTL-- > 0 ) 

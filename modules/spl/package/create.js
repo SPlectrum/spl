@@ -25,7 +25,7 @@ exports.default = function spl_package_create ( input ) {
             }   
         }
     }
-    iterateDir( `/${requestArgs.dir}` );
+    iterateDir( requestArgs.dir ? `/${requestArgs.dir}` : "" );
     spl.completed ( input );
 }
 ///////////////////////////////////////////////////////////////////////////////

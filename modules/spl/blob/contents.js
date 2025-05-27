@@ -10,7 +10,6 @@ exports.default = function spl_blob_contents ( input ) {
     const cwd = spl.context ( input, "cwd" );
     var sources = spl.action ( input );
     if ( !Array.isArray(sources) ) sources = [ sources ];
-console.dir ( sources, {depth:10} );
     for ( var i=0; i<sources.length; i++ ) {
         sources[i] = blob.setLocation(sources[i]);
         const contents = blob.dirContents( blob.path( cwd, sources[i].repo, sources[i].dir ) );

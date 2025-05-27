@@ -18,8 +18,9 @@ exports.default = function spl_blob_put ( input ) {
         if( sources[i].file === undefined ) blob.addDir ( input, spl, blob.path( cwd, sources[i].repo, sources[i].dir ) );
         else {
             if ( sources[i].contents ) 
-                spl.wsSet( input, `spl/blob.${sources[i].repo}/${sources[i].dir}/${sources[i].file.replaceAll ( ".", "_" )}`, sources[i].contents );
-            const contents = spl.wsGet( input, `spl/blob.${sources[i].repo}/${sources[i].dir}/${sources[i].file.replaceAll ( ".", "_" )}` );
+                spl.wsSet( input, `spl/blob.${sources[i].repo}/${sources[i].dir}/${sources[i].file.replaceAll ( ".", "_" )}`, { headers: {}, value: sources[i].contents } );
+            var contents = spl.wsGet( input, `spl/blob.${sources[i].repo}/${sources[i].dir}/${sources[i].file.replaceAll ( ".", "_" )}` ).value;
+            if ( Array.isArray ( contents ) ) contents = contents.join ( " " );
             blob.putFile ( input, spl, blob.path( cwd, sources[i].repo, sources[i].dir, sources[i].file ), contents );
             spl.history ( input, `async - put file ${sources[i].repo}/${sources[i].dir}/${sources[i].file}` );
         }

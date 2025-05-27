@@ -24,12 +24,7 @@ exports.default = function spl_blob_get ( input ) {
             parsedOutput = { headers: {}, value: output };
         } else {
             // Default behavior - parse as JSON
-            try {
-                parsedOutput = JSON.parse ( output );
-            } catch (error) {
-                spl.throwError ( input, `SyntaxError: ${error.message}` );
-                return;
-            }
+            parsedOutput = JSON.parse ( output );
         }
         
         spl.wsSet ( input, `spl/blob.${spl.fURI ( sources[i].repo, sources[i].dir, sources[i].file ).replace("../","")}`, parsedOutput );
