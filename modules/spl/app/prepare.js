@@ -13,21 +13,18 @@ exports.default = function spl_app_prepare (input) {
     // split into lines and where needed line parts
     var batchInput = spl.action ( input, "batch" );
     const batchPrepared = {};
-    if ( Array.isArray ( batchInput ) ) batchPrepared["line_0"] = batchInput;
-    else 
+    if ( Array.isArray ( batchInput ) ) batchInput = batchInput.join(" ");
+    batchInput = batchInput.split("\n");
+    for ( var i = 0; i < batchInput.length; i++ ) 
     {
-        batchInput = batchInput.split("\n");
-        for ( var i = 0; i < batchInput.length; i++ ) 
+        var batchLine = {};
+        if ( batchInput[i].indexOf ( "@@" ) > -1 ) 
         {
-            var batchLine = {};
-            if ( batchInput[i].indexOf ( "_!_" ) > 0 ) 
-            {
-                batchInput[i] = batchInput[i].split ( "_!_" );
-                for( var j = 0; j < batchInput[i].length; j++) batchLine[`part_${j}`] = app.splitAndTrim ( batchInput[i][j] );
-            }
-            else batchLine = app.splitAndTrim ( batchInput[i] );
-            batchPrepared[`line_${i}`] = batchLine;
+            batchInput[i] = batchInput[i].split ( "@@" );
+            for( var j = 0; j < batchInput[i].length; j++) batchLine[`part_${j}`] = app.splitAndTrim ( batchInput[i][j] );
         }
+        else batchLine = app.splitAndTrim ( batchInput[i] );
+        batchPrepared[`line_${i}`] = batchLine;
     }
 
     // create the workspace spl/app entry

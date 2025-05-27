@@ -341,3 +341,40 @@ The debug flag testing methodology provides detailed execution traces, performan
 - **Test Data Management**: Organized fixture structure in `apps/test-suite/data/` directory
 
 This approach leverages existing SPL infrastructure while providing robust testing capabilities for quality assurance.
+## Decision
+
+[2025-05-27 18:21:00] - **PRINCE2 Project Management Framework Adoption**: Applied PRINCE2 principles to SPL test suite implementation for structured project delivery.
+
+## Rationale
+
+PRINCE2 provides proven project management methodology with emphasis on:
+- **Just-in-Time Planning**: Plan only the immediate next step in detail, avoiding over-planning
+- **Learn from Experience**: Apply lessons learned from previous work packages to improve delivery
+- **Stage-Based Delivery**: Structure work into manageable stages with clear deliverables
+- **Work Package Management**: Break stages into discrete work packages with defined quality criteria
+
+This approach reduces planning overhead while maintaining project control and quality assurance.
+
+## Implementation Details
+
+### Project Structure
+- **Current Stage**: Executing Stage (Test Suite Implementation)
+- **Stage Purpose**: Deliver functional test suite for SPL core APIs
+- **Work Packages**: Issues #151-154 (Blob, Data, Execute, Package API testing)
+
+### Just-in-Time Planning Application
+- **Detailed Planning**: Only for immediate next step (Issue #151 completion)
+- **High-Level Planning**: Subsequent work packages planned at summary level
+- **Planning Horizon**: One work package ahead with flexibility for changes
+
+### Lessons Learned Integration
+- Debug flag methodology validated through Issue #150 experience
+- Encoding parameter standardization prevents API inconsistencies
+- App-based testing structure enables production-like validation
+
+### Quality Management
+- Work package completion criteria defined upfront
+- Debug trace validation provides quality assurance
+- Lessons learned captured for future work packages
+
+This framework ensures efficient delivery while maintaining flexibility and quality standards.

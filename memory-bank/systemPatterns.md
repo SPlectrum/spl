@@ -54,3 +54,20 @@ This file documents recurring patterns and standards used in the project.
 ## Testing Patterns
 
 [2025-05-27 15:04:00] - **Active Debug Flag Testing Implementation**: Currently applying debug flag methodology to blob API testing with comprehensive execution tracing. Test files organized in apps/test-suite/ structure with batches/ directory for command files and data/ directory for test fixtures. This provides detailed validation capabilities and performance metrics for each API operation.
+## Project Management Patterns
+
+[2025-05-27 18:21:00] - **PRINCE2 Framework Implementation**: Applied structured project management approach with:
+- **Just-in-Time Planning**: Detailed planning only for immediate next step (current work package)
+- **Stage-Based Delivery**: Test suite implementation organized as executing stage with clear deliverables
+- **Work Package Management**: Issues #151-154 structured as discrete work packages with defined quality criteria
+- **Lessons Learned Integration**: Previous work package experiences inform current planning and execution
+- **Quality Assurance**: Debug flag methodology provides consistent validation across all work packages
+
+## Planning Patterns
+
+[2025-05-27 18:21:00] - **Adaptive Planning Methodology**: 
+- **Immediate Horizon**: Detailed planning for current work package only
+- **Short-term Horizon**: High-level planning for next 2-3 work packages
+- **Long-term Horizon**: Strategic direction without detailed implementation planning
+- **Planning Reviews**: Lessons learned from completed work packages inform subsequent planning
+- **Flexibility Maintenance**: Avoid over-planning to maintain adaptability to changing requirements
