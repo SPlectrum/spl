@@ -14,6 +14,9 @@ exports.default = function spl_app_exec (input)
     
     // Get file parameters from action configuration
     const filePath = spl.action ( input, "file" );
+
+    // get the file args
+    const fileArgs = spl.action ( input, "args" );
     
     // Create a pipeline that first reads the file, then processes the commands
     spl.wsSet(input, "spl/execute.set-pipeline", {
@@ -26,7 +29,8 @@ exports.default = function spl_app_exec (input)
                             "spl/app/process-file": {
                                 file: filePath,
                                 repo: appRoot,
-                                dir: "batches"
+                                dir: "batches",
+                                args: fileArgs
                             }
                         },
                         { action: "spl/app/prepare" },
