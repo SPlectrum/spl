@@ -26,10 +26,13 @@ exports.default = function spl_app_process_file (input)
     // Get the file contents from workspace and store it as batch for processing
     var fileContents = spl.wsGet ( input, `spl/blob.${spl.fURI(fileUri)}` ).value;
 
-    // apply the arguments to the batch file
-    if ( fileContents.indexOf ("$@") > -1 ) fileContents = fileContents.replaceAll ( "$@", fileArgs.toString() );
-    if ( fileContents.indexOf ("$*") > -1 ) fileContents = fileContents.replaceAll ( "$*", fileArgs.join(" ") );
-    for ( var i = 0; i < fileArgs.length; i++ ) fileContents = fileContents.replaceAll ( "$" + (i+1).toString(), fileArgs[i] );
+    // apply the arguments to the batch file (unless skipArgs flag is set)
+    const skipArgs = spl.action ( input, "skipArgs" );
+    if ( !skipArgs ) {
+        if ( fileContents.indexOf ("$@") > -1 ) fileContents = fileContents.replaceAll ( "$@", fileArgs.toString() );
+        if ( fileContents.indexOf ("$*") > -1 ) fileContents = fileContents.replaceAll ( "$*", fileArgs.join(" ") );
+        for ( var i = 0; i < fileArgs.length; i++ ) fileContents = fileContents.replaceAll ( "$" + (i+1).toString(), fileArgs[i] );
+    }
 
     // Use spl.setConfig to pass the batch to spl/app/process
     spl.setConfig ( input, "spl/app/prepare", "batch", fileContents );
