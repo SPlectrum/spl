@@ -1,4 +1,11 @@
-# spl
+# spl1
+
+The second iteration of the core engine of SPlectrum 
+
+The initial checkin is the current state of spl0.  
+This will be reworked while an implementation plan is put in place.
+
+---
 
 The modules implemented in this repository make up the minimum core functionality of the SPlectrum platform.  
 The core functionality consists of the execution layer, the data layer and package management,
@@ -16,9 +23,11 @@ User notes are available in the readMe.md file of the spl directory (the root of
  - [Creating a Release](./docs/creating-a-release.md)
  - [spl package overview](./docs/spl-package-overview.md)
  - [spl data layer](./docs/spl-data-layer.md)
+ - [Execute API Properties](./docs/execute-api-properties.md)
+ - [App API Properties](./docs/app-api-properties.md)
+ - [Package API Properties](./docs/package-api-properties.md)
  - [Main Areas of Work](./docs/main-areas-of-work.md)
  - [SPlectrum Philosophy](./docs/spl-node-philosophy.md)
  - [Command Flow](./docs/command-flow.md)
  - [Data Structures](./docs/data-structures.md)
  - [Schema and Repo Notes](./docs/schema-and-repo-notes.md)
-
