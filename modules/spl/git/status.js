@@ -8,7 +8,10 @@ const git = require("./git")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_git_status(input) {
     // Get repository path from --repo argument, now relative to app root
-    const repoPath = git.getAppRelativeRepoPath(input, spl);
+    const repo = spl.action(input, 'repo');
+    const appRoot = spl.context(input, 'appRoot');
+    const cwd = spl.context(input, 'cwd');
+    const repoPath = git.getAppRelativeRepoPath(repo, appRoot, cwd);
     
     // Build git status command arguments
     const args = ['status'];
@@ -23,7 +26,7 @@ exports.default = function spl_git_status(input) {
     }
     
     // Execute git status command
-    const output = git.executeGit(input, spl, args, repoPath);
+    const output = git.executeGit(args, repoPath);
     
     // Simple output to console
     console.log('Git Status:');

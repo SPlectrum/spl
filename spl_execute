@@ -1,0 +1,6 @@
+cd spl/apps/$1
+echo $@
+shift
+echo $@
+./spl $@
+cd ../../..

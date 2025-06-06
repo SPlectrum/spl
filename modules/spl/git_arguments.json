@@ -12,6 +12,7 @@
     [ 
         { "name": "help", "alias": "h", "type": "Boolean", "description": "show help information", "typeLabel": "flag" }, 
         { "name": "path", "alias": "p", "description": "Repository path (defaults to current working directory)" }, 
+        { "name": "repo", "alias": "r", "description": "Repository path (defaults to current working directory)" }, 
         { "name": "create", "alias": "c", "type": "Boolean", "description": "Create directory if it doesn't exist", "typeLabel": "flag" }
     ]
 }
