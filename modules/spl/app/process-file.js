@@ -28,7 +28,7 @@ exports.default = function spl_app_process_file (input)
 
     // apply the arguments to the batch file (unless skipArgs flag is set)
     const skipArgs = spl.action ( input, "skipArgs" );
-    if ( !skipArgs ) {
+    if ( !skipArgs && fileArgs && Array.isArray(fileArgs) ) { 
         if ( fileContents.indexOf ("$@") > -1 ) fileContents = fileContents.replaceAll ( "$@", fileArgs.toString() );
         if ( fileContents.indexOf ("$*") > -1 ) fileContents = fileContents.replaceAll ( "$*", fileArgs.join(" ") );
         for ( var i = 0; i < fileArgs.length; i++ ) fileContents = fileContents.replaceAll ( "$" + (i+1).toString(), fileArgs[i] );

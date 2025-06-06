@@ -7,12 +7,8 @@ const spl = require("../spl.js")
 const git = require("./git")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function spl_git_status(input) {
-    const repoPath = git.getRepoPath(input, spl);
-    
-    // Validate repository exists
-    if (!git.validateRepository(input, spl, repoPath)) {
-        return;
-    }
+    // Get repository path from --repo argument, now relative to app root
+    const repoPath = git.getAppRelativeRepoPath(input, spl);
     
     // Build git status command arguments
     const args = ['status'];

@@ -30,6 +30,18 @@ exports.executeGit = function (input, spl, args, repoPath) {
     }
 };
 
+// Get repository path relative to app root
+exports.getAppRelativeRepoPath = function (input, spl) {
+    const path = require('path');
+    const repoArg = spl.action(input, 'repo');
+    const appRoot = spl.context(input, 'appRoot');
+    const projectRoot = spl.context(input, 'cwd');
+    
+    // Concatenate appRoot with repo argument
+    const fullAppRoot = path.resolve(projectRoot, appRoot);
+    return path.resolve(fullAppRoot, repoArg);
+};
+
 // Get repository path with simple fallback
 exports.getRepoPath = function (input, spl) {
     return spl.action(input, 'path') || spl.context(input, 'cwd');
