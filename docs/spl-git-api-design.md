@@ -2,14 +2,14 @@
 
 ## Overview
 
-The `spl/git` API is a wrapper around git commands that follows the established SPL module pattern. It provides essential git operations while integrating seamlessly with the SPL platform's execution, error handling, and workspace systems.
+The `tools/git` API is a wrapper around git commands that follows the established SPL module pattern. It provides essential git operations while integrating seamlessly with the SPL platform's execution, error handling, and workspace systems.
 
 ## API Structure
 
-The `spl/git` API follows the established SPL pattern with these components:
+The `tools/git` API follows the established SPL pattern with these components:
 
 ```
-modules/spl/git/
+modules/tools/git/
 ├── index.js                 # API entry point and documentation
 ├── git.js                   # Auxiliary functions (git command execution, path handling)
 ├── init.js                  # Initialize repository
@@ -32,7 +32,7 @@ modules/spl/git/
 
 ## Core Design Principles
 
-1. **Repository Context**: Set once at API level (`spl/git`) and persists for the entire pipeline execution
+1. **Repository Context**: Set once at API level (`tools/git`) and persists for the entire pipeline execution
 2. **Error Handling**: Create error objects and rethrow for platform-level error catching
 3. **Output Handling**: Use `console.log` for output while also saving results in workspace
 4. **Consistent Pattern**: Follow the established SPL module pattern with auxiliary functions
@@ -42,21 +42,21 @@ modules/spl/git/
 ## API Methods Specification
 
 ### 1. Repository Context Management
-- **URI**: `spl/git`
+- **URI**: `tools/git`
 - **Purpose**: Set repository path context for all subsequent git operations
 - **Parameters**: 
   - `path` (optional): Repository path (defaults to current working directory)
   - `create` (optional): Create directory if it doesn't exist
 
 ### 2. Initialize Repository
-- **URI**: `spl/git/init`
+- **URI**: `tools/git/init`
 - **Purpose**: Initialize a new git repository
 - **Parameters**:
   - `bare` (optional): Create bare repository
   - `template` (optional): Template directory
 
 ### 3. Clone Repository
-- **URI**: `spl/git/clone`
+- **URI**: `tools/git/clone`
 - **Purpose**: Clone a remote repository
 - **Parameters**:
   - `url` (required): Repository URL to clone
@@ -65,7 +65,7 @@ modules/spl/git/
   - `depth` (optional): Shallow clone depth
 
 ### 4. Stage Files
-- **URI**: `spl/git/add`
+- **URI**: `tools/git/add`
 - **Purpose**: Add files to staging area
 - **Parameters**:
   - `files` (required): Files to add (supports patterns like ".", "*.js")
@@ -73,7 +73,7 @@ modules/spl/git/
   - `force` (optional): Force add ignored files
 
 ### 5. Commit Changes
-- **URI**: `spl/git/commit`
+- **URI**: `tools/git/commit`
 - **Purpose**: Commit staged changes
 - **Parameters**:
   - `message` (required): Commit message
@@ -81,7 +81,7 @@ modules/spl/git/
   - `amend` (optional): Amend previous commit
 
 ### 6. Push Changes
-- **URI**: `spl/git/push`
+- **URI**: `tools/git/push`
 - **Purpose**: Push commits to remote repository
 - **Parameters**:
   - `remote` (optional): Remote name (defaults to "origin")
@@ -90,7 +90,7 @@ modules/spl/git/
   - `tags` (optional): Push tags
 
 ### 7. Pull Changes
-- **URI**: `spl/git/pull`
+- **URI**: `tools/git/pull`
 - **Purpose**: Pull changes from remote repository
 - **Parameters**:
   - `remote` (optional): Remote name (defaults to "origin")
@@ -98,14 +98,14 @@ modules/spl/git/
   - `rebase` (optional): Use rebase instead of merge
 
 ### 8. Repository Status
-- **URI**: `spl/git/status`
+- **URI**: `tools/git/status`
 - **Purpose**: Get current repository status
 - **Parameters**:
   - `porcelain` (optional): Machine-readable output
   - `short` (optional): Short format output
 
 ### 9. Commit History
-- **URI**: `spl/git/log`
+- **URI**: `tools/git/log`
 - **Purpose**: Get commit history
 - **Parameters**:
   - `count` (optional): Number of commits to show
@@ -139,10 +139,10 @@ exports.validateRepository = function(input, spl, path)
 ## Workspace Data Structure
 
 The API will store data in the workspace under these keys:
-- `spl/git.context` - Repository path and configuration
-- `spl/git.status` - Last status output
-- `spl/git.log` - Last log output
-- `spl/git.lastCommand` - Last executed command and result
+- `tools/git.context` - Repository path and configuration
+- `tools/git.status` - Last status output
+- `tools/git.log` - Last log output
+- `tools/git.lastCommand` - Last executed command and result
 
 ## Error Handling Strategy
 
@@ -155,7 +155,7 @@ The API will store data in the workspace under these keys:
 
 ```mermaid
 graph TD
-    A[spl/git API Call] --> B{Repository Context Set?}
+    A[tools/git API Call] --> B{Repository Context Set?}
     B -->|No| C[Set Repository Context]
     B -->|Yes| D[Use Existing Context]
     C --> E[Validate Repository Path]
@@ -177,21 +177,21 @@ graph TD
 
 ```bash
 # Set repository context and initialize
-./spl spl/git --path ./my-project
-./spl spl/git/init
+./spl tools/git --path ./my-project
+./spl tools/git/init
 
 # Clone a repository
-./spl spl/git --path ./new-project
-./spl spl/git/clone --url https://github.com/user/repo.git
+./spl tools/git --path ./new-project
+./spl tools/git/clone --url https://github.com/user/repo.git
 
 # Basic workflow
-./spl spl/git/add --files "."
-./spl spl/git/commit --message "Initial commit"
-./spl spl/git/push
+./spl tools/git/add --files "."
+./spl tools/git/commit --message "Initial commit"
+./spl tools/git/push
 
 # Check status and history
-./spl spl/git/status --porcelain
-./spl spl/git/log --count 10 --oneline
+./spl tools/git/status --porcelain
+./spl tools/git/log --count 10 --oneline
 ```
 
 ## Integration with SPL Platform
@@ -207,8 +207,8 @@ graph TD
 
 The initial implementation will focus on:
 1. Core auxiliary functions (`git.js`)
-2. Repository context management (`spl/git`)
-3. Status command (`spl/git/status`) as the first example implementation
+2. Repository context management (`tools/git`)
+3. Status command (`tools/git/status`) as the first example implementation
 4. Remaining commands following the established pattern
 
 This design provides a comprehensive git wrapper that follows SPL patterns while offering essential git operations with proper integration into the SPL platform's execution and error handling systems.

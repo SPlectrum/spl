@@ -25,3 +25,8 @@ Do not put in any error handling, the errors are caught at the execution pipelin
 
 Test the -h, --help flag in a separate file, it can be mixed with any of the other arguments.
 The help argument always takes precedence over all others so the output should always be the requested help info.  
+
+## Executing Commands
+
+Commands are executed within the context of an app.  
+

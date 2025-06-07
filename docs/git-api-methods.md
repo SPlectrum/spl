@@ -6,13 +6,13 @@ This document outlines all the methods that should be implemented for the SPL Gi
 
 ## Overview
 
-The SPL Git API provides a comprehensive wrapper around git commands, following the established SPL module pattern. Each method executes git commands through the auxiliary [`git.js`](../modules/spl/git/git.js) library and integrates seamlessly with the SPL platform's execution and error handling systems.
+The SPL Git API provides a comprehensive wrapper around git commands, following the established SPL module pattern. Each method executes git commands through the auxiliary [`git.js`](../modules/tools/git/git.js) library and integrates seamlessly with the SPL platform's execution and error handling systems.
 
 ## Core Git API Methods
 
 ### 1. Repository Context Management
-- **URI**: `spl/git`
-- **Function**: `spl_git(input)`
+- **URI**: `tools/git`
+- **Function**: `tools_git(input)`
 - **Purpose**: Set repository path context for all subsequent git operations
 - **Arguments**:
   - `path` (String, optional): Repository path (defaults to current working directory)
@@ -20,8 +20,8 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
   - `help` (Boolean, alias: `h`): Show help information
 
 ### 2. Initialize Repository
-- **URI**: `spl/git/init`
-- **Function**: `spl_git_init(input)`
+- **URI**: `tools/git/init`
+- **Function**: `tools_git_init(input)`
 - **Purpose**: Initialize a new git repository
 - **Arguments**:
   - `repo` (String, alias: `r`): Repository path
@@ -30,8 +30,8 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
   - `help` (Boolean, alias: `h`): Show help information
 
 ### 3. Clone Repository
-- **URI**: `spl/git/clone`
-- **Function**: `spl_git_clone(input)`
+- **URI**: `tools/git/clone`
+- **Function**: `tools_git_clone(input)`
 - **Purpose**: Clone a remote repository
 - **Arguments**:
   - `url` (String, required): Repository URL to clone
@@ -42,8 +42,8 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
   - `help` (Boolean, alias: `h`): Show help information
 
 ### 4. Stage Files (Add)
-- **URI**: `spl/git/add`
-- **Function**: `spl_git_add(input)`
+- **URI**: `tools/git/add`
+- **Function**: `tools_git_add(input)`
 - **Purpose**: Add files to staging area
 - **Arguments**:
   - `files` (String, required): Files to add (supports patterns like ".", "*.js")
@@ -53,8 +53,8 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
   - `help` (Boolean, alias: `h`): Show help information
 
 ### 5. Commit Changes
-- **URI**: `spl/git/commit`
-- **Function**: `spl_git_commit(input)`
+- **URI**: `tools/git/commit`
+- **Function**: `tools_git_commit(input)`
 - **Purpose**: Commit staged changes
 - **Arguments**:
   - `message` (String, alias: `m`, required): Commit message
@@ -64,8 +64,8 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
   - `help` (Boolean, alias: `h`): Show help information
 
 ### 6. Push Changes
-- **URI**: `spl/git/push`
-- **Function**: `spl_git_push(input)`
+- **URI**: `tools/git/push`
+- **Function**: `tools_git_push(input)`
 - **Purpose**: Push commits to remote repository
 - **Arguments**:
   - `remote` (String): Remote name (defaults to "origin")
@@ -76,8 +76,8 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
   - `help` (Boolean, alias: `h`): Show help information
 
 ### 7. Pull Changes
-- **URI**: `spl/git/pull`
-- **Function**: `spl_git_pull(input)`
+- **URI**: `tools/git/pull`
+- **Function**: `tools_git_pull(input)`
 - **Purpose**: Pull changes from remote repository
 - **Arguments**:
   - `remote` (String): Remote name (defaults to "origin")
@@ -87,19 +87,19 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
   - `help` (Boolean, alias: `h`): Show help information
 
 ### 8. Repository Status ✅ (Already Implemented)
-- **URI**: `spl/git/status`
-- **Function**: `spl_git_status(input)`
+- **URI**: `tools/git/status`
+- **Function**: `tools_git_status(input)`
 - **Purpose**: Get current repository status
 - **Arguments**:
   - `repo` (String, alias: `r`): Repository path
   - `porcelain` (Boolean, alias: `p`): Machine-readable output
   - `short` (Boolean, alias: `s`): Short format output
   - `help` (Boolean, alias: `h`): Show help information
-- **Files**: [`status.js`](../modules/spl/git/status.js), [`status_arguments.json`](../modules/spl/git/status_arguments.json)
+- **Files**: [`status.js`](../modules/tools/git/status.js), [`status_arguments.json`](../modules/tools/git/status_arguments.json)
 
 ### 9. Commit History
-- **URI**: `spl/git/log`
-- **Function**: `spl_git_log(input)`
+- **URI**: `tools/git/log`
+- **Function**: `tools_git_log(input)`
 - **Purpose**: Get commit history
 - **Arguments**:
   - `count` (Number, alias: `n`): Number of commits to show
@@ -113,8 +113,8 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
 ## Extended Git API Methods
 
 ### 10. Branch Management
-- **URI**: `spl/git/branch`
-- **Function**: `spl_git_branch(input)`
+- **URI**: `tools/git/branch`
+- **Function**: `tools_git_branch(input)`
 - **Purpose**: Create, delete, or list branches
 - **Arguments**:
   - `name` (String): Branch name to create
@@ -125,8 +125,8 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
   - `help` (Boolean, alias: `h`): Show help information
 
 ### 11. Checkout
-- **URI**: `spl/git/checkout`
-- **Function**: `spl_git_checkout(input)`
+- **URI**: `tools/git/checkout`
+- **Function**: `tools_git_checkout(input)`
 - **Purpose**: Switch branches or restore files
 - **Arguments**:
   - `branch` (String, alias: `b`): Branch name to checkout
@@ -136,8 +136,8 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
   - `help` (Boolean, alias: `h`): Show help information
 
 ### 12. Remote Management
-- **URI**: `spl/git/remote`
-- **Function**: `spl_git_remote(input)`
+- **URI**: `tools/git/remote`
+- **Function**: `tools_git_remote(input)`
 - **Purpose**: Manage remote repositories
 - **Arguments**:
   - `add` (String): Add remote with name
@@ -149,8 +149,8 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
   - `help` (Boolean, alias: `h`): Show help information
 
 ### 13. Diff
-- **URI**: `spl/git/diff`
-- **Function**: `spl_git_diff(input)`
+- **URI**: `tools/git/diff`
+- **Function**: `tools_git_diff(input)`
 - **Purpose**: Show changes between commits, commit and working tree, etc.
 - **Arguments**:
   - `staged` (Boolean): Show staged changes
@@ -160,8 +160,8 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
   - `help` (Boolean, alias: `h`): Show help information
 
 ### 14. Reset
-- **URI**: `spl/git/reset`
-- **Function**: `spl_git_reset(input)`
+- **URI**: `tools/git/reset`
+- **Function**: `tools_git_reset(input)`
 - **Purpose**: Reset current HEAD to the specified state
 - **Arguments**:
   - `mode` (String): Reset mode (soft, mixed, hard)
@@ -171,8 +171,8 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
   - `help` (Boolean, alias: `h`): Show help information
 
 ### 15. Stash
-- **URI**: `spl/git/stash`
-- **Function**: `spl_git_stash(input)`
+- **URI**: `tools/git/stash`
+- **Function**: `tools_git_stash(input)`
 - **Purpose**: Stash changes in a dirty working directory
 - **Arguments**:
   - `save` (String): Save stash with message
@@ -185,10 +185,10 @@ The SPL Git API provides a comprehensive wrapper around git commands, following 
 
 ## Implementation Pattern
 
-Each method follows the established SPL pattern demonstrated in the existing [`status.js`](../modules/spl/git/status.js) implementation:
+Each method follows the established SPL pattern demonstrated in the existing [`status.js`](../modules/tools/git/status.js) implementation:
 
 ```javascript
-exports.default = function spl_git_methodname(input) {
+exports.default = function tools_git_methodname(input) {
     // 1. Parameter extraction using spl.action()
     const repo = spl.action(input, 'repo');
     const param = spl.action(input, 'paramName');
@@ -219,19 +219,19 @@ exports.default = function spl_git_methodname(input) {
 
 ## File Structure Requirements
 
-Each method requires two files in the [`modules/spl/git/`](../modules/spl/git/) directory:
+Each method requires two files in the [`modules/tools/git/`](../modules/tools/git/) directory:
 
 1. **Implementation file**: `{method}.js`
    - Contains the method implementation following the pattern above
-   - Exports a `default` function with the naming convention `spl_git_{method}`
+   - Exports a `default` function with the naming convention `tools_git_{method}`
 
 2. **Arguments schema file**: `{method}_arguments.json`
    - Defines the command-line arguments and help information
-   - Follows the JSON schema pattern established in [`status_arguments.json`](../modules/spl/git/status_arguments.json)
+   - Follows the JSON schema pattern established in [`status_arguments.json`](../modules/tools/git/status_arguments.json)
 
 ## Existing Infrastructure
 
-The implementation leverages the existing auxiliary functions in [`git.js`](../modules/spl/git/git.js):
+The implementation leverages the existing auxiliary functions in [`git.js`](../modules/tools/git/git.js):
 
 - **`executeGit(input, spl, args, repoPath)`**: Core git command execution
 - **`getAppRelativeRepoPath(repo, appRoot, cwd)`**: Repository path resolution
@@ -240,19 +240,19 @@ The implementation leverages the existing auxiliary functions in [`git.js`](../m
 
 ```bash
 # Initialize a new repository
-./spl spl/git/init --repo my-project
+./spl tools/git/init --repo my-project
 
 # Clone a repository
-./spl spl/git/clone --url https://github.com/user/repo.git --repo my-clone
+./spl tools/git/clone --url https://github.com/user/repo.git --repo my-clone
 
 # Basic workflow
-./spl spl/git/add --files "." --repo my-project
-./spl spl/git/commit --message "Initial commit" --repo my-project
-./spl spl/git/push --repo my-project
+./spl tools/git/add --files "." --repo my-project
+./spl tools/git/commit --message "Initial commit" --repo my-project
+./spl tools/git/push --repo my-project
 
 # Check status and history
-./spl spl/git/status --porcelain --repo my-project
-./spl spl/git/log --count 10 --oneline --repo my-project
+./spl tools/git/status --porcelain --repo my-project
+./spl tools/git/log --count 10 --oneline --repo my-project
 ```
 
 ## Related Documentation
