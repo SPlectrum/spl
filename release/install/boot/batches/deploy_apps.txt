@@ -1,0 +1,4 @@
+spl/package/load -r install -d packages -f apps_boot.json @@ spl/package/deploy -r apps -d . -f apps_boot.json
+spl/package/load -r install -d packages -f apps_git.json @@ spl/package/deploy -r apps -d . -f apps_git.json
+spl/package/load -r install -d packages -f apps_test-suite.json @@ spl/package/deploy -r apps -d . -f apps_test-suite.json
+spl/package/load -r install -d packages -f apps_watcher.json @@ spl/package/deploy -r apps -d . -f apps_watcher.json

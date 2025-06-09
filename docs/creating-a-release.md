@@ -8,9 +8,9 @@ The release folder contains a boot app with the functionality to create the inst
 Within the spl folder, the boot app executes the deploy and remove operation.  
 The boot app is fully self-contained, it contains all functional code to run.
 
-To create an install package that can be zipped up, run the following command from the root of the boot app:
+To create an install package that can be zipped up, run the following command from the root of the boot app (release/install/boot):
 ```
-./spl spl/app/exec -f release_to_install.txt
+./spl usr/release_to_install
 ```
 This will copy the files in the relase directory and the repository modules directory to the install folder within the spl folder. 
 
