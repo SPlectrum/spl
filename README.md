@@ -20,6 +20,8 @@ It will already be possible to add applications to earlier versions, but tooling
 
 User notes are available in the readMe.md file of the spl directory (the root of the self-extracting package).
 
+ - [7zip Command Line API](./docs/7zip-command-line-api.md)
+ - [7zip API Methods](./docs/7zip-api-methods.md)
  - [Boot App Functionality](./docs/boot-app-functionality.md)
  - [Creating a Release](./docs/creating-a-release.md)
  - [Execute API Properties](./docs/execute-api-properties.md)

@@ -1,3 +1,4 @@
+#!/bin/bash
 cd spl/apps/$1
 echo $@
 shift
