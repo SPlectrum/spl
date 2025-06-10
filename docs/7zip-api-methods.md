@@ -1,6 +1,6 @@
-# 7zip API Wrapper - Methods Implementation Guide
+[← Back to README](../README.md)
 
-[← Back to Documentation Home](../README.md)
+# 7zip API Wrapper - Methods Implementation Guide
 
 This document outlines the implementation plan for the SPL 7zip API wrapper, based on the [7zip Command Line API Reference](7zip-command-line-api.md) and following the established SPL module pattern demonstrated in the [Git API Methods](git-api-methods.md).
 
