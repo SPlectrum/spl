@@ -25,6 +25,7 @@ User notes are available in the readMe.md file of the spl directory (the root of
  - [Boot App Functionality](./docs/boot-app-functionality.md)
  - [Creating a Release](./docs/creating-a-release.md)
  - [Execute API Properties](./docs/execute-api-properties.md)
+ - [Linux Installer Design](./docs/linux-installer-design.md)
  - [App API Properties](./docs/app-api-properties.md)
  - [git API Methods](./docs/git-api-methods.md)
  - [How to](./docs/how-to.md)
