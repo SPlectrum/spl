@@ -5,6 +5,8 @@
 ```bash
 # Pattern: ./spl_execute <app> <api/method> [options] [args]
 ./spl_execute test-suite spl/console/log hello world
+./spl_execute test-tools-git usr/git-status-tests
+./spl_execute test-tools-7zip usr/7zip-add-tests
 ./spl_execute watcher -d tools/git/status --repo data/project
 ./spl_execute boot usr/create_linux_installer --help
 ```

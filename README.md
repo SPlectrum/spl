@@ -30,10 +30,13 @@ SPlectrum consists of several key components:
 
 ## Available Apps
 
-- **test-suite** - Testing and validation framework
+- **test-suite** - Core platform testing and validation
+- **test-tools-git** - Git API testing and validation
+- **test-tools-7zip** - 7zip API testing and validation (scaffolded)
 - **watcher** - Development and monitoring tools
 - **boot** - Release and deployment operations  
 - **git** - Git repository management operations
+- **model** - Template for creating new apps
 
 ## Linux-Only Design
 
