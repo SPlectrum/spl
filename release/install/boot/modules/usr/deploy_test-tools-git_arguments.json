@@ -1,8 +1,8 @@
 {
     "headers": { "header": [
-        { "header": "usr/apps_to_release" },
-        { "content": "Auto-generated command from batch file apps_to_release.batch." },
-        { "content": "{bold syntax}: {italic ./spl <appOpts> usr/apps_to_release <opts>}" }
+        { "header": "usr/deploy_test-tools-git" },
+        { "content": "Auto-generated command from batch file deploy_test-tools-git.batch." },
+        { "content": "{bold syntax}: {italic ./spl <appOpts> usr/deploy_test-tools-git <opts>}" }
     ]},
     "value": [
         { "name": "help", "alias": "h", "type": "Boolean", "description": "show help information", "typeLabel": "flag" },

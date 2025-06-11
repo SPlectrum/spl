@@ -75,6 +75,7 @@ For developers working on SPlectrum:
 ### Essential Guides
 - [How to](./docs/how-to.md) - Essential development and usage guidelines
 - [Implementing New API](./docs/implementing-new-api.md) - Guide for creating new modules
+- [Creating New Apps](./docs/creating-new-apps.md) - Complete guide for building applications
 - [Creating a Release](./docs/creating-a-release.md) - Release process and deployment
 - [Linux Installer Design](./docs/linux-installer-design.md) - Linux-first deployment strategy
 

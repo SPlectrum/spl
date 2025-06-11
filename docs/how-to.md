@@ -39,6 +39,48 @@ exports.default = function api_method_name(input) {
 - Use `spl.throwError(input, 'message')` for fatal errors only
 - Test help flags separately: `./spl_execute app method --help`  
 
+## Batch Files and Method Generation
+
+### Creating Batch Files
+Batch files (`.batch` extension) contain command sequences for automation:
+```bash
+# Example: deploy_myapp.batch
+spl/package/load -r install -d packages -f apps_myapp.json
+spl/package/deploy -r apps -d . -f apps_myapp.json
+```
+
+### Auto-generating Methods from Batch Files
+Use `spl/app/create` to generate JavaScript methods from batch files:
+```bash
+# Navigate to app directory
+cd spl/apps/{app-name}
+
+# Generate usr/ method from batch file
+./spl spl/app/create -f mybatch.batch
+
+# Creates:
+# - modules/usr/mybatch.js (JavaScript method)
+# - modules/usr/mybatch_arguments.json (argument schema)
+```
+
+### Batch File Usage Pattern
+```bash
+# 1. Create batch file with command sequence
+echo "spl/console/log Hello World" > hello.batch
+
+# 2. Generate method from batch
+./spl spl/app/create -f hello.batch
+
+# 3. Execute generated method
+./spl usr/hello
+```
+
+### Common Use Cases
+- **Release management**: Create packages and save to release directory
+- **Deployment**: Load packages and deploy to target locations  
+- **Testing**: Run test suites with specific configurations
+- **Build processes**: Compile and package applications
+
 ## Creating New Documentation
 
 ### File Creation Checklist

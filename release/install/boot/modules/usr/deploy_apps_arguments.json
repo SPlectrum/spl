@@ -1,7 +1,7 @@
 {
     "headers": { "header": [
         { "header": "usr/deploy_apps" },
-        { "content": "Auto-generated command from batch file deploy_apps.txt." },
+        { "content": "Auto-generated command from batch file deploy_apps.batch." },
         { "content": "{bold syntax}: {italic ./spl <appOpts> usr/deploy_apps <opts>}" }
     ]},
     "value": [

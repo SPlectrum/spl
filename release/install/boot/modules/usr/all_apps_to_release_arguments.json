@@ -1,8 +1,8 @@
 {
     "headers": { "header": [
-        { "header": "usr/apps_to_release" },
-        { "content": "Auto-generated command from batch file apps_to_release.batch." },
-        { "content": "{bold syntax}: {italic ./spl <appOpts> usr/apps_to_release <opts>}" }
+        { "header": "usr/all_apps_to_release" },
+        { "content": "Auto-generated command from batch file all_apps_to_release.batch." },
+        { "content": "{bold syntax}: {italic ./spl <appOpts> usr/all_apps_to_release <opts>}" }
     ]},
     "value": [
         { "name": "help", "alias": "h", "type": "Boolean", "description": "show help information", "typeLabel": "flag" },

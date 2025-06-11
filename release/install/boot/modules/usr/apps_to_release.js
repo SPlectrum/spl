@@ -1,7 +1,7 @@
 //  name        apps_to_release
 //  URI         usr/apps_to_release
 //  type        API Method
-//  description Auto-generated command from batch file apps_to_release.txt
+//  description Auto-generated command from batch file apps_to_release.batch
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
@@ -52,6 +52,38 @@ exports.default = function usr_apps_to_release (input)
                 "action": "spl/package/create",
                 "spl/package/create": {
                         "repo": "apps",
+                        "dir": "test-tools-git",
+                        "file": "apps_test-tools-git.json"
+                }
+        },
+        {
+                "action": "spl/package/save",
+                "spl/package/save": {
+                        "repo": "../release/install/packages",
+                        "dir": ".",
+                        "file": "apps_test-tools-git.json"
+                }
+        },
+        {
+                "action": "spl/package/create",
+                "spl/package/create": {
+                        "repo": "apps",
+                        "dir": "test-tools-7zip",
+                        "file": "apps_test-tools-7zip.json"
+                }
+        },
+        {
+                "action": "spl/package/save",
+                "spl/package/save": {
+                        "repo": "../release/install/packages",
+                        "dir": ".",
+                        "file": "apps_test-tools-7zip.json"
+                }
+        },
+        {
+                "action": "spl/package/create",
+                "spl/package/create": {
+                        "repo": "apps",
                         "dir": "watcher",
                         "file": "apps_watcher.json"
                 }
@@ -62,6 +94,22 @@ exports.default = function usr_apps_to_release (input)
                         "repo": "../release/install/packages",
                         "dir": ".",
                         "file": "apps_watcher.json"
+                }
+        },
+        {
+                "action": "spl/package/create",
+                "spl/package/create": {
+                        "repo": "apps",
+                        "dir": "model",
+                        "file": "apps_model.json"
+                }
+        },
+        {
+                "action": "spl/package/save",
+                "spl/package/save": {
+                        "repo": "../release/install/packages",
+                        "dir": ".",
+                        "file": "apps_model.json"
                 }
         }
 ];

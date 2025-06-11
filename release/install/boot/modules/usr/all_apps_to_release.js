@@ -1,11 +1,11 @@
-//  name        deploy_apps
-//  URI         usr/deploy_apps
+//  name        all_apps_to_release
+//  URI         usr/all_apps_to_release
 //  type        API Method
-//  description Auto-generated command from batch file deploy_apps.batch
+//  description Auto-generated command from batch file all_apps_to_release.batch
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
-exports.default = function usr_deploy_apps (input)
+exports.default = function usr_all_apps_to_release (input)
 {
     // Set the appRoot configuration
     const appRoot = spl.action ( input, "appRoot" );
@@ -17,113 +17,113 @@ exports.default = function usr_deploy_apps (input)
     // Get the pre-parsed pipeline
     let pipeline = [
         {
-                "action": "spl/package/load",
-                "spl/package/load": {
-                        "repo": "install",
-                        "dir": "packages",
+                "action": "spl/package/create",
+                "spl/package/create": {
+                        "repo": "apps",
+                        "dir": "boot",
                         "file": "apps_boot.json"
                 }
         },
         {
-                "action": "spl/package/deploy",
-                "spl/package/deploy": {
-                        "repo": "apps",
+                "action": "spl/package/save",
+                "spl/package/save": {
+                        "repo": "../release/install/packages",
                         "dir": ".",
                         "file": "apps_boot.json"
                 }
         },
         {
-                "action": "spl/package/load",
-                "spl/package/load": {
-                        "repo": "install",
-                        "dir": "packages",
+                "action": "spl/package/create",
+                "spl/package/create": {
+                        "repo": "apps",
+                        "dir": "git",
                         "file": "apps_git.json"
                 }
         },
         {
-                "action": "spl/package/deploy",
-                "spl/package/deploy": {
-                        "repo": "apps",
+                "action": "spl/package/save",
+                "spl/package/save": {
+                        "repo": "../release/install/packages",
                         "dir": ".",
                         "file": "apps_git.json"
                 }
         },
         {
-                "action": "spl/package/load",
-                "spl/package/load": {
-                        "repo": "install",
-                        "dir": "packages",
+                "action": "spl/package/create",
+                "spl/package/create": {
+                        "repo": "apps",
+                        "dir": "test-suite",
                         "file": "apps_test-suite.json"
                 }
         },
         {
-                "action": "spl/package/deploy",
-                "spl/package/deploy": {
-                        "repo": "apps",
+                "action": "spl/package/save",
+                "spl/package/save": {
+                        "repo": "../release/install/packages",
                         "dir": ".",
                         "file": "apps_test-suite.json"
                 }
         },
         {
-                "action": "spl/package/load",
-                "spl/package/load": {
-                        "repo": "install",
-                        "dir": "packages",
+                "action": "spl/package/create",
+                "spl/package/create": {
+                        "repo": "apps",
+                        "dir": "test-tools-git",
                         "file": "apps_test-tools-git.json"
                 }
         },
         {
-                "action": "spl/package/deploy",
-                "spl/package/deploy": {
-                        "repo": "apps",
+                "action": "spl/package/save",
+                "spl/package/save": {
+                        "repo": "../release/install/packages",
                         "dir": ".",
                         "file": "apps_test-tools-git.json"
                 }
         },
         {
-                "action": "spl/package/load",
-                "spl/package/load": {
-                        "repo": "install",
-                        "dir": "packages",
+                "action": "spl/package/create",
+                "spl/package/create": {
+                        "repo": "apps",
+                        "dir": "test-tools-7zip",
                         "file": "apps_test-tools-7zip.json"
                 }
         },
         {
-                "action": "spl/package/deploy",
-                "spl/package/deploy": {
-                        "repo": "apps",
+                "action": "spl/package/save",
+                "spl/package/save": {
+                        "repo": "../release/install/packages",
                         "dir": ".",
                         "file": "apps_test-tools-7zip.json"
                 }
         },
         {
-                "action": "spl/package/load",
-                "spl/package/load": {
-                        "repo": "install",
-                        "dir": "packages",
+                "action": "spl/package/create",
+                "spl/package/create": {
+                        "repo": "apps",
+                        "dir": "watcher",
                         "file": "apps_watcher.json"
                 }
         },
         {
-                "action": "spl/package/deploy",
-                "spl/package/deploy": {
-                        "repo": "apps",
+                "action": "spl/package/save",
+                "spl/package/save": {
+                        "repo": "../release/install/packages",
                         "dir": ".",
                         "file": "apps_watcher.json"
                 }
         },
         {
-                "action": "spl/package/load",
-                "spl/package/load": {
-                        "repo": "install",
-                        "dir": "packages",
+                "action": "spl/package/create",
+                "spl/package/create": {
+                        "repo": "apps",
+                        "dir": "model",
                         "file": "apps_model.json"
                 }
         },
         {
-                "action": "spl/package/deploy",
-                "spl/package/deploy": {
-                        "repo": "apps",
+                "action": "spl/package/save",
+                "spl/package/save": {
+                        "repo": "../release/install/packages",
                         "dir": ".",
                         "file": "apps_model.json"
                 }
