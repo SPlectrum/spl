@@ -1,10 +1,12 @@
-[← Back to README](../README.md)
+[← Home](../README.md)
 
 # 7zip Command Line API Reference
 
 ## Introduction
 
-The 7zip command line tool (`7z.exe`) provides a comprehensive API for archive operations through command line interface. This document covers the complete argument structure, commands, and switches available for automation and scripting purposes.
+The 7zip command line tool provides a comprehensive API for archive operations through command line interface. This document covers the complete argument structure, commands, and switches available for automation and scripting purposes.
+
+**Related**: See [7zip API Methods](7zip-api-methods.md) for the SPlectrum wrapper implementation that uses these commands.
 
 ## Basic Syntax
 

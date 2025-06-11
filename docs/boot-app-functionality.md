@@ -1,4 +1,4 @@
-[← Back to README](../README.md)
+[← Home](../README.md)
 
 # Boot App Functionality Overview
 

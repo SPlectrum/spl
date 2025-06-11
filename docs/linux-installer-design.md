@@ -1,4 +1,4 @@
-[← Back to Documentation Home](../README.md)
+[← Home](../README.md)
 
 # Linux Installer Design for SPlectrum
 
@@ -486,4 +486,4 @@ The implementation integrates seamlessly with the existing SPL build system and 
 
 ---
 
-[← Back to Documentation Home](../README.md)
+[← Home](../README.md)

@@ -1,4 +1,5 @@
-[Home](../README.md)
+[← Home](../README.md)
+
 # Creating a Release
 
 It is important to keep app packages on significant change and to keep the release folder updated.  
@@ -14,7 +15,14 @@ To create an install package that can be zipped up, run the following command fr
 ```
 This will copy the files in the relase directory and the repository modules directory to the install folder within the spl folder. 
 
-To create the selfextracting package from the git repository run the command below in the root:
+To create the Linux installer package from the git repository run the command below in the root:
 
-(linux) 7z a -sfx spl.exe ./spl
-(windows)"C:\Program Files\7-Zip\7z.exe" a -sfx spl.exe ./spl
+```bash
+# Create Linux installer (future implementation)
+./spl usr/create_linux_installer
+
+# Current manual method using 7z for testing
+7z a spl_package.tar.gz ./spl
+```
+
+**Note**: The release process is transitioning to Linux-first deployment. See [Linux Installer Design](linux-installer-design.md) for the planned installer implementation.

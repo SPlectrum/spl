@@ -1,4 +1,5 @@
-[Home](../README.md)
+[← Home](../README.md)
+
 # SPL Package API Properties
 
 This document provides a comprehensive overview of the properties used by the SPL package API, particularly the `headers.spl.package` properties.
