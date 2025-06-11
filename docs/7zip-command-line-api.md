@@ -93,7 +93,7 @@ The 7zip command line tool provides a comprehensive API for archive operations t
 
 ```bash
 # Extract to specific directory
-7z x archive.7z -o"C:\extracted\"
+7z x archive.7z -o"/tmp/extracted/"
 
 # Extract with password
 7z x secure.zip -p"mypassword"
@@ -126,7 +126,6 @@ The 7zip command line tool provides a comprehensive API for archive operations t
 - **gzip/gz** - GZIP format
 - **bzip2/bz2** - BZIP2 format
 - **xz** - XZ format
-- **wim** - Windows Imaging format
 - **iso** - ISO format
 
 ## Return Codes
@@ -144,20 +143,20 @@ The 7zip command line tool provides a comprehensive API for archive operations t
 
 ```bash
 # Process multiple archives
-for %%f in (*.zip) do 7z t "%%f"
+for f in *.zip; do 7z t "$f"; done
 
 # Create daily backup
-7z a backup_%date:~-4,4%%date:~-10,2%%date:~-7,2%.7z Documents/
+7z a backup_$(date +%Y%m%d).7z Documents/
 ```
 
 ### Integration with Other Tools
 
 ```bash
 # Pipe file list to 7zip
-dir /b *.txt | 7z a -si textfiles.7z
+ls *.txt | 7z a -si textfiles.7z
 
 # Extract and pipe to another command
-7z x archive.7z -so | findstr "pattern"
+7z x archive.7z -so | grep "pattern"
 ```
 
 ## Performance Considerations

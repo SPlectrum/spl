@@ -35,11 +35,11 @@ SPlectrum consists of several key components:
 - **boot** - Release and deployment operations  
 - **git** - Git repository management operations
 
-## Linux-First Design
+## Linux-Only Design
 
-SPlectrum is optimized for Linux environments including:
+SPlectrum is built exclusively for Linux environments:
 - Native Linux distributions
-- WSL (Windows Subsystem for Linux)
+- WSL2 (Windows Subsystem for Linux)
 - Container deployments (planned)
 
 ## Getting Started
@@ -86,6 +86,7 @@ For developers working on SPlectrum:
 - [Boot App Functionality](./docs/boot-app-functionality.md) - Release and deployment operations
 - [spl Data Layer](./docs/spl-data-layer.md) - Immutable data storage design
 - [Schema and Repo Notes](./docs/schema-and-repo-notes.md) - Data structure design notes
+- [Federated Monorepo Design](./docs/federated-monorepo-design.md) - Future distributed API architecture
 
 ### Tool References
 - [7zip Command Line API](./docs/7zip-command-line-api.md) - Raw 7zip command reference

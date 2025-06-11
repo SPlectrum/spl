@@ -87,8 +87,7 @@ This is a Node.js project without package.json. Execute commands using the SPL a
 
 1. **Create Release Package**: From `release/install/boot/`, run `./spl usr/release_to_install`
 2. **Create Self-Extracting Archive**: 
-   - Linux: `7z a -sfx spl.exe ./spl`
-   - Windows: `"C:\Program Files\7-Zip\7z.exe" a -sfx spl.exe ./spl`
+   - Linux: `7z a spl-installer.tar.gz ./spl`
 3. **Deploy Operations**: Execute `deploy_install`, `deploy_modules`, `deploy_apps` in sequence
 
 ## Key Files for Understanding

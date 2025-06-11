@@ -1,63 +1,79 @@
 [← Home](../README.md)
 # How To for SPlectrum
 
-## Command Execution
+## Quick Command Reference
 ```bash
-./spl_execute <app> <api/method> [options] [args]
+# Pattern: ./spl_execute <app> <api/method> [options] [args]
 ./spl_execute test-suite spl/console/log hello world
 ./spl_execute watcher -d tools/git/status --repo data/project
+./spl_execute boot usr/create_linux_installer --help
 ```
 
-## Module Locations
-- Core: `modules/spl/{api}/{method}.js` + `modules/tools/{tool}/{method}.js`
-- App-specific: `spl/apps/{app}/modules/usr/{method}.js`
-- Arguments: `{method}_arguments.json`
+## File Structure (For Code Generation)
+```
+modules/spl/{api}/{method}.js              # Core APIs
+modules/tools/{tool}/{method}.js           # Tool wrappers  
+spl/apps/{app}/modules/usr/{method}.js     # App methods
+{method}_arguments.json                    # All argument schemas
+```
+
+## Method Implementation Template
+```javascript
+exports.default = function api_method_name(input) {
+    // 1. Extract parameters
+    const param = spl.action(input, 'paramName');
+    const context = spl.context(input, 'contextProp');
+    
+    // 2. Execute logic
+    
+    // 3. Complete
+    spl.completed(input);
+}
+```
 
 ## Development Rules
-- No manual error handling (use `spl.throwError()` for fatal only)
-- Always test help flags (`-h`, `--help`) separately
-- Use `spl.action(input, 'param')` and `spl.context(input, 'prop')`
-- Call `spl.completed(input)` at method end  
+- Use `spl.action(input, 'param')` for CLI args, `spl.context(input, 'prop')` for execution state
+- Call `spl.completed(input)` at method end (required)
+- Use `spl.throwError(input, 'message')` for fatal errors only
+- Test help flags separately: `./spl_execute app method --help`  
 
-## Writing Documentation
+## Creating New Documentation
 
-### Document Location and Structure
+### File Creation Checklist
+```
+1. Create in docs/ folder (kebab-case naming)
+2. Start with [← Home](../README.md) 
+3. End with --- and [← Home](../README.md)
+4. Add to README.md documentation list
+```
 
-- **Location**: All documentation files go in the `docs/` folder
-- **File naming**: Use kebab-case (e.g., `implementing-new-api.md`)
-- **Header link**: Start every document with `[← Home](../README.md)`
-- **Footer link**: End every document with `---` followed by `[← Home](../README.md)`
+### Documentation Standards (For AI Efficiency)
+- **Token-efficient**: Front-load key information, use scannable format
+- **Code examples**: Always include working command/code snippets
+- **Consistent structure**: Use template below for predictable parsing
+- **Proactive optimization**: Claude Code should propose improvements without hesitation
 
-### Adding to README
-
-When creating new documentation:
-1. Add the link to `README.md` in the documentation list
-2. Use format: `- [Document Title](./docs/filename.md)`
-3. Keep the list in logical order (not necessarily alphabetical)
-
-### Documentation Guidelines
-
-- **Be concise**: Write for Claude Code to understand and work with the system efficiently
-- **Use standard markdown**: Consistent formatting across all documents
-- **Include practical examples**: Show actual commands and code snippets
-- **Cross-reference**: Link to related documentation using relative paths
-- **Use code blocks**: Specify language for syntax highlighting (`bash`, `javascript`, `json`)
-
-### Document Template
-
+### Standard Template
 ```markdown
 [← Home](../README.md)
 
-# Document Title
+# Title (Descriptive, not generic)
 
-Brief description of what this document covers.
+Brief description - what this solves/enables.
 
-## Main Content Sections
+## Quick Reference
+Key commands/patterns first.
 
-Content organized logically.
+## Implementation Details  
+Technical specifics.
 
 ---
 
 [← Home](../README.md)
+```
+
+### Adding to README.md
+```markdown
+- [Document Title](./docs/filename.md) - Brief purpose
 ```
 

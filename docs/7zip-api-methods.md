@@ -147,8 +147,8 @@ The implementation leverages a core auxiliary library similar to [`git.js`](../m
 ```javascript
 // Core 7zip command execution
 exports.execute7zip = function(input, spl, args, workingPath) {
-    // Determine 7zip executable based on platform
-    const executable = process.platform === 'win32' ? '7z.exe' : '7z';
+    // Use 7z executable (Linux-only deployment)
+    const executable = '7z';
     
     // Execute command with proper error handling
     // Process return codes: 0=success, 1=warning, 2=fatal error
@@ -185,36 +185,32 @@ Each method requires two files in the [`modules/tools/7zip/`](../modules/tools/7
 The 7zip API directly supports the current SPlectrum release workflow:
 
 ```bash
-# Current manual command (from docs/creating-a-release.md)
-7z a -sfx spl.exe ./spl
+# Create Linux installer archive
+./spl_execute boot tools/7zip/add --archive spl-installer.tar.gz --files ./spl --type tar
 
-# Proposed SPL command
-./spl_execute boot tools/7zip/add --archive spl.exe --files ./spl --self-extracting
-
-# With additional options
-./spl_execute boot tools/7zip/add --archive spl.exe --files ./spl --self-extracting --compression 9 --type 7z
+# With compression options
+./spl_execute boot tools/7zip/add --archive spl-installer.tar.gz --files ./spl --type tar --compression 9
 ```
 
-## Cross-Platform Considerations
+## Linux Deployment
 
-The wrapper handles platform differences:
+The wrapper is designed for Linux-only deployment:
 
-- **Windows**: Uses `7z.exe` executable
-- **Linux/WSL**: Uses `7z` executable (requires p7zip-full package)
-- **Path handling**: Proper path resolution for both Windows and Unix-style paths
-- **Return code handling**: Consistent error reporting across platforms
+- **Executable**: Uses `7z` command (requires p7zip-full package)
+- **Path handling**: Unix-style path resolution
+- **Archive formats**: Focus on tar.gz, 7z, zip for Linux environments
 
 ## Usage Examples
 
 ```bash
-# Create self-extracting release package
-./spl_execute boot tools/7zip/add --archive release.exe --files ./spl --self-extracting --compression 9
+# Create release package
+./spl_execute boot tools/7zip/add --archive release.tar.gz --files ./spl --type tar --compression 9
 
 # Extract archive to specific directory
-./spl_execute app tools/7zip/extract --archive package.7z --output ./extracted --overwrite
+./spl_execute app tools/7zip/extract --archive package.7z --output /tmp/extracted --overwrite
 
 # List archive contents with technical details
-./spl_execute app tools/7zip/list --archive data.zip --technical
+./spl_execute app tools/7zip/list --archive data.tar.gz --technical
 
 # Test archive integrity
 ./spl_execute app tools/7zip/test --archive backup.7z
