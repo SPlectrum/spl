@@ -40,6 +40,7 @@ SPlectrum is a modular execution platform with a core engine providing minimal v
 - `modules/spl/command/` - Command execution framework
 - `modules/spl/error/` - Error handling with `spl.throwError()`
 - `modules/tools/git/` - Git integration wrapper (status implemented, others defined)
+- `modules/tools/7zip/` - Archive management wrapper (scaffolded)
 
 ### Key Architectural Patterns
 
@@ -69,13 +70,19 @@ This is a Node.js project without package.json. Execute commands using the SPL a
 ./spl_execute test-suite spl/console/log hello world
 ./spl_execute test-suite -d spl/console/log hello world  # debug mode
 
-# Boot app commands (from release/install/boot/)
-./spl usr/release_to_install   # Create install package
-./spl usr/modules_to_boot      # Update boot app modules
-./spl usr/boot_to_release      # Update release folder
-./spl usr/deploy_install       # Deploy installation
-./spl usr/deploy_modules       # Deploy modules
-./spl usr/deploy_apps          # Deploy applications
+# Boot app commands (from spl/apps/boot/)
+./spl usr/apps_to_release        # Release all apps
+./spl usr/deploy_apps            # Deploy all apps
+./spl usr/all_apps_to_release    # Release all apps (master batch)
+./spl usr/{app-name}_to_release  # Release specific app
+./spl usr/deploy_{app-name}      # Deploy specific app
+
+# Batch file to method generation
+./spl spl/app/create -f {batch-file}.batch  # Generate usr/ method from batch file
+
+# API testing commands
+./spl_execute test-tools-git usr/git-status-tests
+./spl_execute test-tools-7zip --help  # 7zip tests (scaffolded)
 
 # Git API (example commands)
 ./spl tools/git/status --repo <path>
@@ -85,20 +92,23 @@ This is a Node.js project without package.json. Execute commands using the SPL a
 
 ## Release and Deployment Process
 
-1. **Create Release Package**: From `release/install/boot/`, run `./spl usr/release_to_install`
-2. **Create Self-Extracting Archive**: 
-   - Linux: `7z a spl-installer.tar.gz ./spl`
-3. **Deploy Operations**: Execute `deploy_install`, `deploy_modules`, `deploy_apps` in sequence
+SPlectrum uses Linux-only deployment with .batch file extension:
+
+1. **Release Apps**: `./spl usr/apps_to_release` or `./spl usr/all_apps_to_release`
+2. **Deploy Apps**: `./spl usr/deploy_apps` 
+3. **Individual Operations**: `./spl usr/{app-name}_to_release`, `./spl usr/deploy_{app-name}`
+4. **Method Generation**: After creating/updating .batch files, run `./spl spl/app/create -f {file}.batch`
 
 ## Key Files for Understanding
 
 - `modules/spl/spl.js` - Core utility library with workspace/context management (267 lines)
 - `modules/spl/execute/execute.js` - Main execution engine with TTL and logging
 - `modules/arguments.json` - Root command line argument definitions
-- `docs/how-to.md` - Essential usage instructions and error handling guidelines
-- `docs/execute-api-properties.md` - Complete execution context documentation
-- `docs/package-api-properties.md` - Package management system documentation
-- `release/install/boot/modules/usr/` - Boot application functionality
+- `docs/how-to.md` - Essential usage instructions with batch file patterns
+- `docs/creating-new-apps.md` - Complete guide for building applications
+- `docs/implementing-new-api.md` - Guide for creating new modules with test apps
+- `docs/spl-package-api-analysis.md` - Package lifecycle management
+- `spl/apps/boot/modules/usr/` - Boot application functionality (auto-generated from .batch files)
 
 ## Working with the Codebase
 
@@ -135,6 +145,36 @@ This is a Node.js project without package.json. Execute commands using the SPL a
 **Testing**: Use help flag (`-h`, `--help`) in separate tests - always takes precedence
 
 **Console Modes**: `debug` (full object dump), `verbose`, `silent`, or standard completion messages
+
+## Application Development Patterns
+
+**Existing Apps**:
+- `boot` - Release/deployment management 
+- `model` - Template for new apps
+- `test-suite` - Core platform testing
+- `test-tools-git` - Git API testing
+- `test-tools-7zip` - 7zip API testing (scaffolded)
+- `watcher` - Development/monitoring
+
+**Batch Files (.batch extension)**:
+- Contain command sequences for automation
+- Auto-converted to JavaScript usr/ methods via `spl/app/create -f {file}.batch`
+- Essential for release management and testing workflows
+- Boot app manages release/deployment for all apps via batch files
+
+**App Creation Workflow**:
+1. Copy structure from model app (`spl`, `spl.js`, `modules/`)
+2. Create batch files for app functionality
+3. Update boot app release system (add to `apps_to_release.batch`, etc.)
+4. Generate usr/ methods from batch files
+5. Test integration with `./spl_execute {app} --help`
+
+**API Development Workflow**:
+1. Create API structure in `modules/{category}/{api-name}/`
+2. Implement auxiliary library, index.js, methods, and argument schemas
+3. Create corresponding test app (`test-{category}-{api-name}`)
+4. Create test batch files and generate usr/ methods
+5. Integrate with boot app release system
 
 ## Data Layer Specifics
 
