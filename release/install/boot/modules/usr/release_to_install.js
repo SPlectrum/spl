@@ -1,7 +1,7 @@
 //  name        release_to_install
 //  URI         usr/release_to_install
 //  type        API Method
-//  description Auto-generated command from batch file release_to_install.txt
+//  description Auto-generated command from batch file release_to_install.batch
 ///////////////////////////////////////////////////////////////////////////////
 const spl = require("../spl.js")
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ exports.default = function usr_release_to_install (input)
                 "action": "spl/package/deploy",
                 "spl/package/deploy": {
                         "repo": "..",
-                        "dir": "spl",
+                        "dir": "$1",
                         "file": "release_files.json"
                 }
         },
@@ -43,7 +43,7 @@ exports.default = function usr_release_to_install (input)
         {
                 "action": "spl/package/deploy",
                 "spl/package/deploy": {
-                        "repo": "../spl/install",
+                        "repo": "../$1/install",
                         "dir": ".",
                         "file": "modules_spl.json"
                 }

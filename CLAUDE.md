@@ -64,13 +64,14 @@ This is a Node.js project without package.json. Execute commands using the SPL a
 
 ```bash
 # Main execution command (from root)
-./spl_execute <app-name> <command> [options] [args]
+./spl_execute <install-folder> <app-name> <command> [options] [args]
 
 # Examples
-./spl_execute test-suite spl/console/log hello world
-./spl_execute test-suite -d spl/console/log hello world  # debug mode
+./spl_execute spl test-suite spl/console/log hello world
+./spl_execute spl test-suite -d spl/console/log hello world  # debug mode
+./spl_execute install boot usr/boot_to_release  # Execute from install folder
 
-# Boot app commands (from spl/apps/boot/)
+# Boot app commands (from spl/apps/boot/ - used when working directly in install)
 ./spl usr/apps_to_release        # Release all apps
 ./spl usr/deploy_apps            # Deploy all apps
 ./spl usr/all_apps_to_release    # Release all apps (master batch)
@@ -81,8 +82,8 @@ This is a Node.js project without package.json. Execute commands using the SPL a
 ./spl spl/app/create -f {batch-file}.batch  # Generate usr/ method from batch file
 
 # API testing commands
-./spl_execute test-tools-git usr/git-status-tests
-./spl_execute test-tools-7zip --help  # 7zip tests (scaffolded)
+./spl_execute spl test-tools-git usr/git-status-tests
+./spl_execute spl test-tools-7zip --help  # 7zip tests (scaffolded)
 
 # Git API (example commands)
 ./spl tools/git/status --repo <path>
@@ -183,6 +184,22 @@ SPlectrum uses Linux-only deployment with .batch file extension:
 - Auto-converted to JavaScript usr/ methods via `spl/app/create -f {file}.batch`
 - Essential for release management and testing workflows
 - Boot app manages release/deployment for all apps via batch files
+- Support parameter substitution: `$1`, `$2`, `$@`, `$*` for dynamic arguments
+- Arguments passed via `-a` or `--args` flag to both `spl/app/exec` and generated usr/ commands
+
+**Batch File with Arguments Development Workflow**:
+1. **Create/Edit**: Modify `.batch` file with command sequence and parameter placeholders (`$1`, `$2`, etc.)
+2. **Test Batch**: Use `spl/app/exec -f {file}.batch -a arg1 arg2` to test batch file execution
+3. **Generate Command**: Convert to usr/ command with `spl/app/create -f {file}.batch`  
+4. **Test Command**: Test generated usr/ command with `usr/{command} -a arg1 arg2`
+5. **Parameter Patterns**: `$1`, `$2` (positional), `$@` (array), `$*` (space-separated string)
+
+**Boot App Development Workflow**:
+1. **Modify**: Edit batch files or usr/ commands in `spl/apps/boot/`
+2. **Test**: Use temporary spl-prefixed folders for testing (e.g., `spl-test-install`)
+3. **Regenerate**: If batch files changed, use `spl/app/create -f {file}.batch` to update usr/ commands
+4. **Publish**: Use `usr/boot_to_release` to publish changes to release folder
+5. **Avoid**: Never test deployment in development `spl/` directory - use separate test folders
 
 **App Creation Workflow** (Complete all steps):
 1. Copy structure from model app (`spl`, `spl.js`, `modules/`)
