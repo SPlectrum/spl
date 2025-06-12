@@ -7,6 +7,27 @@
 The Boot App implements a number of actions to deal with the boot app update, the release folder update and the deployment of an install.
 The functionality is in folder `/release/install/boot/modules/usr/`.
 
+## Special Characteristics
+
+The Boot App has unique deployment characteristics that differ from other SPlectrum applications:
+
+### Multi-Location Architecture
+- **Source**: `spl/apps/boot/` - Primary development location with .batch files only
+- **Install**: `spl/install/boot/` - Intermediate deployment location
+- **Release**: `release/install/boot/` - Final distribution location
+
+### Deployment Flow
+1. Changes are made in `spl/apps/boot/`
+2. `usr/boot_to_release` copies from `spl/apps/boot/` → `release/install/boot/`
+3. The release folder is used to populate new installs
+4. **Important**: Package deploy method only creates/updates files, never removes existing files
+
+### File Management Considerations
+- Only .batch files should exist in source and deployments
+- .txt files may persist in intermediate locations from previous processes
+- Clean up .txt files from `spl/install/boot/batches/` before releasing to prevent propagation
+- The boot app manages release/deployment for all other SPlectrum applications
+
 ## Functionality
 
 ### Boot app Update
