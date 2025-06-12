@@ -192,6 +192,7 @@ SPlectrum uses Linux-only deployment with .batch file extension:
 2. Create descriptive but concise commit messages
 3. Include context about why changes were made
 4. Verify commit success with `git status`
+5. Push commits to remote regularly with `git push`
 
 **Example Commit Structure**:
 ```
