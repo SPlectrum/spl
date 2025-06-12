@@ -67,6 +67,7 @@ SPlectrum is built exclusively for Linux environments:
 
 For developers working on SPlectrum:
 - Read [How to](./docs/how-to.md) for essential development guidelines
+- See [Development Workflow Strategy](./docs/development-workflow-strategy.md) for AI-assisted development approach
 - See [Implementing New API](./docs/implementing-new-api.md) for creating new modules
 - Review [Execute API Properties](./docs/execute-api-properties.md) for execution context details
 
@@ -74,6 +75,7 @@ For developers working on SPlectrum:
 
 ### Essential Guides
 - [How to](./docs/how-to.md) - Essential development and usage guidelines
+- [Test App Development](./docs/test-app-development.md) - Guide for creating test applications
 - [Implementing New API](./docs/implementing-new-api.md) - Guide for creating new modules
 - [Creating New Apps](./docs/creating-new-apps.md) - Complete guide for building applications
 - [Creating a Release](./docs/creating-a-release.md) - Release process and deployment

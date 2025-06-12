@@ -142,6 +142,20 @@ SPlectrum uses Linux-only deployment with .batch file extension:
 
 **Location Specifications**: Support arrays `[repo, dir, file]`, URI strings, or objects with `path`/`uri`
 
+**Path Resolution**: 
+- `spl.context(input, "cwd")` points to SPlectrum install root (e.g., `/path/to/spl`)
+- All relative paths are resolved from this install root, not project root
+- Example: `apps/boot/batches` resolves to `{install-root}/apps/boot/batches`
+
+**Console Operations**: Use direct calls (`console.log()`, `console.error()`) within methods, not moduleAction calls
+
+**Dual Output Pattern**: 
+- Store full structured results in workspace via `spl.wsSet()`
+- Stream concise human-readable output to console
+- Success: Short acknowledgment only (`✓ Operation completed`)
+- Failure: Essential failure information only (`✗ Failed: reason`)
+- Verbose details available in workspace for programmatic access
+
 **Testing**: Use help flag (`-h`, `--help`) in separate tests - always takes precedence
 
 **Console Modes**: `debug` (full object dump), `verbose`, `silent`, or standard completion messages
@@ -154,7 +168,15 @@ SPlectrum uses Linux-only deployment with .batch file extension:
 - `test-suite` - Core platform testing
 - `test-tools-git` - Git API testing
 - `test-tools-7zip` - 7zip API testing (scaffolded)
+- `test-boot` - Boot app functionality testing
 - `watcher` - Development/monitoring
+
+**Test App Patterns**:
+- Naming: `test-{target}` (e.g., `test-boot`, `test-tools-git`)
+- Test source locations rather than deployed locations
+- Use auxiliary libraries (`modules/{domain}/{domain}.js`) for implementation logic
+- Method files act as thin wrappers calling library functions
+- Hybrid approach: Use Node.js modules when SPlectrum functionality incomplete
 
 **Batch Files (.batch extension)**:
 - Contain command sequences for automation
@@ -162,12 +184,13 @@ SPlectrum uses Linux-only deployment with .batch file extension:
 - Essential for release management and testing workflows
 - Boot app manages release/deployment for all apps via batch files
 
-**App Creation Workflow**:
+**App Creation Workflow** (Complete all steps):
 1. Copy structure from model app (`spl`, `spl.js`, `modules/`)
 2. Create batch files for app functionality
 3. Update boot app release system (add to `apps_to_release.batch`, etc.)
 4. Generate usr/ methods from batch files
 5. Test integration with `./spl_execute {app} --help`
+6. Package to release folder via `usr/boot_to_release` and `usr/apps_to_release`
 
 **API Development Workflow**:
 1. Create API structure in `modules/{category}/{api-name}/`
@@ -180,6 +203,8 @@ SPlectrum uses Linux-only deployment with .batch file extension:
 
 **Claude Code Responsibility**: Claude Code takes full responsibility for git repository interactions, including staging, committing, and maintaining commit history.
 
+**Release Process Rule**: Always package changes to release folder before committing. Changes in `spl/` install directory are not git-tracked.
+
 **Commit Message Standards**:
 - Use conventional commit format: `type: concise description`
 - Types: `fix`, `feat`, `docs`, `refactor`, `test`, `chore`
@@ -188,11 +213,12 @@ SPlectrum uses Linux-only deployment with .batch file extension:
 - Always include Claude Code attribution footer
 
 **Commit Process**:
-1. Stage relevant changes with `git add`
-2. Create descriptive but concise commit messages
-3. Include context about why changes were made
-4. Verify commit success with `git status`
-5. Push commits to remote regularly with `git push`
+1. Verify changes are packaged to release folder (not just in `spl/` install)
+2. Stage relevant changes with `git add`
+3. Create descriptive but concise commit messages
+4. Include context about why changes were made
+5. Verify commit success with `git status`
+6. Push commits to remote regularly with `git push`
 
 **Example Commit Structure**:
 ```

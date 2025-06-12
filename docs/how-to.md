@@ -20,6 +20,8 @@ spl/apps/{app}/modules/usr/{method}.js     # App methods
 ```
 
 ## Method Implementation Template
+
+### Basic Method
 ```javascript
 exports.default = function api_method_name(input) {
     // 1. Extract parameters
@@ -33,11 +35,58 @@ exports.default = function api_method_name(input) {
 }
 ```
 
+### Method with Auxiliary Library and Dual Output
+```javascript
+const spl = require("../spl.js")
+const aux = require("./aux.js")  // Domain auxiliary library
+
+exports.default = function domain_method_name(input) {
+    // Use auxiliary library for implementation
+    const results = aux.performOperation(input, spl, parameters);
+    
+    // Store full results in workspace
+    spl.wsSet(input, 'operation/results', {
+        headers: { spl: { operation: { status: results.passed ? 'passed' : 'failed' } } },
+        value: results
+    });
+    
+    // Stream concise output
+    if (results.passed) {
+        console.log(`✓ ${results.summary}`);
+    } else {
+        console.error(`✗ ${results.errors.join(', ')}`);
+    }
+    
+    spl.completed(input);
+}
+```
+
 ## Development Rules
+
+### Core Requirements
 - Use `spl.action(input, 'param')` for CLI args, `spl.context(input, 'prop')` for execution state
 - Call `spl.completed(input)` at method end (required)
 - Use `spl.throwError(input, 'message')` for fatal errors only
-- Test help flags separately: `./spl_execute app method --help`  
+- Test help flags separately: `./spl_execute app method --help`
+
+### Path and Console Rules
+- **Path Resolution**: `spl.context(input, "cwd")` points to SPlectrum install root
+- **Relative Paths**: Always relative to install root (e.g., `apps/boot/batches`)
+- **Console Output**: Use direct calls (`console.log()`, `console.error()`) within methods
+- **Implementation Pattern**: Use auxiliary libraries for complex logic, keep methods as thin wrappers
+
+### Dual Output Pattern (Required)
+- **Full Results**: Store complete structured data in workspace via `spl.wsSet()`
+- **Concise Stream**: Output human-readable summary to console
+- **Success Format**: Short acknowledgment only (`✓ Operation completed`)
+- **Failure Format**: Essential failure information only (`✗ Failed: specific reason`)
+- **Workspace Access**: Full details available for programmatic access and debugging
+
+### Test App Development
+- **Naming**: Follow `test-{target}` pattern
+- **Testing Focus**: Test source locations, not deployed locations
+- **Hybrid Approach**: Use Node.js modules when SPlectrum functionality incomplete
+- **Library Pattern**: Create `{domain}.js` auxiliary library in same directory as methods  
 
 ## Batch Files and Method Generation
 
@@ -109,8 +158,14 @@ docs/new-feature-guide.md
 
 **4. Git Commit Process**:
 ```bash
-# Stage all related changes together
-git add docs/new-document.md CLAUDE.md README.md
+# IMPORTANT: Package changes to release folder first
+# Changes in spl/ install directory are NOT git-tracked
+cd spl/apps/boot
+./spl usr/boot_to_release      # If boot app was modified
+./spl usr/apps_to_release      # If any apps were created/modified
+
+# Then stage all related changes together
+git add docs/new-document.md CLAUDE.md README.md release/
 
 # Create descriptive commit
 git commit -m "docs: add new feature documentation
