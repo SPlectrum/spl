@@ -229,6 +229,29 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 - Document test procedures for autonomous operation
 - Build self-correcting feedback loops through objective testing
 
+## Continuous Learning Rule
+
+**Learning Trigger**: At regular appropriate intervals during development sessions, ask: "What have I learned from this?" and update knowledge accordingly.
+
+**Learning Integration Process**:
+1. **Pattern Recognition**: Identify new patterns, workflows, or solutions discovered
+2. **Documentation Update**: Add new insights to CLAUDE.md, how-to.md, or create new docs
+3. **Process Improvement**: Update workflows and procedures based on lessons learned
+4. **Knowledge Synthesis**: Connect new learning to existing patterns and architecture
+
+**Appropriate Intervals**:
+- After completing complex problem-solving sessions
+- When discovering new architectural insights or patterns
+- Following successful resolution of previously unknown issues
+- At the end of significant development milestones
+- When transitioning between different types of work
+
+**Learning Documentation**:
+- Update CLAUDE.md with new working patterns
+- Add to how-to.md for procedural learning
+- Create new docs for significant architectural discoveries
+- Enhance existing documentation with refined understanding
+
 ## Data Layer Specifics
 
 - Immutable record storage using directory/file structure
