@@ -37,22 +37,6 @@ exports.default = function usr_deploy_apps (input)
                 "spl/package/load": {
                         "repo": "install",
                         "dir": "packages",
-                        "file": "apps_git.json"
-                }
-        },
-        {
-                "action": "spl/package/deploy",
-                "spl/package/deploy": {
-                        "repo": "apps",
-                        "dir": ".",
-                        "file": "apps_git.json"
-                }
-        },
-        {
-                "action": "spl/package/load",
-                "spl/package/load": {
-                        "repo": "install",
-                        "dir": "packages",
                         "file": "apps_test-suite.json"
                 }
         },

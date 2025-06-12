@@ -20,22 +20,6 @@ exports.default = function usr_apps_to_release (input)
                 "action": "spl/package/create",
                 "spl/package/create": {
                         "repo": "apps",
-                        "dir": "git",
-                        "file": "apps_git.json"
-                }
-        },
-        {
-                "action": "spl/package/save",
-                "spl/package/save": {
-                        "repo": "../release/install/packages",
-                        "dir": ".",
-                        "file": "apps_git.json"
-                }
-        },
-        {
-                "action": "spl/package/create",
-                "spl/package/create": {
-                        "repo": "apps",
                         "dir": "test-suite",
                         "file": "apps_test-suite.json"
                 }

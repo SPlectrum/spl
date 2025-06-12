@@ -1,4 +1,3 @@
-spl/package/create -r apps -d git -f apps_git.json @@ spl/package/save -r ../release/install/packages -d . -f apps_git.json
 spl/package/create -r apps -d test-suite -f apps_test-suite.json @@ spl/package/save -r ../release/install/packages -d . -f apps_test-suite.json
 spl/package/create -r apps -d test-tools-git -f apps_test-tools-git.json @@ spl/package/save -r ../release/install/packages -d . -f apps_test-tools-git.json
 spl/package/create -r apps -d test-tools-7zip -f apps_test-tools-7zip.json @@ spl/package/save -r ../release/install/packages -d . -f apps_test-tools-7zip.json
