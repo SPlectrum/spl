@@ -176,6 +176,41 @@ SPlectrum uses Linux-only deployment with .batch file extension:
 4. Create test batch files and generate usr/ methods
 5. Integrate with boot app release system
 
+## Git Repository Management
+
+**Claude Code Responsibility**: Claude Code takes full responsibility for git repository interactions, including staging, committing, and maintaining commit history.
+
+**Commit Message Standards**:
+- Use conventional commit format: `type: concise description`
+- Types: `fix`, `feat`, `docs`, `refactor`, `test`, `chore`
+- Keep first line under 50 characters
+- Include brief explanation in body when helpful
+- Always include Claude Code attribution footer
+
+**Commit Process**:
+1. Stage relevant changes with `git add`
+2. Create descriptive but concise commit messages
+3. Include context about why changes were made
+4. Verify commit success with `git status`
+
+**Example Commit Structure**:
+```
+fix: remove .txt files from boot app release and document deployment flow
+
+Cleaned up deployment artifacts and enhanced documentation 
+with architecture guidelines.
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
+**Repository Maintenance**:
+- Monitor for deployment artifacts (.txt files, build outputs)
+- Document architectural decisions and special characteristics
+- Maintain clean commit history with meaningful messages
+- Stage changes systematically (documentation + related code changes together)
+
 ## Data Layer Specifics
 
 - Immutable record storage using directory/file structure
