@@ -8,18 +8,50 @@ const spl = require("../../spl/spl.js")
 const zip = require("./7zip.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function tools_7zip_update(input) {
-    // TODO: Implement 7zip update functionality
     const archive = spl.action(input, 'archive');
-    const files = spl.action(input, 'files');
+    const files = spl.action(input, 'files') || '*';
     const exclude = spl.action(input, 'exclude');
     const recurse = spl.action(input, 'recurse');
-    const password = spl.action(input, 'password');
     
-    console.log('7zip Update Command:');
-    console.log('===================');
-    console.log('TODO: Implementation pending');
-    console.log(`Archive: ${archive}`);
-    console.log(`Files: ${files}`);
+    const appRoot = spl.context(input, 'appRoot');
+    const cwd = spl.context(input, 'cwd');
+    const archivePath = zip.getArchivePath(archive, appRoot, cwd);
+    
+    const args = ['u'];
+    
+    if (exclude) {
+        args.push(`-x!${exclude}`);
+    }
+    
+    if (recurse) {
+        args.push('-r');
+    }
+    
+    const commonSwitches = zip.buildCommonSwitches(input, spl);
+    args.push(...commonSwitches);
+    
+    args.push(archivePath);
+    args.push(files);
+    
+    const result = zip.execute7zip(input, spl, args, cwd);
+    
+    if (result.code === 0) {
+        console.log(`✓ Successfully updated archive: ${archive}`);
+        spl.wsSet(input, 'tools/7zip.result', {
+            success: true,
+            archive: archivePath,
+            files: files,
+            output: result.output
+        });
+    } else {
+        console.log(`✗ Failed to update archive: ${archive}`);
+        spl.wsSet(input, 'tools/7zip.result', {
+            success: false,
+            archive: archivePath,
+            error: result.error,
+            code: result.code
+        });
+    }
     
     spl.completed(input);
 }

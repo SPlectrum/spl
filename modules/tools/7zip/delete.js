@@ -8,17 +8,44 @@ const spl = require("../../spl/spl.js")
 const zip = require("./7zip.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function tools_7zip_delete(input) {
-    // TODO: Implement 7zip delete functionality
     const archive = spl.action(input, 'archive');
     const files = spl.action(input, 'files');
-    const password = spl.action(input, 'password');
     
-    console.log('7zip Delete Command:');
-    console.log('===================');
-    console.log('TODO: Implementation pending');
-    console.log(`Archive: ${archive}`);
-    console.log(`Files to delete: ${files}`);
-    if (password) console.log('Password: [protected]');
+    if (!files) {
+        spl.throwError(input, 'Files to delete must be specified');
+    }
+    
+    const appRoot = spl.context(input, 'appRoot');
+    const cwd = spl.context(input, 'cwd');
+    const archivePath = zip.getArchivePath(archive, appRoot, cwd);
+    
+    const args = ['d'];
+    
+    const commonSwitches = zip.buildCommonSwitches(input, spl);
+    args.push(...commonSwitches);
+    
+    args.push(archivePath);
+    args.push(files);
+    
+    const result = zip.execute7zip(input, spl, args, cwd);
+    
+    if (result.code === 0) {
+        console.log(`✓ Successfully deleted files from archive: ${archive}`);
+        spl.wsSet(input, 'tools/7zip.result', {
+            success: true,
+            archive: archivePath,
+            deletedFiles: files,
+            output: result.output
+        });
+    } else {
+        console.log(`✗ Failed to delete files from archive: ${archive}`);
+        spl.wsSet(input, 'tools/7zip.result', {
+            success: false,
+            archive: archivePath,
+            error: result.error,
+            code: result.code
+        });
+    }
     
     spl.completed(input);
 }

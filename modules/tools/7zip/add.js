@@ -8,41 +8,66 @@ const spl = require("../../spl/spl.js")
 const zip = require("./7zip.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function tools_7zip_add(input) {
-    // TODO: Implement 7zip add functionality
-    // Parameter extraction using spl.action()
     const archive = spl.action(input, 'archive');
-    const files = spl.action(input, 'files');
+    const files = spl.action(input, 'files') || '*';
     const type = spl.action(input, 'type');
     const compression = spl.action(input, 'compression');
     const selfExtracting = spl.action(input, 'selfExtracting');
-    const password = spl.action(input, 'password');
     const exclude = spl.action(input, 'exclude');
     const recurse = spl.action(input, 'recurse');
     
-    // Archive path resolution
     const appRoot = spl.context(input, 'appRoot');
     const cwd = spl.context(input, 'cwd');
-    // const archivePath = zip.getArchivePath(archive, appRoot, cwd);
+    const archivePath = zip.getArchivePath(archive, appRoot, cwd);
     
-    // Command argument building for 7z a command
-    // const args = ['a'];
-    // Build switches based on parameters
-    // Add archive path and files
+    const args = ['a'];
     
-    // 7zip command execution
-    // const output = zip.execute7zip(input, spl, args, cwd);
+    if (type) {
+        args.push(`-t${type}`);
+    }
     
-    // Output processing and console logging
-    console.log('7zip Add Command:');
-    console.log('================');
-    console.log('TODO: Implementation pending');
-    console.log(`Archive: ${archive}`);
-    console.log(`Files: ${files}`);
-    if (type) console.log(`Type: ${type}`);
-    if (compression) console.log(`Compression: ${compression}`);
-    if (selfExtracting) console.log('Self-extracting: enabled');
+    if (compression !== undefined) {
+        args.push(`-mx=${compression}`);
+    }
     
-    // Completion
+    if (selfExtracting) {
+        args.push('-sfx');
+    }
+    
+    if (exclude) {
+        args.push(`-x!${exclude}`);
+    }
+    
+    if (recurse) {
+        args.push('-r');
+    }
+    
+    const commonSwitches = zip.buildCommonSwitches(input, spl);
+    args.push(...commonSwitches);
+    
+    args.push(archivePath);
+    args.push(files);
+    
+    const result = zip.execute7zip(input, spl, args, cwd);
+    
+    if (result.code === 0) {
+        console.log(`✓ Successfully added files to archive: ${archive}`);
+        spl.wsSet(input, 'tools/7zip.result', {
+            success: true,
+            archive: archivePath,
+            files: files,
+            output: result.output
+        });
+    } else {
+        console.log(`✗ Failed to add files to archive: ${archive}`);
+        spl.wsSet(input, 'tools/7zip.result', {
+            success: false,
+            archive: archivePath,
+            error: result.error,
+            code: result.code
+        });
+    }
+    
     spl.completed(input);
 }
 ///////////////////////////////////////////////////////////////////////////////

@@ -8,16 +8,44 @@ const spl = require("../../spl/spl.js")
 const zip = require("./7zip.js")
 ///////////////////////////////////////////////////////////////////////////////
 exports.default = function tools_7zip_list(input) {
-    // TODO: Implement 7zip list functionality
     const archive = spl.action(input, 'archive');
     const technical = spl.action(input, 'technical');
-    const password = spl.action(input, 'password');
     
-    console.log('7zip List Command:');
-    console.log('=================');
-    console.log('TODO: Implementation pending');
-    console.log(`Archive: ${archive}`);
-    if (technical) console.log('Technical details: enabled');
+    const appRoot = spl.context(input, 'appRoot');
+    const cwd = spl.context(input, 'cwd');
+    const archivePath = zip.getArchivePath(archive, appRoot, cwd);
+    
+    const args = ['l'];
+    
+    if (technical) {
+        args.push('-slt');
+    }
+    
+    const commonSwitches = zip.buildCommonSwitches(input, spl);
+    args.push(...commonSwitches);
+    
+    args.push(archivePath);
+    
+    const result = zip.execute7zip(input, spl, args, cwd);
+    
+    if (result.code === 0) {
+        console.log(`✓ Archive contents listed: ${archive}`);
+        console.log(result.output);
+        spl.wsSet(input, 'tools/7zip.result', {
+            success: true,
+            archive: archivePath,
+            contents: result.output,
+            technical: technical || false
+        });
+    } else {
+        console.log(`✗ Failed to list archive contents: ${archive}`);
+        spl.wsSet(input, 'tools/7zip.result', {
+            success: false,
+            archive: archivePath,
+            error: result.error,
+            code: result.code
+        });
+    }
     
     spl.completed(input);
 }
