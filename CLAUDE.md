@@ -214,82 +214,20 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ## Development Workflow Strategy
 
-### Multi-Repository Architecture Plan
+**Full Strategy**: See [Development Workflow Strategy](docs/development-workflow-strategy.md) for comprehensive details.
 
-**Target Repository Structure**:
-```
-spl-core/           # Execution engine, data layer, packages
-├── CLAUDE.md       # Core platform patterns
-├── modules/spl/    # Core APIs
-└── docs/
+**Current Mode**: Interactive context switching (single instance, collaborative work)
 
-spl-apps/           # Applications (boot, test-suite, watcher)
-├── CLAUDE.md       # App development patterns  
-├── apps/           # Individual applications
-└── docs/
+**Key Principles**:
+- **TDD Approach**: Write tests before implementation, objective pass/fail criteria
+- **Context Management**: Interactive mode for learning, autonomous mode for proven workflows  
+- **Repository Planning**: Future domain separation (spl-core, spl-apps, spl-tools)
 
-spl-tools/          # External tool integrations
-├── CLAUDE.md       # Tool integration patterns
-├── modules/tools/  # Git, 7zip, etc.
-└── docs/
-```
-
-### Context Management Strategy
-
-**Interactive Mode → Context Switching**:
-- Single Claude Code instance for collaborative work
-- Manual repository switching as work requires
-- Real-time guidance and feedback loops
-- Used for: architecture decisions, complex debugging, learning new patterns
-
-**Autonomous Mode → Multiple Instances**:
-- Dedicated instances per repository domain
-- Deep specialized context per domain
-- Parallel work streams possible
-- Used for: routine maintenance, established workflows, documentation updates
-
-**Transition Strategy**:
-1. Start all new domains in interactive mode
-2. Graduate proven workflows to autonomous mode
-3. Return to interactive mode for complex changes
-4. Regular check-ins on autonomous work streams
-
-### Test-Driven Development (TDD) Approach
-
-**Core TDD Principles**:
-- Understand requirements before implementation
-- Create test cases to verify success criteria
-- Build comprehensive testing toolkit for state verification
-- Objective pass/fail criteria rather than subjective assessment
-
-**Test Categories**:
-1. **Unit Tests**: Individual module functionality verification
-2. **Integration Tests**: API interactions, package deployments
-3. **System Tests**: Full release/deployment cycle validation
-4. **State Tests**: Repository cleanliness, file pattern compliance
-
-**Testing Toolkit Development**:
-- Verification scripts for automated execution
-- Test harnesses for complex workflows  
-- Status check commands for each repository
-- Regression testing suites
-- Boot app deployment validation (e.g., verify only .batch files in release)
-- API development test automation
-- Cross-repo dependency verification
-- Release process integrity checks
-
-**TDD Workflow Integration**:
-- Write tests before implementing features
-- Execute tests after every significant change
-- Build test suites for independent execution
-- Document test procedures in repository CLAUDE.md files
-- Create self-correcting feedback loops for autonomous operation
-
-**Benefits for Autonomous Operation**:
-- Clear success criteria enable confident independent work
-- Automated verification reduces need for human oversight
-- Test failures trigger debugging and correction cycles
-- Builds pattern recognition for complex scenarios
+**Testing Requirements**:
+- Verify state before and after changes (e.g., only .batch files in release)
+- Create automated verification scripts for complex workflows
+- Document test procedures for autonomous operation
+- Build self-correcting feedback loops through objective testing
 
 ## Data Layer Specifics
 
