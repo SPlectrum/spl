@@ -295,6 +295,205 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 - Create new docs for significant architectural discoveries
 - Enhance existing documentation with refined understanding
 
+## API Testing Methodology
+
+**Incremental Testing Pattern**: Discovered during 7zip API implementation - test in phases before committing to permanent methods.
+
+**Phase-Based Testing Workflow**:
+1. **Batch File Development**: Create `.batch` files with test commands first
+2. **Direct Batch Testing**: Use `spl/app/exec -f {file}.batch` to validate functionality
+3. **Issue Resolution**: Fix API issues discovered during batch testing
+4. **usr/ Method Generation**: Only generate permanent methods after batch validation
+5. **Method Verification**: Test generated usr/ methods work correctly
+
+**Testing Command Patterns**:
+- Use `spl_execute` from repository root: `./spl_execute spl {app-name} {command}`
+- Test help first: Create comprehensive help test batch files for all methods
+- Validate arguments: Fix alias issues (single character only) before testing operations
+- Path resolution: Varies by API implementation (see Path Resolution Patterns below)
+
+**API Validation Checklist**:
+- All argument aliases are single characters (not "sfx", "slt" - use "s", "t")
+- Help functionality works for all methods (test with both `-h` and `--help`)
+- Required parameters properly validated (e.g., output paths for extraction)
+- File path resolution documented and tested per API implementation
+- Error handling integrates with SPL error system (`spl.throwError()`)
+
+**Test Data Management**:
+- Create test files in `{app}/data/` directory for input
+- Archives created/stored in same `{app}/data/` directory
+- Use simple text files with varied content for basic testing
+- Create subdirectories for extraction testing (`extracted/`, `extracted-flat/`)
+
+**Test Cleanup Requirements**:
+- Remove created archives between test runs to ensure repeatability
+- Clean extraction directories to prevent "file exists" conflicts
+- Reset test environment to known state before each test execution
+- Include cleanup commands in batch files for reliable automation
+
+**Testing Benefits of This Approach**:
+- Catches implementation errors before method generation
+- Allows iteration on batch file design
+- Provides immediate feedback on API usability
+- Prevents creation of broken usr/ methods
+- Enables testing of complete workflows before committing
+
+## Path Resolution Patterns
+
+**IMPORTANT**: Path resolution varies by API implementation. Each API can define its own path resolution strategy.
+
+**Default SPL Path Resolution**:
+- Relative paths resolved from SPL install root (`spl.context(input, 'cwd')`)
+- Working directory: SPL install root
+- Example: `file.txt` → `/path/to/spl-install/file.txt`
+
+**Tools APIs Custom Path Resolution**:
+- **tools/git**: Relative paths resolved to `{cwd}/{appRoot}/data/{repo}/`
+- **tools/7zip**: Relative paths resolved to `{cwd}/{appRoot}/data/`
+- Working directory: Still SPL install root, but file paths prefixed with app data location
+
+**Path Resolution Implementation Pattern**:
+```javascript
+// In API auxiliary library (e.g., git.js, 7zip.js)
+function getResourcePath(resource, appRoot, cwd) {
+    if (path.isAbsolute(resource)) {
+        return resource;  // Absolute paths used as-is
+    }
+    
+    // Custom resolution for this API
+    const fullAppRoot = path.resolve(cwd, appRoot, 'data');
+    return path.resolve(fullAppRoot, resource);
+}
+```
+
+**Testing Implications by API Type**:
+- **Core SPL APIs**: Create test files in install root
+- **tools/git**: Create test repos in `{test-app}/data/` 
+- **tools/7zip**: Create test files in `{test-app}/data/`
+- **Custom APIs**: Check auxiliary library for path resolution logic
+
+**Path Resolution Debugging**:
+- APIs log resolved paths via `console.log("PATH:" + resolvedPath)` 
+- Check auxiliary library for `getResourcePath`, `getArchivePath`, etc. functions
+- Test with both relative and absolute paths during development
+
+## System Prerequisites and Dependency Management
+
+**Current Issue**: SPL APIs depend on external tools but lack prerequisite validation.
+
+**Tools API Dependencies Discovered**:
+- **tools/7zip**: Requires `7z` executable (p7zip-full package on Ubuntu/Debian)
+- **tools/git**: Requires `git` executable
+- **Future tools**: Will have similar external dependencies
+
+**Proposed Solution**: Implement prerequisite checking system.
+
+**Target Implementation**:
+```javascript
+// In API auxiliary libraries
+function checkPrerequisites() {
+    const executable = get7zipExecutable();
+    if (!isExecutableAvailable(executable)) {
+        throw new Error(`7zip prerequisite missing: ${executable} not found. Install with: apt install p7zip-full`);
+    }
+}
+
+// SPL utility for checking executables
+spl.checkExecutable(command, installHint = null)
+```
+
+**Prerequisite Check Integration**:
+- Run checks during API initialization or first use
+- Provide helpful installation instructions in error messages
+- Consider optional vs. required dependencies
+- Support for different platforms (Linux, Windows, macOS)
+
+**Installation Documentation Needs**:
+- System requirements section in documentation
+- Platform-specific installation guides  
+- Docker/container images with pre-installed dependencies
+- Development vs. production dependency lists
+
+## Future Refactoring: Standardized Path Resolution
+
+**Current Issue**: Each API implements custom path resolution, creating inconsistency and maintenance burden.
+
+**Proposed Solution**: Standardize on app data pattern with optional scope parameter.
+
+**Target API Design**:
+```javascript
+// Default: All relative paths resolve to app data directory
+spl.resolvePath(input, relativePath)  
+// → {cwd}/{appRoot}/data/{relativePath}
+
+// With scope parameter for special cases
+spl.resolvePath(input, relativePath, scope)
+// Scopes: 'app-data' (default), 'install-root', 'repository', 'working-dir'
+```
+
+**Scope Examples**:
+- `'app-data'` (default): `{appRoot}/data/file.txt` - Isolated app storage
+- `'install-root'`: `{cwd}/file.txt` - SPL install directory  
+- `'repository'`: `{cwd}/file.txt` - Repository root (for development tools)
+- `'working-dir'`: `{process.cwd()}/file.txt` - Current working directory
+- `'external'`: `/external/data/file.txt` - External data sources (mounts, shared storage)
+- `'user-home'`: `{user.home}/file.txt` - User-specific configuration/data
+
+**Migration Benefits**:
+- **Consistency**: One pattern across all APIs
+- **Simplicity**: Default behavior works for 80% of cases
+- **Flexibility**: Scope parameter handles special requirements
+- **Centralized**: Single implementation, consistent debugging
+- **Testing**: Predictable test file locations
+- **External Integration**: Clean abstraction for external data sources and shared storage
+- **Enterprise Ready**: Support for mounted volumes, network storage, user directories
+
+**Implementation Steps**:
+1. Add `spl.resolvePath(input, path, scope = 'app-data')` utility
+2. Migrate tools/git and tools/7zip to use standard utility
+3. Remove custom path resolution from auxiliary libraries
+4. Update core SPL APIs to use app-data scope by default
+5. Update documentation and testing patterns
+
+**External Data Integration Patterns**:
+```javascript
+// Data ingestion from external sources
+spl.resolvePath(input, "dataset.csv", "external")
+// → /mnt/shared-storage/dataset.csv
+
+// User-specific configuration
+spl.resolvePath(input, ".spl-config", "user-home") 
+// → /home/user/.spl-config
+
+// Processing files from mounted volumes
+spl.resolvePath(input, "input/batch-001.json", "external")
+// → /external/data/input/batch-001.json
+```
+
+**Enterprise Use Cases**:
+- **Data Pipelines**: Process files from network attached storage
+- **Shared Resources**: Access common datasets across multiple SPL instances
+- **User Workspaces**: Isolated user data in home directories
+- **Cloud Integration**: Mount cloud storage as external scopes
+- **Legacy Systems**: Bridge to existing file system hierarchies
+
+**Configuration-Driven Scopes**:
+Future implementation could allow scope configuration:
+```json
+{
+  "pathScopes": {
+    "external": "/mnt/data-lake",
+    "shared": "/company/shared-storage", 
+    "user-home": "~/spl-workspace"
+  }
+}
+```
+
+**Backward Compatibility**:
+- Maintain current behavior temporarily with deprecation warnings
+- Provide migration guide for custom APIs
+- Phase out custom path resolution over multiple releases
+
 ## Data Layer Specifics
 
 - Immutable record storage using directory/file structure

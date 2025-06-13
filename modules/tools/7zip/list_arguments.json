@@ -12,7 +12,7 @@
     [ 
         { "name": "help", "alias": "h", "type": "Boolean", "description": "show help information", "typeLabel": "flag" },
         { "name": "archive", "alias": "a", "type": "String", "description": "archive file to list (required)", "required": true },
-        { "name": "technical", "alias": "slt", "type": "Boolean", "description": "show technical information", "typeLabel": "flag" },
+        { "name": "technical", "alias": "t", "type": "Boolean", "description": "show technical information", "typeLabel": "flag" },
         { "name": "password", "alias": "p", "type": "String", "description": "archive password if encrypted" }
     ]
 }

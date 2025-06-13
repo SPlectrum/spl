@@ -15,7 +15,7 @@
         { "name": "files", "type": "String", "description": "files/directories to add (supports patterns)", "defaultOption": true },
         { "name": "type", "alias": "t", "type": "String", "description": "archive format (7z, zip, tar, etc.)" },
         { "name": "compression", "alias": "c", "type": "Number", "description": "compression level (0-9, 0=store, 9=ultra)" },
-        { "name": "selfExtracting", "alias": "sfx", "type": "Boolean", "description": "create self-extracting archive", "typeLabel": "flag" },
+        { "name": "sfx", "alias": "s", "type": "Boolean", "description": "create self-extracting archive", "typeLabel": "flag" },
         { "name": "password", "alias": "p", "type": "String", "description": "set password protection" },
         { "name": "exclude", "alias": "x", "type": "String", "description": "exclude file patterns" },
         { "name": "recurse", "alias": "r", "type": "Boolean", "description": "recurse subdirectories", "typeLabel": "flag" },

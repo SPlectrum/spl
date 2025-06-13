@@ -12,7 +12,7 @@ exports.default = function tools_7zip_add(input) {
     const files = spl.action(input, 'files') || '*';
     const type = spl.action(input, 'type');
     const compression = spl.action(input, 'compression');
-    const selfExtracting = spl.action(input, 'selfExtracting');
+    const sfx = spl.action(input, 'sfx');
     const exclude = spl.action(input, 'exclude');
     const recurse = spl.action(input, 'recurse');
     
@@ -30,7 +30,7 @@ exports.default = function tools_7zip_add(input) {
         args.push(`-mx=${compression}`);
     }
     
-    if (selfExtracting) {
+    if (sfx) {
         args.push('-sfx');
     }
     
