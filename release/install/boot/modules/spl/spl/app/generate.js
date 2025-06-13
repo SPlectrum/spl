@@ -54,7 +54,7 @@ const spl = require("../spl.js")
 exports.default = function usr_${actionName.replace(/[^a-zA-Z0-9]/g, '_')} (input)
 {
     // Set the appRoot configuration
-    const appRoot = spl.action ( input, "appRoot" );
+    const appRoot = spl.context ( input, "appRoot" );
     spl.setConfig ( input, "spl/app", "appRoot", appRoot );
     
     // Get arguments passed to this action
