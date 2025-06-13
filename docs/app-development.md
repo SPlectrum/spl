@@ -103,3 +103,40 @@ const context = {
 - Arguments passed via `-a` flag get substituted into batch commands as `$1`, `$2`, etc.
 - Example: `usr/release_to_install -a spl` passes `spl` as `$1` in batch file
 - Without `-a` flag, arguments are treated as command paths, causing parse errors
+
+## Multi-Language Script Support (spl/app/run and spl/app/wrap)
+
+### Script Type Detection
+- **JavaScript (.js)**: Uses existing eval pipeline with `spl/app/process-file` → `spl/app/eval`
+- **Bash (.sh)**: Direct execution using `spawn('bash', [scriptPath, ...args])`
+- **Python (.py)**: Direct execution using `spawn('python3', [scriptPath, ...args])`
+- File extension determines execution method automatically
+
+### Path Resolution for Scripts
+- **Critical Pattern**: Use `spl.context(input, "cwd")` + `spl.config(input, "spl/app", "appRoot")` for path construction
+- **Working Directory**: Scripts execute in `{cwd}/{appRoot}/scripts/` directory
+- **Script Path**: Full path = `path.join(cwdRoot, appRoot, 'scripts', filePath)`
+
+### Wrapped Script Context Issues
+- **Problem**: `spl.action(input, "appRoot")` returns `undefined` in wrapped script context
+- **Solution**: Use `spl.config(input, "spl/app", "appRoot")` in generated wrapper code
+- **Root Cause**: Wrapped scripts don't inherit action context, but do inherit spl/app config
+
+### Multi-Language Wrapper Generation
+- **JavaScript**: Generates eval-based wrapper with argument substitution (`$1`, `$2`, `$@`, `$*`)
+- **Bash/Python**: Generates spawn-based wrapper with direct argument passing
+- **Template Pattern**: Different wrapper templates based on script file extension
+- **Interpreter Selection**: `isShellScript ? 'bash' : 'python3'` for spawn command
+
+### Testing Patterns for Multi-Language Support
+- Create test scripts in all supported languages (`.js`, `.sh`, `.py`)
+- Test both `spl/app/run` direct execution and `spl/app/wrap` + execution
+- Verify argument passing works correctly for each script type
+- Test working directory and path resolution for each language
+
+### Development Workflow for Script Support
+1. **Implement**: Add script type detection and execution logic
+2. **Test Direct**: Test `spl/app/run -f script.{ext}` for each language
+3. **Test Wrapped**: Test `spl/app/wrap -f script.{ext}` then `usr/script-name`
+4. **Debug Paths**: Use debug flag `-d` to verify path resolution
+5. **Package**: Use proper release process to update all deployment locations
