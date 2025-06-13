@@ -2,6 +2,64 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Claude Code Quick Reference
+
+### Essential First Steps
+1. **Read TodoList**: Use `TodoRead` tool at start of sessions to understand current tasks
+2. **Check Context**: Use `LS` and `Read` tools to understand current working directory and file structure
+3. **Plan Complex Tasks**: Use `TodoWrite` for multi-step tasks, mark as `in_progress` before starting work
+
+### Core Work Patterns
+**Testing & Development**:
+- Test changes in `spl/` install directory before packaging to `release/`
+- Use incremental batch file testing before generating permanent usr/ methods
+- Always clean up test artifacts to restore pre-test state
+- Package apps to release folder before committing: `./spl usr/apps_to_release`
+
+**File Operations**:
+- **Read First**: Always use `Read` tool before `Edit` or `Write` operations
+- **Edit Existing**: Prefer `Edit`/`MultiEdit` over `Write` for existing files
+- **Path Resolution**: Relative paths resolve from SPL install root (`spl.context(input, "cwd")`)
+
+**Git Operations**:
+- **Status Check**: Run `git status`, `git diff`, `git log` before commits
+- **Package First**: Always package changes to release folder before committing
+- **Commit Pattern**: Use conventional commit format with Claude attribution
+- **Push Regularly**: Use `git push` to keep remote updated
+
+### Command Execution Patterns
+**From Repository Root**:
+```bash
+./spl_execute spl <app-name> <command>          # Execute from external directory
+./spl_execute install <app-name> <command>      # Execute from install directory
+```
+
+**From Install Directory** (`spl/apps/{app-name}/`):
+```bash
+./spl <command>                                 # Direct execution
+./spl spl/app/exec -f {file}.batch             # Test batch files
+./spl spl/app/create -f {file}.batch           # Generate usr/ methods
+```
+
+**Testing Workflow**:
+```bash
+./spl spl/app/exec -f test.batch               # Test batch file
+./spl spl/app/create -f test.batch             # Generate method
+./spl usr/test-command                         # Test generated method
+./spl usr/apps_to_release                      # Package for release
+```
+
+### Error Resolution Patterns
+- **Command Not Found**: Verify working directory and use correct relative paths
+- **SPL Errors**: Check `spl.throwError()` integration in auxiliary libraries
+- **Path Issues**: Confirm paths resolve from install root, not repository root
+- **Testing Failures**: Clean up previous test artifacts and ensure prerequisites installed
+
+### Documentation Maintenance
+- **Update CLAUDE.md**: Document new patterns and architectural insights immediately
+- **Continuous Learning**: Ask "What have I learned?" and update docs accordingly
+- **Optimize for Claude**: Structure information for quick reference and common operations
+
 ## Project Overview
 
 SPlectrum is a modular execution platform with a core engine providing minimal viable functionality for application development. This is the second iteration (spl1) starting from spl0 state. The platform uses a self-extracting package system with immutable Kafka-like record storage.
@@ -493,6 +551,90 @@ Future implementation could allow scope configuration:
 - Maintain current behavior temporarily with deprecation warnings
 - Provide migration guide for custom APIs
 - Phase out custom path resolution over multiple releases
+
+## Advanced Testing Insights
+
+### Incremental Testing Workflow
+
+**Phase-Based Testing Discovery**: The 7zip API implementation revealed an effective incremental testing pattern that should be standardized across all API development.
+
+**Testing Phases**:
+1. **Batch File Testing**: Test command sequences as batch files before generating permanent usr/ methods
+2. **Command Line Validation**: Verify argument parsing and alias constraints (single character requirement)
+3. **Integration Testing**: Test real operations with actual tools and file system interactions
+4. **State Management**: Clean up test artifacts to ensure repeatable test runs
+5. **Packaging Verification**: Confirm changes are properly packaged to release folder
+
+**Key Learning**: Use `spl/app/exec -f {file}.batch` for rapid iteration before committing to permanent usr/ method generation.
+
+### Argument Schema Validation
+
+**Alias Constraint Discovery**: All command line argument aliases must be single characters, causing validation failures with longer aliases like "sfx" or "slt".
+
+**Validation Requirements**:
+- Aliases must be exactly one character
+- Parameter names should be descriptive (e.g., "sfx" vs. "selfExtracting")
+- Test both short (-h) and long (--help) help flags
+- Verify alias uniqueness within method scope
+
+### Error Integration Patterns
+
+**SPL Error Handling**: Successfully integrated native tool error codes with SPL's error handling system using `spl.throwError()`.
+
+**Error Handling Strategy**:
+```javascript
+function processReturnCode(code, spl, input) {
+    const errorMessages = {
+        1: "Warning (Non fatal error(s))",
+        2: "Fatal error", 
+        7: "Command line error",
+        8: "Not enough memory for operation",
+        255: "User stopped the process"
+    };
+    
+    if (code !== 0 && errorMessages[code]) {
+        spl.throwError(input, `7zip error (${code}): ${errorMessages[code]}`);
+    }
+}
+```
+
+### Workspace Context Management
+
+**API-Specific Context Paths**: Use API-specific workspace paths for result storage rather than generic patterns.
+
+**Best Practice**: Store results using `spl.wsSet(input, 'tools/7zip.result', result)` instead of generic `result` key for better namespace isolation.
+
+### Cross-Platform Executable Detection
+
+**Platform Compatibility**: Implement robust executable detection for cross-platform tools.
+
+**Detection Strategy**:
+```javascript
+function get7zipExecutable() {
+    // Try platform-specific executables
+    const executables = process.platform === 'win32' ? ['7z.exe', '7za.exe'] : ['7z', '7za'];
+    
+    for (const executable of executables) {
+        try {
+            execSync(`which ${executable}`, { stdio: 'ignore' });
+            return executable;
+        } catch (error) {
+            continue;
+        }
+    }
+    throw new Error('7zip not found. Install with: sudo apt-get install p7zip-full');
+}
+```
+
+### System Prerequisites Management
+
+**Dependency Documentation**: Document system prerequisites clearly and provide installation guidance.
+
+**Prerequisites Framework Needs**:
+- Automated prerequisite checking during API first use
+- Platform-specific installation instructions
+- Graceful degradation when optional tools are missing
+- Clear error messages with installation commands
 
 ## Data Layer Specifics
 
