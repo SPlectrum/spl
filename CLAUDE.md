@@ -15,19 +15,24 @@ This file provides essential operational guidance for Claude Code when working w
 ./spl <command>                                 # Direct execution
 ./spl spl/app/exec -f {file}.batch             # Test batch files
 ./spl spl/app/create -f {file}.batch           # Generate usr/ methods
+./spl spl/app/run -f {script} -a {args}        # Run script with arguments
+./spl spl/app/wrap -f {script}                 # Wrap script as usr/ method
 ```
 
-**Three-Step Release Process**:
-1. `usr/release_to_install -a {folder}` (Release → Install)
-2. `usr/modules_to_boot` (Install → Boot)  
-3. `usr/boot_to_release` (Boot → Release)
+**Four-Step Release Process**:
+1. `./spl_execute spl boot usr/apps_to_release` (Update app packages)
+2. `./spl_execute spl boot usr/release_to_install -a {folder}` (Release → Install)
+3. `./spl_execute spl boot usr/modules_to_boot` (Install → Boot)  
+4. `./spl_execute spl boot usr/boot_to_release` (Boot → Release)
 
 ## Critical Operational Rules
 
 - **Always return to repo root** (`/mnt/c/SPlectrum/spl0`) after any subdirectory operations
 - **Never use in-code defaults** (`|| "value"`) - causes hidden bugs
+- **Use named arguments ALWAYS** - `spl/app/run -f script.js -a args` NOT `spl/app/run script.js args`
+- **Correct command syntax** - `./spl_execute <install-folder> <app-name> <command>` (e.g., `./spl_execute spl boot usr/apps_to_release`)
 - **Test batch files first** with `spl/app/exec -f` before generating usr/ commands
-- **Package before commit** - run three-step release process before git operations
+- **Package before commit** - run four-step release process before git operations
 - **Stage all files before commit** - work packages are atomic, use `git add .`
 - **Module locations**: Global (`/modules/`) vs install (`/spl/modules/`) - check app's `spl.js`
 - **Script vs Batch**: `scripts/` for multi-language execution, `batches/` for SPL commands
