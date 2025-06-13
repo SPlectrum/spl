@@ -68,6 +68,22 @@ exports.default = function usr_apps_to_release (input)
                 "action": "spl/package/create",
                 "spl/package/create": {
                         "repo": "apps",
+                        "dir": "test-spl-app",
+                        "file": "apps_test-spl-app.json"
+                }
+        },
+        {
+                "action": "spl/package/save",
+                "spl/package/save": {
+                        "repo": "../release/install/packages",
+                        "dir": ".",
+                        "file": "apps_test-spl-app.json"
+                }
+        },
+        {
+                "action": "spl/package/create",
+                "spl/package/create": {
+                        "repo": "apps",
                         "dir": "test-boot",
                         "file": "apps_test-boot.json"
                 }

@@ -11,7 +11,7 @@ exports.default = function spl_app_process_file (input)
     // Get the file path from action configuration
     const filePath = spl.action ( input, "file" );
     const fileRepo = spl.action ( input, "repo" ) || spl.action ( input, "appRoot" );
-    const fileDir = spl.action ( input, "dir" ) || "batches";
+    const fileDir = spl.action ( input, "dir" );
     const fileArgs = spl.action ( input, "args" );
     
     // Check if we need to read the file first
