@@ -28,6 +28,7 @@ This file provides essential operational guidance for Claude Code when working w
 - **Never use in-code defaults** (`|| "value"`) - causes hidden bugs
 - **Test batch files first** with `spl/app/exec -f` before generating usr/ commands
 - **Package before commit** - run three-step release process before git operations
+- **Stage all files before commit** - work packages are atomic, use `git add .`
 - **Module locations**: Global (`/modules/`) vs install (`/spl/modules/`) - check app's `spl.js`
 - **Script vs Batch**: `scripts/` for multi-language execution, `batches/` for SPL commands
 
@@ -35,7 +36,7 @@ This file provides essential operational guidance for Claude Code when working w
 
 ```bash
 git status && git diff && git log --oneline -5  # Check state
-git add <files>                                 # Stage changes
+git add .                                       # Stage ALL files (atomic work packages)
 git commit -m "conventional: description..."     # Commit with Claude attribution
 git push                                        # Push to remote
 ```

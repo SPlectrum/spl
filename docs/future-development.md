@@ -22,16 +22,21 @@
 
 ## Multi-Language Script Support
 
-**Current State**: JavaScript baseline established with comprehensive testing framework
+**Status**: ✅ COMPLETED - JavaScript, Bash, and Python support implemented
 
-**Next Steps**:
-- Extend `spl/app/run` and `spl/app/wrap` for file extension detection
-- Add bash script support (`.sh` files)
-- Add Python script support (`.py` files)  
-- Maintain JavaScript as default script type
-- Ensure all existing tests pass with new functionality
+**Implemented Features**:
+- File extension detection (`.js`, `.sh`, `.py`)
+- Direct execution for bash and Python scripts using `child_process.spawn()`
+- Wrapper generation for all three script types
+- Comprehensive test suite for all languages
+- Documentation of multi-language patterns
 
-**Status**: Ready for implementation - solid foundation in place
+**Pending Enhancements**:
+- **Script Execution CWD Control**: Add `cwd` argument to `spl/app/run` and `spl/app/wrap` to allow scripts to execute in custom working directories instead of always defaulting to `{appRoot}/scripts/`
+  - Current behavior: Scripts always execute in `scripts/` directory
+  - Proposed: Optional `cwd` parameter to specify alternate execution directory
+  - Use case: Scripts that need to operate on files in different directories (e.g., `data/`, `output/`, project root)
+  - Implementation: Add `cwd` action parameter, modify `child.spawn()` cwd option
 
 ## Standardized Path Resolution
 
