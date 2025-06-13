@@ -26,7 +26,7 @@ exports.default = function spl_app_run (input)
                             "spl/app/process-file": {
                                 file: filePath,
                                 repo: appRoot,
-                                dir: "batches",
+                                dir: "scripts",
                                 args: fileArgs
                             }
                         },

@@ -351,6 +351,89 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 - Document test procedures for autonomous operation
 - Build self-correcting feedback loops through objective testing
 
+## Critical Code Quality Patterns
+
+### Dangerous Default Anti-Pattern
+
+**Problem**: In-code defaults using `|| "value"` syntax hide configuration errors and create unpredictable behavior.
+
+**Example of Bad Pattern**:
+```javascript
+const fileDir = spl.action(input, "dir") || "batches";  // DANGEROUS
+```
+
+**Correct Approach**: 
+- Remove in-code defaults entirely
+- Set defaults in `arguments.json` files if needed
+- Let missing configuration fail explicitly for debugging
+
+**Bug Discovery**: `spl/app/run` was incorrectly looking in `batches/` folder instead of `scripts/` due to dangerous default in `spl/app/process-file.js`. The `|| "batches"` default masked the missing `dir` parameter.
+
+### Module Location Consistency
+
+**Critical Issue**: SPL has both global modules (`/modules/`) and install modules (`/spl/modules/`).
+
+**Resolution Pattern**:
+- Test apps typically use global modules (`../../../modules/spl/spl.js`)
+- Install modules are for deployment packages
+- Always verify which module location is being used in failing tests
+- Check `spl.js` file in app for module path references
+
+### Script vs Batch File Separation
+
+**Design Discovery**: SPL distinguishes between different execution contexts:
+- **Scripts** (`scripts/` folder): For `spl/app/run` and `spl/app/wrap` - multi-language capable
+- **Batches** (`batches/` folder): For `spl/app/exec` and `spl/app/create` - SPL command sequences
+
+**Key Insight**: Keep JavaScript as default script type while extending for multi-language support (bash, python, etc.) via file extension detection.
+
+### Three-Step Release Process
+
+**Critical Process**: Changes must flow through specific sequence:
+1. **Release → Install**: `usr/release_to_install -a {folder}`
+2. **Install → Boot**: `usr/modules_to_boot` 
+3. **Boot → Release**: `usr/boot_to_release`
+
+**Why Important**: Ensures all changes are properly packaged and module dependencies are synchronized across the system.
+
+### Directory Management Rule
+
+**Critical Practice**: Always return to repository root directory (`/mnt/c/SPlectrum/spl0`) after any operations in subdirectories.
+
+**Why Essential**: 
+- Prevents path confusion in git operations
+- Ensures consistent relative path behavior
+- Avoids git staging/commit errors due to wrong working directory
+- Maintains predictable command execution context
+
+**Implementation**: Use `cd /mnt/c/SPlectrum/spl0` after any subdirectory operations.
+
+### Script Testing Framework Pattern
+
+**Comprehensive Testing Strategy**: When implementing script execution functionality, establish baseline tests before extending features.
+
+**Test Structure**:
+```
+scripts/
+  simple-test.js           # Basic execution
+  args-test.js            # Argument substitution ($1, $2, $@, $*)
+  spl-context-test.js     # SPL integration testing
+
+batches/
+  js-run-tests.batch      # Test spl/app/run functionality
+  js-wrap-tests.batch     # Test spl/app/wrap functionality  
+  js-wrapped-execution-tests.batch  # Test generated usr/ commands
+  js-help-tests.batch     # Test help functionality
+```
+
+**Testing Workflow**:
+1. Create test scripts covering edge cases
+2. Create batch files to automate testing
+3. Generate usr/ commands from batch files
+4. Validate all functionality before extending
+
+**Benefits**: Prevents regressions when adding multi-language support and provides clear validation of functionality.
+
 ## Continuous Learning Rule
 
 **Learning Trigger**: At regular appropriate intervals during development sessions, ask: "What have I learned from this?" and update knowledge accordingly.
