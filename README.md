@@ -31,11 +31,12 @@ SPlectrum consists of several key components:
 ## Available Apps
 
 - **test-suite** - Core platform testing and validation
+- **test-spl-app** - spl/app API testing (JavaScript script execution)
 - **test-tools-git** - Git API testing and validation
 - **test-tools-7zip** - 7zip API testing and validation (scaffolded)
+- **test-boot** - Boot app functionality testing
 - **watcher** - Development and monitoring tools
 - **boot** - Release and deployment operations  
-- **git** - Git repository management operations
 - **model** - Template for creating new apps
 
 ## Linux-Only Design
@@ -74,12 +75,15 @@ For developers working on SPlectrum:
 ## Documentation
 
 ### Essential Guides
+- [Project Overview](./docs/project-overview.md) - Architecture, components, and core concepts
 - [How to](./docs/how-to.md) - Essential development and usage guidelines
-- [Test App Development](./docs/test-app-development.md) - Guide for creating test applications
-- [Implementing New API](./docs/implementing-new-api.md) - Guide for creating new modules
+- [App Development](./docs/app-development.md) - Application development patterns and workflows
+- [Code Quality Patterns](./docs/code-quality-patterns.md) - Critical coding standards and anti-patterns
+- [Testing Frameworks](./docs/testing-frameworks.md) - Comprehensive testing methodologies
 - [Creating New Apps](./docs/creating-new-apps.md) - Complete guide for building applications
+- [Implementing New API](./docs/implementing-new-api.md) - Guide for creating new modules
 - [Creating a Release](./docs/creating-a-release.md) - Release process and deployment
-- [Linux Installer Design](./docs/linux-installer-design.md) - Linux-first deployment strategy
+- [Future Development](./docs/future-development.md) - Roadmap and planned improvements
 
 ### API Documentation  
 - [Execute API Properties](./docs/execute-api-properties.md) - Execution context and pipeline properties
