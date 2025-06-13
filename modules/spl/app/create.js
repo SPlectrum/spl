@@ -9,7 +9,7 @@ const spl = require("../spl.js")
 exports.default = function spl_app_create (input)
 {
     // Set the appRoot configuration
-    const appRoot = spl.action ( input, "appRoot" );
+    const appRoot = spl.context ( input, "appRoot" );
     spl.setConfig ( input, "spl/app", "appRoot", appRoot );
     
     // Get file parameters from action configuration
