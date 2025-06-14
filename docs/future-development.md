@@ -31,12 +31,31 @@
 - Comprehensive test suite for all languages
 - Documentation of multi-language patterns
 
+## Next Development Items
+
+**High Priority**:
+
+1. **Create New Release File and Test Install**
+   - Generate new release package from completed multi-language implementation
+   - Test complete install process from distributed release zip
+   - Validate Linux self-extracting installer functionality
+   - Document any installation workflow improvements needed
+
+2. **Enhanced Help and Discovery System**
+   - Improve help functionality for app user functions (`usr/` methods)
+   - Add list functions for APIs to enable discovery of available commands
+   - Implement comprehensive help system across all SPL APIs
+   - Ensure consistent help output format and discoverability
+
+3. **Extend Script Execution with Working Directory Parameter** 
+   - Add `cwd` argument to `spl/app/run` and `spl/app/wrap` 
+   - Allow scripts to execute in custom working directories instead of always defaulting to `{appRoot}/scripts/`
+   - Current behavior: Scripts always execute in `scripts/` directory
+   - Proposed: Optional `cwd` parameter to specify alternate execution directory
+   - Use case: Scripts that need to operate on files in different directories (e.g., `data/`, `output/`, project root)
+   - Implementation: Add `cwd` action parameter, modify `child.spawn()` cwd option
+
 **Pending Enhancements**:
-- **Script Execution CWD Control**: Add `cwd` argument to `spl/app/run` and `spl/app/wrap` to allow scripts to execute in custom working directories instead of always defaulting to `{appRoot}/scripts/`
-  - Current behavior: Scripts always execute in `scripts/` directory
-  - Proposed: Optional `cwd` parameter to specify alternate execution directory
-  - Use case: Scripts that need to operate on files in different directories (e.g., `data/`, `output/`, project root)
-  - Implementation: Add `cwd` action parameter, modify `child.spawn()` cwd option
 
 ## Standardized Path Resolution
 

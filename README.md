@@ -75,6 +75,7 @@ For developers working on SPlectrum:
 ## Documentation
 
 ### Essential Guides
+- [Installation Guide](./INSTALL.md) - Installing SPlectrum from distributed release archive
 - [Project Overview](./docs/project-overview.md) - Architecture, components, and core concepts
 - [How to](./docs/how-to.md) - Essential development and usage guidelines
 - [App Development](./docs/app-development.md) - Application development patterns and workflows
