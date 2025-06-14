@@ -33,7 +33,7 @@ SPlectrum consists of several key components:
 - **test-suite** - Core platform testing and validation
 - **test-spl-app** - spl/app API testing (JavaScript script execution)
 - **test-tools-git** - Git API testing and validation
-- **test-tools-7zip** - 7zip API testing and validation (scaffolded)
+- **test-tools-7zip** - 7zip API testing and validation
 - **test-boot** - Boot app functionality testing
 - **watcher** - Development and monitoring tools
 - **boot** - Release and deployment operations  
@@ -75,6 +75,7 @@ For developers working on SPlectrum:
 ## Documentation
 
 ### Essential Guides
+- [Prerequisites](./docs/prerequisites.md) - System requirements and dependency setup
 - [Installation Guide](./INSTALL.md) - Installing SPlectrum from distributed release archive
 - [Project Overview](./docs/project-overview.md) - Architecture, components, and core concepts
 - [How to](./docs/how-to.md) - Essential development and usage guidelines
@@ -89,8 +90,8 @@ For developers working on SPlectrum:
 ### API Documentation  
 - [Execute API Properties](./docs/execute-api-properties.md) - Execution context and pipeline properties
 - [Package API Properties](./docs/package-api-properties.md) - Package management system
-- [git API Methods](./docs/git-api-methods.md) - Git wrapper implementation (status: partial)
-- [7zip API Methods](./docs/7zip-api-methods.md) - Archive management wrapper (status: scaffolded)
+- [git API Methods](./docs/git-api-methods.md) - Git wrapper implementation
+- [7zip API Methods](./docs/7zip-api-methods.md) - Archive management wrapper
 - [App API Properties](./docs/app-api-properties.md) - Application framework properties
 
 ### System Architecture

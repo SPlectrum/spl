@@ -20,34 +20,18 @@
 
 **Dependencies**: Complete multi-language extension first to understand full requirements
 
-## Multi-Language Script Support
-
-**Status**: ✅ COMPLETED - JavaScript, Bash, and Python support implemented
-
-**Implemented Features**:
-- File extension detection (`.js`, `.sh`, `.py`)
-- Direct execution for bash and Python scripts using `child_process.spawn()`
-- Wrapper generation for all three script types
-- Comprehensive test suite for all languages
-- Documentation of multi-language patterns
 
 ## Next Development Items
 
 **High Priority**:
 
-1. **Create New Release File and Test Install**
-   - Generate new release package from completed multi-language implementation
-   - Test complete install process from distributed release zip
-   - Validate Linux self-extracting installer functionality
-   - Document any installation workflow improvements needed
-
-2. **Enhanced Help and Discovery System**
+1. **Enhanced Help and Discovery System**
    - Improve help functionality for app user functions (`usr/` methods)
    - Add list functions for APIs to enable discovery of available commands
    - Implement comprehensive help system across all SPL APIs
    - Ensure consistent help output format and discoverability
 
-3. **Extend Script Execution with Working Directory Parameter** 
+2. **Extend Script Execution with Working Directory Parameter** 
    - Add `cwd` argument to `spl/app/run` and `spl/app/wrap` 
    - Allow scripts to execute in custom working directories instead of always defaulting to `{appRoot}/scripts/`
    - Current behavior: Scripts always execute in `scripts/` directory
