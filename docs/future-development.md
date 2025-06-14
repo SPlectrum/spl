@@ -39,6 +39,13 @@
    - Use case: Scripts that need to operate on files in different directories (e.g., `data/`, `output/`, project root)
    - Implementation: Add `cwd` action parameter, modify `child.spawn()` cwd option
 
+3. **Subdirectory CLAUDE.md Prototype with Boot App**
+   - Create `/spl/apps/boot/CLAUDE.md` as first federated guidance implementation
+   - Design self-contained format optimized for AI-assisted development
+   - Test discovery mechanism and override behavior
+   - Establish patterns for component autonomy and repository evolution
+   - See [Subdirectory CLAUDE.md Evolution Plan](./subdirectory-claude-md-plan.md) for full vision
+
 **Pending Enhancements**:
 
 ## Standardized Path Resolution

@@ -99,6 +99,9 @@ For developers working on SPlectrum:
 - [spl Data Layer](./docs/spl-data-layer.md) - Immutable data storage design
 - [Schema and Repo Notes](./docs/schema-and-repo-notes.md) - Data structure design notes
 - [Federated Monorepo Design](./docs/federated-monorepo-design.md) - Future distributed API architecture
+- [Subdirectory CLAUDE.md Evolution Plan](./docs/subdirectory-claude-md-plan.md) - Federated AI guidance architecture
+- [PRINCE2 Integration Approach](./docs/prince2-integration-approach.md) - Lightweight project management methodology
+- [ITIL Integration Approach](./docs/itil-integration-approach.md) - Service management for platform evolution
 
 ### Tool References
 - [7zip Command Line API](./docs/7zip-command-line-api.md) - Raw 7zip command reference

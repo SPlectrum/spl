@@ -27,6 +27,7 @@ This file provides essential operational guidance for Claude Code when working w
 
 ## Critical Operational Rules
 
+- **Discuss, Think, Plan, Start**: For all significant work, follow this methodology - initiate discussions, request planning time, create planning documents, then implement
 - **Always return to repo root** (`/mnt/c/SPlectrum/spl0`) after any subdirectory operations
 - **Never use in-code defaults** (`|| "value"`) - causes hidden bugs
 - **Use named arguments ALWAYS** - `spl/app/run -f script.js -a args` NOT `spl/app/run script.js args`
@@ -98,3 +99,7 @@ gh release create vX.XX --title "Title" --notes "Notes" SPlectrum.7z INSTALL.md
 ## Learning Rule
 
 At regular intervals, ask "What have I learned?" and update documentation in appropriate docs/ files.
+
+## Future Evolution
+
+See [Subdirectory CLAUDE.md Evolution Plan](./docs/subdirectory-claude-md-plan.md) for planned transition to federated repository architecture.
